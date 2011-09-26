@@ -1,0 +1,21 @@
+.analytics a {
+	color: #7EC65D;
+	}
+.analytics .entry-title a {
+	color: #7EC65D;
+	}
+.analytics .landing-header-area {
+	background: #FFF url(../images/analytics-header.jpg) no-repeat top right;
+	}
+.analytics .nav-sidebar {
+	background: #7EC65D;
+	}
+.analytics .landing-header-area .nav-sidebar {
+	background: #7EC65D url(../images/dwn_arw_wht.png) no-repeat top center;
+	}
+.analytics #breadcrumbs .breadcrumbs {
+	color: #7EC65D;
+	}
+.analytics .blog-logo a {
+	background: url(../images/analytics-logo.png) no-repeat center center;
+}

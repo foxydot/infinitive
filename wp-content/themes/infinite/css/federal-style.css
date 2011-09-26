@@ -1,0 +1,21 @@
+.federal a {
+	color: #822B91;
+	}
+.federal .entry-title a {
+	color: #822B91;
+	}
+.federal .landing-header-area {
+	background: #FFF url(../images/federal-header.jpg) no-repeat top right;
+	}
+.federal .nav-sidebar {
+	background: #822B91;
+	}
+.federal .landing-header-area .nav-sidebar {
+	background: #822B91 url(../images/dwn_arw_wht.png) no-repeat top center;
+	}
+.federal #breadcrumbs .breadcrumbs {
+	color: #822B91;
+	}
+.federal .blog-logo a {
+	background: url(../images/federal-logo.png) no-repeat center center;
+}

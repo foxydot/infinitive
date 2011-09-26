@@ -1,0 +1,21 @@
+.insight a {
+	color: #D30015;
+	}
+.insight .entry-title a {
+	color: #D30015;
+	}
+.insight .landing-header-area {
+	background: #FFF url(../images/insight-header.jpg) no-repeat top right;
+	}
+.insight .nav-sidebar {
+	background: #D30015;
+	}
+.insight .landing-header-area .nav-sidebar {
+	background: #D30015 url(../images/dwn_arw_wht.png) no-repeat top center;
+	}
+.insight #breadcrumbs .breadcrumbs {
+	color: #D30015;
+	}
+.insight .blog-logo a {
+	background: url(../images/insight-logo.png) no-repeat center center;
+}
