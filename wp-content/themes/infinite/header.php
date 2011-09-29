@@ -67,9 +67,6 @@
 			<<?php print is_front_page()?'h1':'h2'; ?> class="logo">
 				<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
 			</<?php print is_front_page()?'h1':'h2'; ?>>
-			<h2 class="description">
-				<?php bloginfo( 'description' ); ?>
-			</h2>
 				<!-- This adds the page menu controlled from the wp admin section -->
 			<?php /* Our navigation menu.  If one isn't filled out, wp_nav_menu falls back to wp_page_menu.  The menu assiged to the primary position is the one used.  If none is assigned, the menu with the lowest ID is used.  */ ?>
 			<?php wp_nav_menu( array( 'container_class' => 'mainNav', 'theme_location' => 'primary' ) ); ?>

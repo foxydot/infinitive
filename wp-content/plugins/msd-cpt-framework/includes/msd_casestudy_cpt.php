@@ -42,11 +42,12 @@ class MSDCaseStudyCPT {
 	        'has_archive' => true,
 	        'query_var' => true,
 	        'can_export' => true,
-	        'rewrite' => array('slug'=>'case-studies','with_front'=>false),
+	        'rewrite' => array('slug'=>'case-study','with_front'=>false),
 	        'capability_type' => 'post'
 	    );
 	
 	    register_post_type( 'msd_casestudy', $args );
+	    flush_rewrite_rules();
 	}
 		
 	function list_case_studies( $atts ) {

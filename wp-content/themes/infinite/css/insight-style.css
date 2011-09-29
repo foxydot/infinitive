@@ -19,3 +19,9 @@
 .insight .blog-logo a {
 	background: url(../images/insight-logo.png) no-repeat center center;
 }
+.insight .entry-content h3 {
+	color: #D30015;
+}
+.insight .hentry .entry-content ul li:before {
+	color: #D30015;
+	}

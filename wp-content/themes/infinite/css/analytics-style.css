@@ -19,3 +19,9 @@
 .analytics .blog-logo a {
 	background: url(../images/analytics-logo.png) no-repeat center center;
 }
+.analytics .entry-content h3 {
+	color: #7EC65D;
+}
+.analytics .hentry .entry-content ul li:before {
+	color: #7EC65D;
+	}

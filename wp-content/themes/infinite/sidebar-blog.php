@@ -9,10 +9,6 @@
 ?>
 
 	<div id="sidebar-wrapper" class="sidebar-wrapper">
-		<?php 
-		global $pagelevel;
-		if($pagelevel == 'content-page'){ print get_the_post_thumbnail( $post->ID, 'sidebar' ); }
-		?>
 		<div id="primary" class="widget-area" role="complementary">
 			<ul>
 
@@ -23,24 +19,11 @@
 	 * some default sidebar stuff just in case.
 	 */
 	if ( ! dynamic_sidebar( 'blog-widget-area' ) ) : ?>
-	
-			<li id="search" class="widget-container widget_search">
-				<?php get_search_form(); ?>
-			</li>
-
+		
 			<li id="archives" class="widget-container">
 				<h3 class="widget-title"><?php _e( 'Archives', 'infinite' ); ?></h3>
 				<ul>
 					<?php wp_get_archives( 'type=monthly' ); ?>
-				</ul>
-			</li>
-
-			<li id="meta" class="widget-container">
-				<h3 class="widget-title"><?php _e( 'Meta', 'infinite' ); ?></h3>
-				<ul>
-					<?php wp_register(); ?>
-					<li><?php wp_loginout(); ?></li>
-					<?php wp_meta(); ?>
 				</ul>
 			</li>
 

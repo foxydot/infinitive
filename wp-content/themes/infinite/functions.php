@@ -81,7 +81,7 @@ function infinite_setup() {
 	//add_theme_support( 'post-formats', array( 'aside', 'gallery' ) );
 
 	// This theme uses post thumbnails
-	add_theme_support( 'post-thumbnails' );
+	add_theme_support( 'post-thumbnails' , array('post','page','msd_news','msd_publication','msd_casestudy'));
 
 	// Add default posts and comments RSS feed links to head
 	add_theme_support( 'automatic-feed-links' );
@@ -345,23 +345,23 @@ function infinite_widgets_init() {
 	// Area 6, located in the footer. Empty by default.
 	if($blog_id == 1){
 		register_sidebar( array(
-			'name' => __( 'Homepage Feature Area', 'infinite' ),
-			'id' => 'homepage-feature-area',
+			'name' => __( 'Main Homepage Feature Area', 'infinite' ),
+			'id' => 'main-feature-area',
 			'description' => __( 'The feature area on the homepage. One slideshow is recommended.', 'infinite' ),
 			'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
 			'after_widget' => '</li>',
 			'before_title' => '<h3 class="widget-title">',
 			'after_title' => '</h3>',
 		) );
-		// Area 6, located in the footer. Empty by default.
+		// Area 3, located in the footer. Empty by default.
 		register_sidebar( array(
-			'name' => __( 'Homepage Wide Widget Area', 'infinite' ),
-			'id' => 'homepage-wide-widget-area',
-			'description' => __( 'The wide widget area on the homepage. Four widgets are recommended.', 'infinite' ),
+			'name' => __( 'Main Homepage Footer Widget Area', 'infinite' ),
+			'id' => 'main-footer-widget-area',
+			'description' => __( 'The main homepage footer widget area. Three widgets are recommended.', 'infinite' ),
 			'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
 			'after_widget' => '</li>',
-			'before_title' => '<h3 class="widget-title">',
-			'after_title' => '</h3>',
+			'before_title' => '<h4 class="widget-title">',
+			'after_title' => '</h4>',
 		) );
 	}
 	// Area 3, located in the footer. Empty by default.
@@ -493,6 +493,8 @@ add_action('wp_print_scripts', 'add_scripts');
 function add_scripts() {
 	if(!is_admin()){
     	wp_enqueue_script('theme_jquery', get_bloginfo('template_url').'/js/theme_jquery.js', array('jquery'),NULL,TRUE);    
+		wp_enqueue_script('sharethis','http://w.sharethis.com/button/buttons.js',FALSE,NULL,TRUE);
+		wp_enqueue_script('sharethis_creds',get_bloginfo('template_url').'/js/sharethis.js',FALSE,NULL,TRUE);
 		if (is_front_page()) {
 	    	wp_enqueue_script('home_jquery', get_bloginfo('template_url').'/js/homepage_jquery.js', array('jquery'),NULL,TRUE);    
 		}
@@ -576,9 +578,34 @@ function infinite_check_site_path($url,$match){
 	}
 }
 
+add_filter('body_class','section_body_class');
+function section_body_class($classes) {
+    global $post;
+	$post_data = get_post(get_topmost_parent($post->ID));
+	$classes[] = $post_data->post_name;
+    return $classes;
+}
+add_action('posts_selection','set_section');
+function set_section(){
+	global $post, $section;
+	$post_data = get_post(get_topmost_parent($post->ID));
+	$section = $post_data->post_name;
+}
+function get_topmost_parent($post_id){
+	$parent_id = get_post($post_id)->post_parent;
+	if($parent_id == 0){
+		$parent_id = $post_id;
+	}else{
+		$parent_id = get_topmost_parent($parent_id);
+	}
+	return $parent_id;
+}
+
 include_once('includes/theme_widgets.php');
 include_once('includes/theme_options.php');
 include_once('includes/image_handling.php');
+include_once('includes/page_taxonomy.php');
+include_once('includes/highlights.php');
 
 	/*
 	 * A useful troubleshooting function.

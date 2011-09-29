@@ -36,6 +36,7 @@ class MSDPublicationCPT {
 	    );
 	
 	    register_taxonomy( 'msd_genre', array('msd_publication','msd_news'), $args );
+	    flush_rewrite_rules();
 	}
 	
 	function register_cpt_publication() {
@@ -77,6 +78,7 @@ class MSDPublicationCPT {
 	    );
 	
 	    register_post_type( 'msd_publication', $args );
+	    flush_rewrite_rules();
 	}
 	
 	

@@ -31,3 +31,4 @@ include_once('includes/msd_cpt_metaboxes.php');
 
 //Include widget files
 include_once('includes/msd_publication_widget.php');
+include_once('includes/msd_news_widget.php');
