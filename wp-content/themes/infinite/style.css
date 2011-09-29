@@ -706,6 +706,7 @@ div.menu>ul li{
 }
 
 /* Home Page */
+.page-template-page-landing-php .content-wrapper #container,
 .home .content-wrapper #container {
     border: none;
     float: none;
@@ -778,8 +779,10 @@ div.menu>ul li{
 	text-transform: uppercase;
 }
 
+.page-template-page-landing-php #landing-footer,
 .home #landing-footer {
 	}
+.page-template-page-landing-php #landing-footer.widget-area ul li.widget-container,
 .home #landing-footer.widget-area ul li.widget-container {
 	float: left;
 	height: 270px;
@@ -787,6 +790,7 @@ div.menu>ul li{
 	background: #fff;
 	margin-left: 16px;
 	}
+.page-template-page-landing-php #landing-footer.widget-area ul li.widget-container.first,
 .home #landing-footer.widget-area ul li.widget-container.first {
 	margin-left: 0;
 }
@@ -905,17 +909,40 @@ ul li.highlight a {
 	width: 309px !important;
 	max-width: 309px !important;
 }
-.widget_text h4.widget-title,
-.widget_text h4.link
-.widget_text p,
+.widget_msd_experts {
+	padding: 6px 12px;
+	position: relative;
+}
+.page-template-page-landing-php #landing-footer.widget-area ul li.widget-container.widget_msd_experts,
+.home #landing-footer.widget-area ul li.widget-container.widget_msd_experts {
+	padding: 80px 0 0 0;
+	height: 190px;
+	background: #fff url(images/brainscan.jpg) no-repeat top center;
+}
+
+.widget_msd_experts .widget-content {
+	padding: 6px 12px;
+}
+.widget_msd_experts .widget-content div {
+	font-size: .75em;
+	line-height: 1.2em;
+	margin-bottom: .5em;
+}
+.widget_msd_experts .widget-content p {
+	margin-bottom: .5em;
+}
+
+.widget_msd_experts .links { background: #E68031; position: absolute; bottom: 0; width: 309px;}
+.widget_msd_experts .links .link { padding: 4px 1em; }
+.widget_msd_experts .links .link a { color: #FFF;}
+.widget_msd_experts .links .linkedin a { padding-right: 24px; background: url(images/tinylinked.png) no-repeat right center;}
+
+
 .widget_sp_image .widget-content,
 .widget_sp_image h4.link {
 	margin: 6px 12px;
 }
 
-.widget_text .links { background: #822B91;}
-.widget_text .links .link { padding: 3px 1em; }
-.widget_text .links .link a { color: #FFF;}
 
 .widget_sp_image h4.link { 
 	bottom: 12px;
