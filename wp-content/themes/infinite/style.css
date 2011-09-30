@@ -127,7 +127,19 @@ body {
 	height: 235px;
 	border: 1px solid #D0D4D8;
 	margin-bottom: 45px;
+	position: relative;
 	}
+.infinitive-solutions .landing-header-area {
+	background: #FFF url(images/orange-header.jpg) no-repeat top right;
+	}
+.landing-header-area .landing-link {
+	display: block;
+	background: transparent url(images/blank.gif);
+	height: 235px;
+	width: 780px;
+	position: absolute;
+	left: 180px;
+}
 .landing-header-area .nav-sidebar {
 	background: #E68031 url(images/dwn_arw_wht.png) no-repeat top center;
 	height: 185px;
@@ -650,6 +662,7 @@ div.menu>ul li{
 /* Inner Pages */
 .blog-logo {
 	height: 50px;
+	width: 180px;
 }
 .blog-logo a {
 	display: block;
@@ -757,7 +770,7 @@ div.menu>ul li{
 	position: absolute;
 	top: 0;
 	left: 0;
-	background: transparent;
+	background: transparent url(images/blank.gif);
 	}
 
 .home #footer {
@@ -846,7 +859,7 @@ ul li.highlight a {
 	position: absolute;
 	top: 0;
 	left: 0;
-	background: transparent;
+	background: transparent url(images/blank.gif);
 	}
 .grid h5 {
 	width: 180px;
@@ -899,7 +912,7 @@ ul li.highlight a {
 	display: block;
 	height: 178px;
 	width: 297px;
-	background: transparent;
+	background: transparent url(images/blank.gif);
 	}
 	
 .widget_sp_image {
@@ -954,10 +967,16 @@ ul li.highlight a {
 	margin-bottom: .5em;
 	}
 .widget_text p,
-.widget_sp_image .widget-content p {
+.widget_sp_image .widget-content p,
+.widget_sp_image .widget-content ol {
 	font-size: .75em;
 	margin-bottom: .5em;
 }
+.widget_sp_image .widget-content ol {
+	list-style: decimal outside none;
+	margin-left: 1.5em;
+    margin-top: 0.5em;
+	}
 
 
 /*Utility Styles************************/

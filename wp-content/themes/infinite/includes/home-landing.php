@@ -1,5 +1,6 @@
 <?php get_sidebar('breadcrumbs'); ?>
 <div class="landing-header-area">
+	<a class="landing-link" href="#"></a>
 	<?php get_sidebar('logo'); ?>
 	<?php get_sidebar('nav'); ?>
 </div>

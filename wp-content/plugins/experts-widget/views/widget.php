@@ -27,14 +27,15 @@ if ( !empty( $image ) ) {
 
 	if ( $link ) { echo '</a>'; }
 }
+	echo '<div class="'.$this->widget_options['classname'].'-description" >';
 if ( !empty( $description ) ) {
 	$text = apply_filters( 'widget_text', $description );
-	echo '<div class="'.$this->widget_options['classname'].'-description" >';
 	echo wpautop( $text );		
+}
 	if ( !empty( $firstname ) || !empty( $lastname ) ) { echo $firstname.' '.$lastname; }
 	if ( !empty( $title ) ) { echo '<br /><em>' . $title . '</em>'; }	
 	echo "</div>";
-}
+
 echo '</div>';
 echo '<div class="clear"></div>';
 echo '<div class="links">';
