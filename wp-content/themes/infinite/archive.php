@@ -13,9 +13,10 @@
  */
 
 get_header(); ?>
-<div class="featured-header-area">
-
-
+<?php get_sidebar('breadcrumbs'); ?>
+<?php get_sidebar('logo'); ?>
+<div id="page-content-wrapper" class="page-content-wrapper">
+<?php get_sidebar('nav'); ?>
 <?php
 	/* Queue the first post, that way we know
 	 * what date we're dealing with (if that is the case).
@@ -39,7 +40,7 @@ get_header(); ?>
 <?php endif; ?>
 			</h1>
 </div>
-<?php get_sidebar('blog'); ?>
+
 <?php
 	/* Since we called the_post() above, we need to
 	 * rewind the loop back to the beginning that way
@@ -53,6 +54,8 @@ get_header(); ?>
 	 */
 	 get_template_part( 'loop', 'archive' );
 ?>
-
+<div class="clear"></div>
+</div>
+<?php get_sidebar('blog'); ?>
 
 <?php get_footer(); ?>
