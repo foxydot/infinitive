@@ -4,9 +4,9 @@
  * Plugin Name: Featured Posts
  * Plugin URI: http://pluginbuddy.com/purchase/displaybuddy/
  * Description: DisplayBuddy Series - Display featured posts and images in a widget or shortcode.
- * Version: 2.0.3
- * Author: Dustin Bolton
- * Author URI: http://dustinbolton.com
+ * Version: 2.0.5
+ * Author: The PluginBuddy Team
+ * Author URI: http://pluginbuddy.com/
  *
  * Installation:
  * 
@@ -26,8 +26,8 @@
 
 if (!class_exists("PluginBuddyFeaturedPosts")) {
 	class PluginBuddyFeaturedPosts {
-		var $_version = '2.0.3';
-		var $_updater = '1.0.1';
+		var $_version = '2.0.5';
+		var $_updater = '1.0.7';
 		
 		var $_var = 'pluginbuddy-featuredposts';
 		var $_series = 'DisplayBuddy';

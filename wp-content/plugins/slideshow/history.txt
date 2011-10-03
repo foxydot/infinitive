@@ -69,3 +69,7 @@
 	Added the ability to disable CSS files 
 1.0.31 - 2011-8-19 - Bes Zain
 	Commented out the unwanted echo output
+1.0.32 - 2011-09-22 - Ronald Huereca
+	Fixing updater issue
+1.0.33 - 2011-09-22 - Ronald Huereca
+	Fixing updater issue

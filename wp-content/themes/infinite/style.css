@@ -34,7 +34,8 @@ a {
 	text-decoration: none;
 }
 .about a,
-.client-experience a {
+.client-experience a,
+.hot-topics a {
 	color: #717073;
 	}
 a:hover {
@@ -75,6 +76,7 @@ body {
 	float: left;
 }
 
+.page-template-page-widegrid-php .page-content-wrapper,
 .page-template-page-wide-php .page-content-wrapper{
 	padding: 0;
 	margin:0;
@@ -83,9 +85,11 @@ body {
 	float: none;
 }
 
+.page-template-page-widegrid-php .hentry,
 .page-template-page-wide-php .hentry {
 	margin-bottom: 10px;
 }
+.page-template-page-widegrid-php .entry-title
 .page-template-page-wide-php .entry-title {
 	display: none;
 }
@@ -358,7 +362,7 @@ div.menu>ul li{
 	margin: 6px 0;
 	border-top: 1px dotted #B8B7B9;
 	background: none;
-	width: 160px;
+	width: 180px;
 }
 .mainNav>ul>li.first>ul>li>ul>li {
 	padding: 0;
@@ -478,7 +482,8 @@ div.menu>ul li{
 	background: #E68031;
 	}
 .about .nav-sidebar,
-.client-experience .nav-sidebar {
+.client-experience .nav-sidebar,
+.hot-topics .nav-sidebar {
 	background: #717073;
 }
 .sideNav ul {
@@ -540,6 +545,13 @@ div.menu>ul li{
 	float: left;
 	font-weight: bold;
 	margin-top: 3px;
+	color: #E68031;
+}
+
+.about #breadcrumbs .breadcrumbs, 
+.client-experience #breadcrumbs .breadcrumbs, 
+.hot-topics #breadcrumbs .breadcrumbs {
+    color: #717073;
 }
 #breadcrumbs .breadcrumbs a {
 	color: #455560;
@@ -577,7 +589,8 @@ div.menu>ul li{
 	}
 
 .about .entry-title a,
-.client-experience .entry-title a {
+.client-experience .entry-title a,
+.hot-topics .entry-title a {
 	color: #717073;
 	}
 .entry-title a:hover {
@@ -602,6 +615,11 @@ div.menu>ul li{
 .hentry .entry-content ul li:before {
 	content: '> ';
 	color: #E68031;
+	}
+	
+.hentry .entry-content ol {
+	list-style: decimal outside none;
+	margin-left: 1.5em;
 	}
 .entry-utility {
 	line-height: 32px;
@@ -670,18 +688,22 @@ div.menu>ul li{
 	width: 180px;
 	background: url(images/infinitive-logo.png) no-repeat center center;
 }
+.about .blog-logo,
+.client-experience .blog-logo,
+.hot-topics .blog-logo{
+	display: none;
+	}
 .sidebar-wrapper .widget-container {
-	padding: 0 0 0 17px;
+	padding: 0 1em;
 	font-size: 1em;
 	line-height: 1.6em;
 	background: #fff;
 }
 .sidebar-wrapper h4.widget-title {
 	font-size: 1.167em;
-	margin: 0 20px;
 }
 
-.sidebar-wrapper .widget-container li {
+.sidebar-wrapper .widget-container>li {
 	padding: 4px 20px;
 }
 
@@ -863,7 +885,7 @@ ul li.highlight a {
 	}
 .grid h5 {
 	width: 180px;
-	margin: 40px 20px 40px 0;
+	margin: 25px 20px 25px 0;
 	float: left;
 	text-align: right;
 	}
@@ -873,6 +895,25 @@ ul li.highlight a {
 .grid-hdr {
 	font-size: 2em;
 	line-height: 1.2em;
+}
+.grid h5 a {    
+	display: block;
+}
+.grid h5 .logo {    
+    height: 50px;
+    width: 180px;
+}
+.grid h5 .infinitive {
+	background: url("images/infinitive-logo.png") no-repeat scroll center center transparent;
+}
+.grid h5 .analytics {
+	background: url("images/analytics-logo.png") no-repeat scroll center center transparent;
+}
+.grid h5 .insight {
+	background: url("images/insight-logo.png") no-repeat scroll center center transparent;
+}
+.grid h5 .federal {
+	background: url("images/federal-logo.png") no-repeat scroll center center transparent;
 }
 /* Widget Stuff */
 .widget_recent_entries li {
@@ -922,8 +963,12 @@ ul li.highlight a {
 	width: 309px !important;
 	max-width: 309px !important;
 }
-.widget_msd_experts {
+#landing-footer.widget-area .widget_msd_experts {
 	padding: 6px 12px;
+	position: relative;
+}
+#sidebar-wrapper .widget-area .widget_msd_experts {
+	padding: 6px 0;
 	position: relative;
 }
 .page-template-page-landing-php #landing-footer.widget-area ul li.widget-container.widget_msd_experts,
@@ -936,6 +981,12 @@ ul li.highlight a {
 .widget_msd_experts .widget-content {
 	padding: 6px 12px;
 }
+
+#sidebar-wrapper .widget-area .widget_msd_experts .widget-content {
+	padding: 6px 12px 48px 12px;
+	position: relative;
+}
+
 .widget_msd_experts .widget-content div {
 	font-size: .75em;
 	line-height: 1.2em;
@@ -945,7 +996,9 @@ ul li.highlight a {
 	margin-bottom: .5em;
 }
 
-.widget_msd_experts .links { background: #E68031; position: absolute; bottom: 0; width: 309px;}
+.widget_msd_experts .links { background: #E68031; position: absolute; bottom: 0;}
+#landing-footer.widget-area .widget_msd_experts .links { width: 309px; }
+#sidebar-wrapper .widget-area .widget_msd_experts .links { width: 240px;}
 .widget_msd_experts .links .link { padding: 4px 1em; }
 .widget_msd_experts .links .link a { color: #FFF;}
 .widget_msd_experts .links .linkedin a { padding-right: 24px; background: url(images/tinylinked.png) no-repeat right center;}

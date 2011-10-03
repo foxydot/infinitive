@@ -126,3 +126,7 @@
 	updated save system to latest
 2.0.3 - 2011-08-10 - Josh Benham
 	Updated updater lib to latest version
+2.0.4 - 2011-09-22 - Ronald Huereca
+	Fixing updater issue
+2.0.5 - 2011-09-22 - Ronald Huereca
+	Fixing updater issue

@@ -7,7 +7,7 @@
  *	Updated:	July 21, 2011
  * 
  *	Upgrade system for PluginBuddy and iThemes products.
- *	Current Version 1.0.1
+ *	Current Version 1.0.7
  */
 
 //Plugin Upgrade Class
@@ -60,7 +60,6 @@ class iThemesPluginUpgrade {
 				if ( !isset( $this->plugins[ $this->plugin_slug ] ) ) {
 					$this->plugins[ $this->plugin_slug ] = $this->get_defaults();
 				}
-				//Try to read in an old format for getting keys and save them
 				if ( isset( $this->parent->_options[ 'updater' ][ 'key' ] ) ) {
 					$key = $this->parent->_options[ 'updater' ][ 'key' ];
 					$guid = get_option(  $this->plugin_slug . '-updater-guid' );
@@ -69,6 +68,10 @@ class iThemesPluginUpgrade {
 						$this->plugins[ $this->plugin_slug]->key_status = 'ok';
 						if ( $guid ) $this->plugins[ $this->plugin_slug ]->guid = $guid;
 						$this->save_plugin_options();
+						unset( $this->parent->_options[ 'updater' ][ 'key' ] );
+						if ( method_exists( $this->parent, 'save' ) ) {
+							$this->parent->save();
+						}
 					}
 				}
 				//Double-check - If key_status isn't set for the plugin, try to remotely retrieve a key (should only run once per new plugin added)
@@ -89,6 +92,8 @@ class iThemesPluginUpgrade {
 								
 				add_action( 'admin_init', array( &$this, 'init' ), 1 );
 				add_action( 'after_plugin_row_' . $this->plugin_path, array( &$this, 'plugin_row' ) );
+				add_action( 'network_admin_plugin_action_links_'. $this->plugin_path, array( &$this, 'plugin_links' ) );
+				
 				add_action('plugin_action_links_'. $this->plugin_path, array( &$this, 'plugin_links' ) );
 				add_filter( 'plugin_row_meta', array( &$this, 'plugin_right_links' ), 10, 2 );
 				
@@ -164,7 +169,9 @@ class iThemesPluginUpgrade {
 					$this->plugins[ 'userhash' ] = $options[ 'userhash' ] = '';
 					$this->plugins[ 'username' ] = $options[ 'username' ] = '';
 				}
-				
+				if ( $this->plugin_slug == 'pluginbuddy_loopbuddy' ) {
+					//die( '<pre>' . print_r( $options[ $this->plugin_slug ], true ) );
+				}
 				if ( is_multisite() ) {
 					update_site_option( 'pluginbuddy_plugins', $options );
 				} else {
@@ -187,7 +194,7 @@ class iThemesPluginUpgrade {
 				$plugin_options->new_version = $this->version;
 				$plugin_options->last_update = time();
 				$plugin_options->id = "0";
-				$plugin_options->key = '';
+				$plugin_options->key = false;
 				$plugin_options->key_status = 'not_set';
 				$plugin_options->guid = uniqid( '' );
 				return $plugin_options;
@@ -303,7 +310,7 @@ class iThemesPluginUpgrade {
 				
 				$response_code = wp_remote_retrieve_response_code( $response );
 				$response_body = wp_remote_retrieve_body( $response );
-				
+				//$current_plugin = $this->plugins[ 'pluginbuddy_loopbuddy' ];
 				
 				if ( $response_code != 200 || is_wp_error( $response_body ) ) {
 					return false;
@@ -346,8 +353,6 @@ class iThemesPluginUpgrade {
 			} //end plugin_right_links
 			
 			public  function plugin_row( $plugin_name ){
-				
-				
 				ob_start();
 				?>
 				<span style='border-right: 1px solid #DFDFDF; margin-right: 5px;'>
@@ -367,7 +372,7 @@ class iThemesPluginUpgrade {
 				} elseif ( $current_plugin->key_status == 'bad_site' ) {
 					$message .= "The License Key is associated with a different site.  Please generate a new License Key. ";
 				} elseif( $current_plugin->key_status == 'ok' ) {
-					ob_end_clean();
+					$message = ob_end_clean();
 					return;
 				}
 				
@@ -379,6 +384,7 @@ class iThemesPluginUpgrade {
 				}
 				
 				$this->output( ob_get_clean() . $message );
+				
 			} //end plugin_row
 		
 			//Return an updated version to WordPress when it runs its update checker

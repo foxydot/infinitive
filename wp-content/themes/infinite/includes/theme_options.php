@@ -8,7 +8,7 @@ function infinite_theme_page ()
 {
 	if ( count($_POST) > 0 && isset($_POST['infinite_settings']) )
 	{
-		$options = array ('biz_name','street','street2','city','state','zip','phone','fax','linkedin_link','twitter_user','latest_tweet','facebook_link','flickr_link','youtube_link');
+		$options = array ('biz_name','street','street2','city','state','zip','phone','fax','linkedin_link','twitter_user','latest_tweet','facebook_link','flickr_link','youtube_link','landing_link');
 		
 		foreach ( $options as $opt )
 		{
@@ -186,6 +186,22 @@ $states = array('ALABAMA'=>"AL",
 		</tr>
         </table>
         </fieldset>
+        
+        
+	<fieldset style="border:1px solid #ddd; padding-bottom:20px; margin-top:20px;">
+	<legend style="margin-left:5px; padding:0 5px; color:#2481C6;text-transform:uppercase;"><strong>Landing Page</strong></legend>
+		<table class="form-table">
+
+        <tr valign="top">
+			<th scope="row"><label for="landing_link">Landing Page Link</label></th>
+			<td>
+				<input name="landing_link" type="text" id="landing_link" value="<?php echo get_option('infinite_landing_link'); ?>" class="regular-text" />
+			</td>
+		</tr>
+        </table>
+        </fieldset>
+        
+        
 		<p class="submit">
 		<input type="submit" name="Submit" class="button-primary" value="Save Changes" />
 		<input type="hidden" name="infinite_settings" value="save" style="display:none;" />

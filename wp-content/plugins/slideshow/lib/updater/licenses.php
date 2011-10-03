@@ -125,7 +125,8 @@ $self_url = add_query_arg( array( 'slug' => $this->plugin_slug, 'action' => $thi
 $licenses = array();
 
 //Get licensing info from the user
-$hash = $this->plugins[ 'userhash' ];
+$hash = isset( $this->plugins[ 'userhash' ] ) ? $this->plugins[ 'userhash' ] : '';
+$username = isset( $this->plugins[ 'username' ] ) ? $this->plugins[ 'username' ] : '';
 if ( empty( $hash ) && isset( $_POST[ 'password' ] ) ) {
 	$hash = $current_user->user_login;
 	$hash .= $_POST[ 'password' ];
@@ -140,7 +141,7 @@ $response = $this->perform_remote_request(
 			'actionb' => 'login',
 			'hash' => $hash,
 			'wpuser' => $current_user->user_login,
-			'username' => isset( $_POST[ 'username' ] ) ? $_POST[ 'username' ] : $this->plugins[ 'username' ],
+			'username' => isset( $_POST[ 'username' ] ) ? $_POST[ 'username' ] : $username,
 			'password' => isset( $_POST[ 'password' ] ) ? $_POST[ 'password' ] : ''
 		)
 	)

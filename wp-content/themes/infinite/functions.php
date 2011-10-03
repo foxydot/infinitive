@@ -132,6 +132,8 @@ function infinite_setup() {
 	define( 'SIDEBAR_IMAGE_WIDTH', apply_filters( 'infinite_header_image_width', 257 ) );
 	define( 'SIDEBAR_IMAGE_HEIGHT', apply_filters( 'infinite_header_image_height', 360 ) );
 	add_image_size( 'sidebar', SIDEBAR_IMAGE_WIDTH, SIDEBAR_IMAGE_HEIGHT, true );
+	
+	add_image_size( 'gridthumb', 228, 81, true );
 
 	// Don't support text inside the header image.
 	if ( ! defined( 'NO_HEADER_TEXT' ) )

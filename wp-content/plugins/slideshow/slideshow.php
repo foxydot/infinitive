@@ -4,9 +4,9 @@
  * Plugin Name: Slideshow
  * Plugin URI: http://pluginbuddy.com/purchase/displaybuddy/
  * Description: DisplayBuddy Series - Slideshow lets you display images anywhere on your site with fully customizable animated transitions and advanced effects.
- * Version: 1.0.31
- * Author: Dustin Bolton
- * Author URI: http://dustinbolton.com/
+ * Version: 1.0.33
+ * Author: The PluginBuddy Team
+ * Author URI: http://pluginbuddy.com/
  *
  * Installation:
  * 
@@ -24,8 +24,8 @@
 
 if (!class_exists('pluginbuddy_slideshow')) {
 	class pluginbuddy_slideshow {
-		var $_version = '1.0.31';
-		var $_updater = '1.0.1';
+		var $_version = '1.0.33';
+		var $_updater = '1.0.7';
 		
 		var $_var = 'pluginbuddy_slideshow'; // Format: pluginbuddy-pluginnamehere. All lowecase, no dashes.
 		var $_name = 'Slideshow'; // Pretty plugin name. Only used for display so any format is valid.

@@ -15,7 +15,7 @@
 
 auth_redirect(); // Handles login check and redirects to WP Login if needed.
 if ( !current_user_can( 'install_themes' ) ) {
-	die( __( 'ACCESS DENIED! You need higher access to do this. Error #534344 PluginBuddy.com.', 'it-l10n-slideshow' ) );
+	die( __( 'ACCESS DENIED! You need higher access to do this. Error #534344 PluginBuddy.com.', 'it-l10n-backupbuddy' ) );
 }
 
 $url = $_GET['url'];
@@ -53,7 +53,7 @@ if ( isset($_POST) ) {
 }
 
 if( is_wp_error( $response ) ) {
-	die( sprintf( __( 'ERROR #5455. Unable to access PluginBuddy / iThemes updater & licensing system. Details: %s', 'it-l10n-slideshow' ), $response->get_error_message() ) );
+	die( sprintf( __( 'ERROR #5455. Unable to access PluginBuddy / iThemes updater & licensing system. Details: %s', 'it-l10n-backupbuddy' ), $response->get_error_message() ) );
 } else {
 	$response = $response['body'];
 }
@@ -70,7 +70,7 @@ if ( is_array( $response_array ) ) { // First line is array data to server.
 	} elseif ( isset( $response_array['unset_key'] ) ) {
 		$options['updater']['key'] = '';
 	} else {
-		echo __( 'ERROR: UNKNOWN CALLBACK COMMAND! ERROR #85433256.', 'it-l10n-slideshow' );
+		echo __( 'ERROR: UNKNOWN CALLBACK COMMAND! ERROR #85433256.', 'it-l10n-backupbuddy' );
 	}
 	
 	$options['updater']['last_check'] = 0; // Force update on next refresh.

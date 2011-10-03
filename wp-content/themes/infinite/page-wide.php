@@ -29,9 +29,5 @@ get_template_part( 'loop', 'wide' );
 ?>
 <div class="clear"></div>
 </div>
-<div class="clear"></div>
-<div class="grid">
-	<?php print infinitive_grid_system($slug); ?>
-</div>
 
 <?php get_footer(); ?>

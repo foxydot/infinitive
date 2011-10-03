@@ -1,6 +1,8 @@
 <?php get_sidebar('breadcrumbs'); ?>
 <div class="landing-header-area">
-	<a class="landing-link" href="#"></a>
+	<?php if(get_option('infinite_landing_link')!=""){ ?>
+	<a href="<?php echo get_option('infinite_landing_link'); ?>" class="landing-link"></a>
+	<?php }?>
 	<?php get_sidebar('logo'); ?>
 	<?php get_sidebar('nav'); ?>
 </div>
