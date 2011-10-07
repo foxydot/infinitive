@@ -794,6 +794,20 @@ div.menu>ul li{
 	left: 0;
 	background: transparent url(images/blank.gif);
 	}
+.home #wide.widget-area ul li.solutions-link {
+	float: left;
+	width: 212px;
+	margin-left: 16px;
+	position: relative;	
+	font-size: 0.75em;
+	padding: 0.5em 8px;
+	}
+.home #wide.widget-area ul li.solutions-link.first {
+	margin-left: 0;
+}
+.home #wide.widget-area ul li.solutions-link a {
+	text-decoration: underline;
+	}
 
 .home #footer {
 	}
