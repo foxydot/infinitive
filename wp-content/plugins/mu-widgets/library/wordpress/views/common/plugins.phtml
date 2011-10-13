@@ -1,0 +1,19 @@
+<?php $total = 0;?>
+	<table class="widefat" cellspacing="0">
+		<tbody>
+<?php foreach($this->data as $plugin):?>
+			<tr class='<?php echo $this->alternate();?>'>
+				<td><?php echo $plugin->name;?></td>			
+				<td><?php echo $plugin->version;?></td>			
+				<td><?php echo $plugin->downloaded;$total+=$plugin->downloaded;?></td>			
+				<td><?php echo $plugin->requires.' - '.$plugin->tested;?></td>			
+				<td><?php echo $plugin->rating.' , '.$plugin->num_ratings;?></td>			
+				<td><?php echo $plugin->added.' - '.$plugin->last_updated;?></td>			
+			</tr>
+<?php endforeach;?>
+		</tbody>
+	</table>
+<?php echo $total;?>
+<?php $this->debug($this->data);?>
+<?php //$this->debug($this->data);?>
+	

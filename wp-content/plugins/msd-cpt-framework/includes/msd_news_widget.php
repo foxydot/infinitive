@@ -35,14 +35,12 @@ class MSDNewsWidget extends WP_Widget {
 	    	$thumb = get_the_post_thumbnail($item->ID)?get_the_post_thumbnail($item->ID):'<img src="'.get_bloginfo('template_url').'/images/news.png" />';
 	    	$news_list .= '
 	     	<li>
-	     		<div>
+				<h3>'.$item->post_title.'</h3>
+				<div class="subtitle">
 	     			<div class="img">'.$thumb.'</div>
-					<h3>'.$item->post_title.'</h3>
-				</div>
-				<div>
 					'.$subtitle->get_the_value('subtitle').'
 				</div>
-				<div class="alignright">Read the Announcement ></div>
+				<h4 class="link alignright">Read the Announcement ></h4>
 	     		<a href="'.get_permalink($item->ID).'"></a>';
 				$news_list .= '<div class="clear"></div>
 			</li>';

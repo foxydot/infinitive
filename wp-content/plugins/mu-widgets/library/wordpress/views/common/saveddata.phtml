@@ -1,0 +1,27 @@
+<table class="widefat" cellspacing="0">
+	<thead> 
+		<tr class='<?php echo $this->alternate();?>'>
+			<th class='column_name'><span title='Select <?php echo $this->obj_type;?>s from which to create new <?php echo $this->obj_type;?>s' class='copy_icon'><span title='Select to delete saved <?php echo $this->obj_type;?>s' class='delete_icon'>&nbsp;</span><span class='spacer_icon'>&nbsp;</span>Name</th>
+			<th class='column_table'><span title='Select to delete table' class='delete_icon'>&nbsp;</span>Table</th>
+			<th class='column_instruction'><?php $this->settings_InstructionTitle();?></th>
+			<th class='column_action'><?php $this->settings_actionTitle();?></th>
+		</tr>
+	</thead>
+	<tbody>
+<?php foreach($this->locations as $this->location):?>
+		<tr class='<?php echo $this->alternate();?>'>
+			<td ><?php if($this->location['name']!=''){?><input type = 'radio' name='source_setting' value='<?php echo $this->location['name'];?>' <?php if($this->location['name']=='default'){echo ' checked ';}?>/>&nbsp;<input type = 'checkbox' name='delete_setting[]' value='<?php echo $this->location['name'];?>' /><a href='<?php echo $this->base_url?>&page2=Diag&setting=<?php echo $this->location['name'];?>' title='Get diag info on the <?php echo $this->obj_type;?>' class='diag_icon'>&nbsp;</a>&nbsp;<?php }; echo $this->location['name'];?></td>
+			<td><?php if($this->location['table']!=''){?><input type = 'checkbox' name='delete_table[]' value='<?php echo $this->location['table'];?>' />&nbsp;<a title="Download <?php echo $this->location['records']?> Records" href="<?php echo $this->table_url.$this->location['table_name'];?>.csv"><?php echo $this->location['table']?> (<?php echo $this->location['records']?>)</a><?php };?> </td>
+			<td><?php $this->settings_InstructionColumn()?></td>
+			<td class='row_action'><?php $this->settings_actionColumn()?></td>
+		</tr>
+	</tbody>
+<?php endforeach?>
+	<tfoot>
+		<tr class='<?php echo $this->alternate();?> row_new'>
+			<td colspan='4' ><input name='new' type='text'/>&nbsp;New <?php echo $this->obj_type;?>s</td>
+		</tr>
+	</tfoot>
+</table>
+<br/>
+<input type='submit' class='button' value='Apply' />

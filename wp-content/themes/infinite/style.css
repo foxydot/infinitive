@@ -360,7 +360,7 @@ div.menu>ul li{
 .mainNav>ul>li.first>ul>li>ul {
 	display: block;
 	margin: 6px 0;
-	border-top: 1px dotted #B8B7B9;
+	border-top: 1px solid #B8B7B9;
 	background: none;
 	width: 180px;
 }
@@ -698,6 +698,7 @@ div.menu>ul li{
 	font-size: 1em;
 	line-height: 1.6em;
 	background: #fff;
+	margin-bottom: 1em;
 }
 .sidebar-wrapper h4.widget-title {
 	font-size: 1.167em;
@@ -801,14 +802,28 @@ div.menu>ul li{
 	position: relative;	
 	font-size: 0.75em;
 	padding: 0.5em 8px;
+	color:#E68031;
 	}
 .home #wide.widget-area ul li.solutions-link.first {
 	margin-left: 0;
 }
 .home #wide.widget-area ul li.solutions-link a {
 	text-decoration: underline;
+	color:#E68031;
 	}
 
+.home #wide.widget-area ul li.solutions-link.analytics,
+.home #wide.widget-area ul li.solutions-link.analytics a {
+	color:#7EC65D;
+	}
+.home #wide.widget-area ul li.solutions-link.insight,
+.home #wide.widget-area ul li.solutions-link.insight a {
+	color:#D30015;
+	}
+.home #wide.widget-area ul li.solutions-link.federal,
+.home #wide.widget-area ul li.solutions-link.federal a {
+	color:#822B91;
+	}
 .home #footer {
 	}
 .home #footer.widget-area ul li.widget-container {
@@ -960,6 +975,13 @@ ul li.highlight a {
 .msd_news_widget .news-list li {
 	position: relative;
 }	
+.msd_news_widget .news-list div.subtitle {
+	font-size: 0.75em;
+	}	
+.msd_news_widget .img {
+	float: left;
+	margin: 4px;
+}	
 .msd_news_widget .news-list li a {
 	position: absolute;
 	top: 0;
@@ -970,13 +992,22 @@ ul li.highlight a {
 	background: transparent url(images/blank.gif);
 	}
 	
-.widget_sp_image {
+#landing-footer.widget_sp_image {
 	position: relative;
 }
-.widget_sp_image img {
+#landing-footer.widget_sp_image img {
 	width: 309px !important;
 	max-width: 309px !important;
 }
+
+#sidebar-wrapper .widget_sp_image {
+	position: relative;
+}
+#sidebar-wrapper .widget_sp_image img {
+	position: relative;
+	left: -1em;
+}
+
 #landing-footer.widget-area .widget_msd_experts {
 	padding: 6px 12px;
 	position: relative;
@@ -1018,13 +1049,13 @@ ul li.highlight a {
 .widget_msd_experts .links .linkedin a { padding-right: 24px; background: url(images/tinylinked.png) no-repeat right center;}
 
 
-.widget_sp_image .widget-content,
-.widget_sp_image h4.link {
+#landing-footer.widget-area .widget_sp_image .widget-content,
+#landing-footer.widget-area .widget_sp_image h4.link {
 	margin: 6px 12px;
 }
 
 
-.widget_sp_image h4.link { 
+#landing-footer.widget-area .widget_sp_image h4.link { 
 	bottom: 12px;
 	right: 12px;
 }

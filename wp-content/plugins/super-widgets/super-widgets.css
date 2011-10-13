@@ -1,0 +1,5 @@
+.add-menu-item-pagelinks { margin: 0.5em auto; text-align: center; }
+ul.add-menu-item-tabs li { display: inline; }
+ul.add-menu-item-tabs li.tabs a { color: #333; }
+ul.add-menu-item-tabs li a { text-decoration: none; }
+ul.add-menu-item-tabs { margin-bottom: 3px; }

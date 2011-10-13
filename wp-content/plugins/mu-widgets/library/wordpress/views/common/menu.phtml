@@ -1,0 +1,13 @@
+<h2><?php echo $this->title;?></h2>
+<?php
+if(count($this->items)>1):
+?>
+<ul class="subsubsub">
+<?php $cnt =1;
+foreach($this->items as $key=>$option):?>
+	<li>
+		<a href="<?php echo $option['url'];?>" class="rbutton"><strong><?php echo $option['title']; ?></strong></a><?php if($cnt++!=count($this->items)){?> | <?php ;};?></li>
+	<?php endforeach; ?>
+</ul>
+<?php endif?>
+<br clear='all' />

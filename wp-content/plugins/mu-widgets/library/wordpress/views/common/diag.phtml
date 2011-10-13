@@ -1,0 +1,43 @@
+	<table class="widefat" cellspacing="0">
+		<thead> 
+			<tr class='<?php echo $this->alternate();?>'>
+				<th class='column_name' colspan=2>Diagnostics</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class='<?php echo $this->alternate();?> row_settings'>
+				<th class='column_first'>Generate info</th>
+				<td class='column_second'>
+					<input type='radio' name='select' value='generate' checked/>
+					Plugin info:<input type=checkbox checked disabled/>&nbsp;
+					Basic WP info:<input type=checkbox checked disabled/>&nbsp;
+					Basic PHP info:<input type=checkbox checked disabled/>&nbsp;
+					Basic MySQL info:<input type=checkbox checked disabled/>&nbsp;
+					Changed settings:<input type=checkbox name='settings[changed]'>&nbsp;
+					All settings:<input type=checkbox name='settings[all]'/>&nbsp;
+					PHPInfo <input type=checkbox  name='settings[php]'/>
+				</td>
+			</tr>
+			<tr class='<?php echo $this->alternate();?> row_settings'>
+				<th class='column_first'>Decode info</th>
+				<td class='column_second'>
+					<input type='radio' name='select' value='decode'/>&nbsp;Paste the data into 'Diagnostic Data'.
+				</td>
+			</tr>
+			<tr class='<?php echo $this->alternate();?> row_settings'>
+				<th class='column_first'>Import changed settings</th>
+				<td class='column_second'>
+					<input type='radio' name='select' value='import'/>&nbsp;Paste the data into 'Diagnostic Data'. Data will be imported into original location.
+				</td>
+			</tr>
+			<tr class='<?php echo $this->alternate();?> row_diag'>
+				<th class='column_first'>Diagnostic Data</th>
+				<td class='column_second'><b>The data is encoded and compressed for ease of posting and NOT security, be sure what information you are including.</b><br/><textarea name='diag_data'><?php echo $this->diag_info;?></textarea></td>
+			</tr>
+			<tr class='<?php echo $this->alternate();?> row_show'>
+				<th class='column_first'>Raw Contents</th>
+				<td class='column_second'><b>Check what data has been included.</b><br/><pre><?php echo $this->diag_show;?></pre></td>
+			</tr>
+		</tbody>
+	</table>
+	<input type='submit' class='button' value='Apply' />

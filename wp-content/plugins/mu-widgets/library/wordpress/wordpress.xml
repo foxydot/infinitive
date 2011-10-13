@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings><application>
+		<uri>http://dcoda.co.uk/wordpress/</uri><at_least>3.0.0</at_least>
+		<up_to>3.1.1</up_to>
+		<load>/library/wordpress/application.php</load>
+		<class>wv28v_application</class>
+		<old_include><plugin>ABSPATH.'wp-admin/includes/plugin-install.php'</plugin></old_include></application>
+</settings>

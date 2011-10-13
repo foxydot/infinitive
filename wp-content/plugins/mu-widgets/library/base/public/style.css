@@ -1,0 +1,127 @@
+.v28v .delete_icon
+{
+	padding:0;
+	padding-left:20px;
+	padding-top:20px;
+	background-image:url('icon_delete.gif');
+	background-position:left bottom;
+	background-repeat:no-repeat;
+	cursor:help;
+}
+.v28v .copy_icon
+{
+	padding:0;
+	padding-left:20px;
+	padding-top:20px;
+	background-image:url('icon_copy.gif');
+	background-position:left bottom;
+	background-repeat:no-repeat;
+	cursor:help;
+}
+.v28v label.info,
+.v28v a.info,
+.v28v span.info
+{
+	padding-right:20px;
+	min-height:20px;
+	background-image:url('icon_info.gif');
+	background-position:right center;
+	background-repeat:no-repeat;
+	cursor:help;
+}
+.v28v .diag_icon
+{
+	padding:0;
+	padding-left:20px;
+	padding-top:20px;
+	background-image:url('icon_diag.gif');
+	background-position:left bottom;
+	background-repeat:no-repeat;
+	cursor:help;
+}
+.v28v .spacer_icon
+{
+	padding:0;
+	padding-left:20px;
+	padding-top:20px;
+}
+.v28v label.info,
+.v28v a.info,
+.v28v span.info
+{
+	padding-right:20px;
+	min-height:20px;
+	background-image:url('icon_info.gif');
+	background-position:right center;
+	background-repeat:no-repeat;
+	cursor:help;
+}
+.v28v a.online_info,
+.v28v label.online_info,
+.v28v span.online_info
+{
+	padding-left:22px;
+	min-height:22px;
+	background-image:url('icon_online_info.png');
+	background-position:left center;
+	background-repeat:no-repeat;
+	cursor:help;
+}
+.v28v span.vis_info
+{
+	padding-left:20px;
+	min-height:20px;
+	background-image:url('icon_info.gif');
+	background-position:left center;
+	background-repeat:no-repeat;
+	cursor:help;
+}
+.v28v .column_name
+{
+	width:150px;
+}
+.v28v .column_table
+{
+	width:200px;
+}
+.v28v .column_instruciton
+{
+}
+.v28v .column_action
+{
+	text-align:right;
+}
+.v28v .column_source
+{
+	width:60px;
+}
+.v28v input.copy,
+.v28v input.delete,
+{
+	width:20px;
+}
+.v28v .row_new input
+{
+	width:200px;
+}
+.v28v .row_diag textarea
+{
+	width:100%;
+	height:100px;
+}
+.v28v .column_first
+{
+	width:250px;
+	vertical-align:text-top;
+}
+.v28v .row_show .column_second pre
+{
+	overflow:auto;
+	width:800px;
+	max-height:800px;
+}
+.v28v .row_action
+{
+	text-align:right;
+}
+

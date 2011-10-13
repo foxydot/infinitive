@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+	<application>
+		<author>dcoda</author>
+		<author_uri>http://dcoda.co.uk</author_uri>
+		<license>GPL3</license>
+		<tags>
+			<php>php5.2</php>
+		</tags>
+		<preload></preload>
+	</application>
+</settings>

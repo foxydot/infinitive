@@ -18,7 +18,7 @@
  * @since infinite 3.1
  */
 
-global $slug;
+global $slug,$subtitle;
 ?>
 
 <div id="container" class="content">
@@ -58,10 +58,13 @@ global $slug;
 	 * Without further ado, the loop:
 	 */ ?>
 <?php while ( have_posts() ) : the_post(); ?>
+<?php $subtitle->the_meta(); ?>
 	<?php $slug = $post->post_name; ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 			<<?php print is_front_page()?'h2':'h1'; ?> class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'infinite' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></<?php print is_front_page()?'h2':'h1'; ?>>
-
+			<?php if($subtitle->get_the_value('subtitle')!=''): ?>
+			<h2><?php $subtitle->the_value('subtitle'); ?></h2>
+			<?php endif; ?>
 			<div class="entry-content">
 				<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'infinite' ) ); ?>
 				<?php wp_link_pages( array( 'before' => '<div class="page-link">' . __( 'Pages:', 'infinite' ), 'after' => '</div>' ) ); ?>

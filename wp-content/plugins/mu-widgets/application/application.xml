@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<application><name>MUWidgets</name><version>1.2</version><stable_tag>1.2.0.27</stable_tag><slug>muwidgets</slug><wpslug>mu-widgets</wpslug><donate_link>http://dcoda.co.uk/wordpress/donate/muwidgets/</donate_link><short_desc>Extends the standard WordPress widgets to be able to run on another blog on the site</short_desc><tags>mu</tags><tags>multisite</tags><tags>widget</tags><tags>blogs</tags><tags>sites</tags><preload>muwidgets</preload></application></settings>

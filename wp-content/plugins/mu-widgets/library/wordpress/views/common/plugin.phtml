@@ -1,0 +1,17 @@
+/*
+Plugin Name: <?php echo $this->name."\n";?>
+Plugin URI: <?php echo $this->options['uri']."\n";?>
+Description: <?php echo $this->options['short_desc']."\n";?>
+Author: <?php echo $this->options['author']."\n";?>
+Author URI: <?php echo $this->options['author_uri']."\n";?>
+Version: <?php echo $this->version."\n";?>
+ */ 
+require_once  dirname ( __FILE__ ) . '<?php echo $this->options['load'];?>';
+<?php if(isset($this->options['include']))
+{
+	foreach((array)$this->options['include'] as $include):?>@include_once (<?php echo $include;?>);
+	<?php
+	endforeach;	
+}
+?>
+$<?php echo $this->options['slug'];?> = new <?php echo $this->options['class'];?> ( __FILE__,array(<?php echo $this->preloads;?>)<?php echo $this->handler;?> );

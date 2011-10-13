@@ -1,0 +1,40 @@
+.v28v {
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+.v28v .err {
+	background-color: #FFEEEB;
+	border: 1px solid #D41700;
+	padding: 5px;
+	margin: 0px;
+}
+
+.v28v div {
+	padding: 0;
+}
+
+.v28v .postbox {
+	
+}
+
+.v28v h3 {
+	margin: 0;
+	padding: 5px;
+}
+
+.v28v .inside {
+	padding: 5px;
+}
+
+.v28v .inside ul {
+	margin-left: 10px;
+	list-style-type: circle;
+	list-style-position: inside;
+}
+
+.v28v .inside ol {
+	margin-left: 10px;
+	list-style-position: inside;
+}
