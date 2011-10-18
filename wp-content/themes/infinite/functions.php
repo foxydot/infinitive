@@ -528,7 +528,26 @@ function infinite_cufon(){
 		wp_enqueue_script('my_cufon_load',$my_cufon_load,array('jquery'));
 	}
 }
-
+/* Add scripts and styles for shooting gallery ONLY on the page that needs it. Adjsut the slug for additional pages/to change the page name. */
+add_action('wp_print_scripts', 'shooting_gallery_js');
+function shooting_gallery_js(){
+	global $blog_id;
+	if($blog_id == '1' && is_page('our-experts')){
+		wp_enqueue_script('prototype', get_bloginfo('template_url').'/js/legacy_prototype/prototype.js', NULL, NULL, FALSE);  
+		wp_enqueue_script('scriptaculous', get_bloginfo('template_url').'/js/legacy_prototype/scriptaculous.js', array('prototype'), NULL, FALSE);  
+		wp_enqueue_script('scriptaculous_effect', get_bloginfo('template_url').'/js/legacy_prototype/effects.js', array('prototype','scriptaculous'), NULL, FALSE);  
+		wp_enqueue_script('prototype_tabs', get_bloginfo('template_url').'/js/legacy_prototype/tabs.js', array('prototype'), NULL, FALSE);  
+		wp_enqueue_script('prototype_tabmanager', get_bloginfo('template_url').'/js/legacy_prototype/tabmanager.js', array('prototype', 'prototype_tabs'), NULL, TRUE);    
+	}
+}
+add_action('wp_print_styles', 'shooting_gallery_css');
+function shooting_gallery_css(){
+	global $blog_id;
+	if($blog_id == '1' && is_page('our-experts')){
+		wp_enqueue_style( 'shooting-gallery', get_bloginfo('template_url').'/css/shooting-gallery.css', FALSE, '0.1', 'all' );	
+	}
+}
+/* End shooting gallery scripts/styles */
 // cleanup tinymce for SEO
 function fb_change_mce_buttons( $initArray ) {
 	//@see http://wiki.moxiecode.com/index.php/TinyMCE:Control_reference
