@@ -12,12 +12,16 @@ get_header(); ?>
 <?php get_sidebar('logo'); ?>
 <div id="page-content-wrapper" class="page-content-wrapper">
 <?php get_sidebar('nav'); ?>
+
+<div id="container" class="content">
+	<div id="content" role="main">
 				<h1><?php _e( 'Not Found', 'infinite' ); ?></h1>
 				
 				<p><?php _e( 'Apologies, but the page you requested could not be found. Perhaps searching will help.', 'infinite' ); ?></p>
 				
-				<?php get_search_form(); ?>
-				
+				<p><?php get_search_form(); ?></p>
+	</div>
+</div>			
 
 	<script type="text/javascript">
 		// focus on search field after it has loaded

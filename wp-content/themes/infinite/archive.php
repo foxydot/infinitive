@@ -28,7 +28,7 @@ get_header(); ?>
 		the_post();
 ?>
 
-			<h1>
+			<h3 style="float:left;padding-left:30px;">
 <?php if ( is_day() ) : ?>
 				<?php printf( __( 'Daily Archives: %s', 'infinite' ), get_the_date() ); ?>
 <?php elseif ( is_month() ) : ?>
@@ -38,8 +38,7 @@ get_header(); ?>
 <?php else : ?>
 				<?php _e( 'Blog Archives', 'infinite' ); ?>
 <?php endif; ?>
-			</h1>
-</div>
+			</h3>
 
 <?php
 	/* Since we called the_post() above, we need to
