@@ -99,7 +99,7 @@ class RecentPostsPlusMultisite extends WP_Widget {
 			for($j = 0; $j < count($highlights); $j++){
 				$highlights[$j]->blog_id = $i+1;
 				$highlights[$j]->blog_name = sanitize_title(get_blog_option( $highlights[$j]->blog_id, 'blogname' ));
-				$highlights[$j]->featured_image = get_the_post_thumbnail($highlights[$j]->ID, 'gridthumb');
+				$highlights[$j]->featured_image = get_the_post_thumbnail($highlights[$j]->ID, array($post_thumbnail_width, $post_thumbnail_height));
 			}
 			$recent_posts = array_merge_recursive($recent_posts,$highlights);
 		}
@@ -119,7 +119,8 @@ class RecentPostsPlusMultisite extends WP_Widget {
 			if($include_post_thumbnail == "false") {
 					$POST_THUMBNAIL = '';
 				} else {
-					$POST_THUMBNAIL = get_the_post_thumbnail($rp->ID, array($post_thumbnail_width, $post_thumbnail_height));
+					//$POST_THUMBNAIL = get_the_post_thumbnail($rp->ID, array($post_thumbnail_width, $post_thumbnail_height));
+					$POST_THUMBNAIL = $rp->featured_image;
 				}
 				$POST_TITLE_RAW = strip_tags($rp->post_title);
 				if(empty($truncate_post_title))
