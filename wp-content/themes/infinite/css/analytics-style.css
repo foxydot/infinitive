@@ -25,7 +25,15 @@
 .analytics .hentry .entry-content ul li:before {
 	color: #7EC65D;
 	}
+.analytics .hentry .entry-content a {
+	color: #3F632E;
+	}
 .analytics .widget_msd_experts .links { background: #7EC65D;}
+
+.eye-on-analytics-logo {
+	padding: 0 20px 20px 30px;
+	float: left;
+}
 
 .widget-container.Tumblr .tumblr_post { margin: 0 0 30px 0;}
 .widget-container.Tumblr .tumblr_post.last { margin: 0;}

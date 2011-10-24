@@ -627,6 +627,7 @@ include_once('includes/theme_options.php');
 include_once('includes/image_handling.php');
 include_once('includes/page_taxonomy.php');
 include_once('includes/highlights.php');
+include_once('includes/analytics.php');
 
 	/*
 	 * A useful troubleshooting function.

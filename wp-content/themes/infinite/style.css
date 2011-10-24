@@ -609,6 +609,9 @@ div.menu>ul li{
 .hentry {
 	margin-bottom: 60px;
 }
+.hentry .entry-content a {
+	color: #734018;
+	}
 .hentry p {
 	margin: 1em 0;
 }
@@ -621,6 +624,10 @@ div.menu>ul li{
 	list-style: decimal outside none;
 	margin-left: 1.5em;
 	}
+.hentry .entry-content blockquote {
+	padding: 0 2em;
+	background: url(images/quote-bkg.png) no-repeat top left;
+}
 .entry-utility {
 	line-height: 32px;
 }
