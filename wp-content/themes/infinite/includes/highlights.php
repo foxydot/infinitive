@@ -54,7 +54,7 @@ function infinitive_grid_system($page_slug){
 			$grid = '<div><h5>CRM ></h5><ul>'.infinitive_highlights(3,'all', array('post_type' => 'page', 'tax_query' => array(array('taxonomy' => 'msd_special', 'field' => 'slug', 'terms' => 'crm')), 'number_posts' => 12)).'</ul><div class="clear"></div></div>';
 			$grid .= '<div><h5>Web Analytics &<br />Online Marketing ></h5><ul>'.infinitive_highlights(3,'all', array('post_type' => 'page', 'tax_query' => array(array('taxonomy' => 'msd_special', 'field' => 'slug', 'terms' => 'web-analytics-online-marketing')), 'number_posts' => 12)).'</ul><div class="clear"></div></div>';
 			$grid .= '<div><h5>PMO ></h5><ul>'.infinitive_highlights(3,'all', array('post_type' => 'page', 'tax_query' => array(array('taxonomy' => 'msd_special', 'field' => 'slug', 'terms' => 'pmo')), 'number_posts' => 12)).'</ul><div class="clear"></div></div>';
-			$grid .= '<div><h5>Risk Management ></h5><ul>'.infinitive_highlights(3,'all', array('post_type' => 'page', 'tax_query' => array(array('taxonomy' => 'msd_special', 'field' => 'slug', 'terms' => 'risk-management')), 'number_posts' => 12)).'</ul><div class="clear"></div></div>';
+			//$grid .= '<div><h5>Risk Management ></h5><ul>'.infinitive_highlights(3,'all', array('post_type' => 'page', 'tax_query' => array(array('taxonomy' => 'msd_special', 'field' => 'slug', 'terms' => 'risk-management')), 'number_posts' => 12)).'</ul><div class="clear"></div></div>';
 			break;
 		case 'hot-topics':
 			$grid = '<div><h5><a href="'.get_site_url(1).'/hot-topics/blogs">Recent Blogs ></a></h5><ul>'.infinitive_highlights(3,'all', array('post_type' => 'post', 'number_posts' => 3)).'</ul><div class="clear"></div></div>';
