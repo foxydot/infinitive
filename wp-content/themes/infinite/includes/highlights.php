@@ -61,9 +61,9 @@ function infinitive_grid_system($page_slug){
 			$grid .= '<div><h5><a href="'.get_site_url(1).'/hot-topics/blogs">Recent Papers &amp; Briefs ></a></h5><ul>'.infinitive_highlights(3,'all', array('post_type' => 'page', 'tax_query' => array(array('taxonomy' => 'msd_special', 'field' => 'slug', 'terms' => 'brief')), 'number_posts' => 3)).'</ul><div class="clear"></div></div>';
 			break;
 		case 'blogs':
-			$grid = '<div><h5><a class="" href="'.get_site_url(1).'/blog">Infinitive Blog</a><a href="'.get_site_url(1).'/blog">Visit Blog ></a><a href="#">Subscribe ></a></h5><ul>'.infinitive_highlights(3,array('1'), array('post_type' => 'post', 'number_posts' => 3)).'</ul><div class="clear"></div></div>';
-			$grid .= '<div><h5><a class="" href="'.get_site_url(4).'/blog">'.infinite_analytics_logo().'Eye on Analytics Blog</a><a href="'.get_site_url(4).'/blog">Visit Blog ></a><a href="#">Subscribe ></a></h5><ul>'.infinitive_highlights(3,array('4'), array('post_type' => 'post', 'number_posts' => 3)).'</ul><div class="clear"></div></div>';
-			$grid .= '<div><h5><a class="" href="'.get_site_url(3).'/blog">Risk Insights Blog</a><a href="'.get_site_url(3).'/blog">Visit Blog ></a><a href="#">Subscribe ></a></h5><ul>'.infinitive_highlights(3,array('3'), array('post_type' => 'post', 'number_posts' => 3)).'</ul><div class="clear"></div></div>';
+			$grid = '<div><h5><a class="" href="'.get_site_url(1).'/blog">Infinitive Blog</a><a href="'.get_site_url(1).'/blog">Visit Blog ></a></h5><ul>'.infinitive_highlights(3,array('1'), array('post_type' => 'post', 'number_posts' => 3)).'</ul><div class="clear"></div></div>';
+			$grid .= '<div><h5><a class="" href="'.get_site_url(4).'/blog">'.infinite_analytics_logo().'Eye on Analytics Blog</a><a href="'.get_site_url(4).'/blog">Visit Blog ></a></h5><ul>'.infinitive_highlights(3,array('4'), array('post_type' => 'post', 'number_posts' => 3)).'</ul><div class="clear"></div></div>';
+			$grid .= '<div><h5><a class="" href="'.get_site_url(3).'/blog">Risk Insights Blog</a><a href="'.get_site_url(3).'/blog">Visit Blog ></a></h5><ul>'.infinitive_highlights(3,array('3'), array('post_type' => 'post', 'number_posts' => 3)).'</ul><div class="clear"></div></div>';
 			//$grid .= '<div><h5><a class="" href="'.get_site_url(2).'/blog" /><a href="'.get_site_url(2).'/blog">Visit Blog ></a><a href="#">Subscribe ></a></h5><ul>'.infinitive_highlights(3,array('2'), array('post_type' => 'post', 'number_posts' => 3)).'</ul><div class="clear"></div></div>';
 			break;
 		case 'briefs-white-papers':
