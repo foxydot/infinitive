@@ -951,6 +951,10 @@ ul li.highlight a {
 .grid h5 .federal {
 	background: url("images/federal-logo.png") no-repeat scroll center center transparent;
 }
+
+.grid a.rss {
+	background: url("images/feed.png") no-repeat scroll bottom center transparent;
+}
 /* Widget Stuff */
 .widget_recent_entries li {
 	margin: 8px 6px;
