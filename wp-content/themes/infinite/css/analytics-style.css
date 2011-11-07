@@ -43,3 +43,4 @@
 .widget-container.Tumblr .tumblr_post .date { margin: 0 0 10px 0; color: #335b84; font-size: 0.688em; font-weight: normal; text-transform: uppercase; border-bottom: 1px solid #d2d5b8;}
 .widget-container.Tumblr .tumblr_post .tumblr-link { font-size: 0.688em;}
 .widget-container.Tumblr .tumblr_post h3 { font-size: .75em;}
+.widget-container.Tumblr .tumblr_post blockquote {margin: .5em; font-style: italic; }
