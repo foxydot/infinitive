@@ -579,12 +579,14 @@ function browser_body_class($classes) {
 // add classes for subdomain
 add_filter('body_class','subdomain_body_class');
 function subdomain_body_class($classes) {
+	global $subdomain;
 	$site = get_current_site()->domain;
 	$url = get_bloginfo('url');
 	$sub = preg_replace('@http://@i','',$url);
 	$sub = preg_replace('@'.$site.'@i','',$sub);
 	$sub = preg_replace('@\.@i','',$sub);
     $classes[] = $sub;
+    $subdomain = $sub;
     return $classes;
 }
 
@@ -606,7 +608,7 @@ function section_body_class($classes) {
 	$classes[] = $post_data->post_name;
     return $classes;
 }
-add_action('posts_selection','set_section');
+add_action('template_redirect','set_section');
 function set_section(){
 	global $post, $section;
 	$post_data = get_post(get_topmost_parent($post->ID));

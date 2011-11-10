@@ -650,6 +650,20 @@ div.menu>ul li{
 .entry-content ul li {
 	padding: 0 0 0.5em 0;
 }
+/* Comment Form */
+#commentform p {
+	position: relative;
+	margin: .5em 0;
+}
+#commentform input {
+	position: absolute;
+	left: 100px;
+}
+#commentform textarea {
+	display: block;
+}
+
+
 /* Footer */
 
 .footer .site-info {
@@ -844,7 +858,8 @@ div.menu>ul li{
 .home #footer.widget-area ul li.widget-container.first {
 	margin-left: 0;
 }
-.home #footer.widget-area ul li.widget-container .widget-title {
+.home #footer.widget-area ul li.widget-container .widget-title,
+.home #landing-footer.widget-area ul li.widget-container .widget-title {
 	padding: 0 6px 6px;
 	border-bottom: 1px dotted #E4E0CE;
 	text-transform: uppercase;
