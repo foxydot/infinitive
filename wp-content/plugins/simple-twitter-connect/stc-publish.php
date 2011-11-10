@@ -139,7 +139,8 @@ function stc_publish_auto_check($new, $old, $post) {
 	if ($new == 'publish' && $old != 'publish') {
 		$post_types = get_post_types( array('public' => true), 'objects' );
 		foreach ( $post_types as $post_type ) {
-			if ( $post->post_type == $post_type->name ) {
+			//if ( $post->post_type == $post_type->name ) {
+			if ( $post->post_type == 'post' ) {
 				stc_publish_automatic($post->ID, $post);
 				break;
 			}

@@ -188,9 +188,10 @@ FB.getLoginStatus(function(response) {
 add_action('transition_post_status','sfc_publish_auto_check',10,3);
 function sfc_publish_auto_check($new, $old, $post) {
 	if ($new == 'publish' && $old != 'publish') {
-		$post_types = apply_filters('sfc_publish_post_types', get_post_types( array('public' => true), 'objects' ) );
+		$post_types = apply_filters('sfc_publish_post_types', get_post_types( array('public' => true,'post_type' => 'post'), 'objects' ) );
 		foreach ( $post_types as $post_type ) {
-			if ( $post->post_type == $post_type->name ) {
+			//if ( $post->post_type == $post_type->name ) {
+			if ( $post->post_type == 'post' ) {
 				sfc_publish_automatic($post->ID, $post);
 				break;
 			}
