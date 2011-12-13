@@ -76,6 +76,7 @@ function infinite_setup() {
 
 	// This theme styles the visual editor with editor-style.css to match the theme style.
 	add_editor_style();
+	update_option('image_default_link_type','none');
 
 	// Post Format support. You can also use the legacy "gallery" or "asides" (note the plural) categories.
 	//add_theme_support( 'post-formats', array( 'aside', 'gallery' ) );
