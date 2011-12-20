@@ -506,7 +506,7 @@ function add_scripts() {
 
 //add_action('wp_print_scripts', 'infinite_cufon');
 
-// add classes for subdomain
+// add classes for subdomain, IE
 add_filter('wp_print_styles','add_styles');
 function add_styles() {
 	$site = get_current_site()->domain;
@@ -515,6 +515,9 @@ function add_styles() {
 	$sub = preg_replace('@'.$site.'@i','',$sub);
 	$sub = preg_replace('@\.@i','',$sub);
 	wp_enqueue_style( $sub.'-style', get_bloginfo('template_url').'/css/'.$sub.'-style.css', FALSE, '0.1', 'all' );
+	wp_enqueue_style('ie7-style', get_bloginfo('template_url').'/css/ie7.css');
+	global $wp_styles;
+	$wp_styles->add_data( 'ie7-style', 'conditional', 'lte IE 7' );
 }
 
 function infinite_cufon(){

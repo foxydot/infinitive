@@ -9,8 +9,8 @@
 	</div>
 	<div class="functions">
 		<ul>
-			<li class="print">Print</li>
 			<li class="share st_sharethis_custom" displayText="Share">Share</li>
+			<li class="print">Print</li>
 			<li class="email">Email</li>
 		</ul>
 	</div>

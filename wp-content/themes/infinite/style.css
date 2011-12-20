@@ -13,9 +13,6 @@ http://www.opensource.org/licenses/gpl-license.php
 
 @import url(http://fonts.googleapis.com/css?family=News+Cycle);
 @import "css/reset.css";
-@import "css/ie.css";
-
-
 
 /* Basics */
 h1,h2,h3,h4,h5,h6 {
@@ -57,6 +54,7 @@ body {
 	padding: 0;
 	margin: 0 auto;
 	position: relative;
+	z-index: 100;
 	}
 .nav-wrapper{
 	height: 45px;
@@ -67,6 +65,8 @@ body {
 	}
 .content-wrapper {
 	padding: 0;
+	position: relative;
+	z-index: 10;
 	}
 .page-content-wrapper{
 	padding: 0;
@@ -196,6 +196,7 @@ body {
 	background: #B8B7B9 url(images/search_btn.png) no-repeat center center;
 	border: none;
 	text-indent: -9999px;
+	text-transform: capitalize;
 	}
 		
 .searchform .field {
@@ -266,7 +267,7 @@ div.menu>ul li{
 .mainNav ul,
 #nav-wrapper>div.menu ul {
 	margin-top: 8px;
-	margin-left: 40px;
+	margin-left: 40px;	
 	}
 .mainNav ul li,
 #nav-wrapper>div.menu ul li {
@@ -486,6 +487,12 @@ div.menu>ul li{
 .hot-topics .nav-sidebar {
 	background: #717073;
 }
+.about .nav-sidebar .monster {
+	display: none;
+	}
+.page-id-8 .nav-sidebar li.monster {
+	display: block;
+	}
 .sideNav ul {
 	margin: 10px 0;
 	}
@@ -596,6 +603,7 @@ div.menu>ul li{
 .entry-title a:hover {
 }
 .entry-meta {
+	font-size: .7em;
 	margin: 12px 0;
 }
 .entry-meta .date {
@@ -629,12 +637,11 @@ div.menu>ul li{
 	background: url(images/quote-bkg.png) no-repeat top left;
 }
 .entry-utility {
-	line-height: 32px;
+	font-size: .7em;
 }
 
 .entry-utility .cat-links {
 	background: url(images/post_category.png) no-repeat center left;
-	padding-left: 20px;
 }
 .entry-content h3 {
 	font-weight: bold;

@@ -10,7 +10,7 @@ function infinitive_highlights($showposts = 4, $blogs = FALSE, $args = array()){
 			for($j = 0; $j < count($highlights); $j++){
 				$highlights[$j]->blog_id = $i+1;
 				$highlights[$j]->blog_name = sanitize_title(get_blog_option( $highlights[$j]->blog_id, 'blogname' ));
-				$highlights[$j]->featured_image = get_the_post_thumbnail($highlights[$j]->ID, 'gridthumb');
+				$highlights[$j]->featured_image = get_the_post_thumbnail($highlights[$j]->ID)?get_the_post_thumbnail($highlights[$j]->ID, 'gridthumb'):'<img src="'.get_stylesheet_directory_uri().'/images/bugs/'.$highlights[$j]->blog_name.'.png" title="'.$highlights[$j]->blog_name.'" alt="'.$highlights[$j]->blog_name.'" />';
 			}
 			$recent_posts = array_merge_recursive($recent_posts,$highlights);
 		}
@@ -23,7 +23,7 @@ function infinitive_highlights($showposts = 4, $blogs = FALSE, $args = array()){
 			for($j = 0; $j < count($highlights); $j++){
 				$highlights[$j]->blog_id = $blog_id;
 				$highlights[$j]->blog_name = sanitize_title(get_blog_option( $highlights[$j]->blog_id, 'blogname' ));
-				$highlights[$j]->featured_image = get_the_post_thumbnail($highlights[$j]->ID, 'gridthumb');
+				$highlights[$j]->featured_image = get_the_post_thumbnail($highlights[$j]->ID)?get_the_post_thumbnail($highlights[$j]->ID, 'gridthumb'):'<img src="'.get_stylesheet_directory_uri().'/images/bugs/'.$highlights[$j]->blog_name.'.png" title="'.$highlights[$j]->blog_name.'" alt="'.$highlights[$j]->blog_name.'" />';
 			}
 			$recent_posts = array_merge_recursive($recent_posts,$highlights);
 		}

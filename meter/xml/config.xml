@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<quiz>
+		<section>
+			<header><![CDATA[Data]]></header>
+			<overview><![CDATA[Rate your Web analytics capabilities and programs on the<br/>following. Please answer all three questions and click "Submit."]]></overview>
+				<question>
+					<title><![CDATA[ALIGNMENT]]></title>
+					<body><![CDATA[KPIs are prioritized, segmented and linked to core<br/>business objectives.]]></body>
+					<questionWeight>1</questionWeight>
+				</question>
+				<question>
+					<title><![CDATA[DATA DIMENSIONALITY & GRANULARITY]]></title>
+					<body><![CDATA[Data is captured in hierarchical formats, with<br/>sufficient detail to track performance at reasonable<br/>levels of granularity.]]></body>
+					<questionWeight>2</questionWeight>
+				</question>
+				<question>
+					<title><![CDATA[DATA INTEGRITY & GOVERNANCE]]></title>
+					<body><![CDATA[The meaning of key data is standardized and clearly understood,<br/>across sources and organizational lines.]]></body>
+					<questionWeight>3</questionWeight>
+				</question>
+			<sectionWeight>3</sectionWeight>
+		</section>
+
+		<section>
+			<header><![CDATA[People]]></header>
+			<overview><![CDATA[Rate your Web analytics capabilities and programs on the<br/>following. Please answer all three questions and click "Submit."]]></overview>
+				<question>
+					<title><![CDATA[RESOURCE AVAILABILITY]]></title>
+					<body><![CDATA[There are sufficient numbers of skilled analysts and<br/>technicians available, with defined roles<br/>and responsibilities for analytics programs.]]></body>
+					<questionWeight>3</questionWeight>
+				</question>
+				<question>
+					<title><![CDATA[INTEGRATION & SPONSORSHIP]]></title>
+					<body><![CDATA[Strong senior executive sponsorship of Web analytics<br/>programs and active involvement of cross-functional<br/>stakeholder organizations (e.g., marketing,<br/>Web development, finance, etc.).]]></body>
+					<questionWeight>2</questionWeight>
+				</question>
+				<question>
+					<title><![CDATA[EDUCATION & TRAINING]]></title>
+					<body><![CDATA[Robust, ongoing training for analytics practitioners<br/>and regular business users; custom education programs<br/>for management and executive leadership.]]></body>
+					<questionWeight>1</questionWeight>
+				</question>
+			<sectionWeight>3</sectionWeight>
+		</section>
+
+		<section>
+			<header><![CDATA[Process]]></header>
+			<overview><![CDATA[Rate your Web analytics capabilities and programs on the<br/>following. Please answer all three questions and click "Submit."]]></overview>
+				<question>
+					<title><![CDATA[DECISION SUPPORT & REPORTING]]></title>
+					<body><![CDATA[Analytics data used in regular planning, performance review<br/>and decision making processes; reliable reports<br/>are distributed regularly, widely read and trusted,<br/>with supporting, “drill-down” data available.]]></body>
+					<questionWeight>3</questionWeight>
+				</question>
+				<question>
+					<title><![CDATA[CENTRALIZED PROGRAM & CAMPAIGN MANAGEMENT]]></title>
+					<body><![CDATA[Robust data collection and classification processes;<br/>synchronization and integration with content management<br/>systems, email marketing programs and advertising operations.]]></body>
+					<questionWeight>1.5</questionWeight>
+				</question>
+				<question>
+					<title><![CDATA[IMPLEMENTATION & SUPPORT PROCESSES]]></title>
+					<body><![CDATA[Data/KPI governance processes and policies in place;<br/>standardized, repeatable processes for developing,<br/>launching and analyzing campaigns; strong testing,<br/>page tagging and data collection practices.]]></body>
+					<questionWeight>1.5</questionWeight>
+				</question>
+			<sectionWeight>2</sectionWeight>
+		</section>
+		<section>
+			<header><![CDATA[Technology]]></header>
+			<overview><![CDATA[Rate your Web analytics capabilities and programs on the<br/>following. Please answer all three questions and click "Submit."]]></overview>
+				<question>
+					<title><![CDATA[PLATFORM IMPLEMENTATION]]></title>
+					<body><![CDATA[Analytics software platform is optimally installed<br/>and configured to meet organizational needs.]]></body>
+					<questionWeight>3</questionWeight>
+				</question>
+				<question>
+					<title><![CDATA[INTEGRATION]]></title>
+					<body><![CDATA[Meaningful technical integration with publishing workflow<br/>tools, content management systems, and marketing and testing<br/>platforms; synchronization with online and offline data sources,<br/>including third-party measurement systems, data warehouses,<br/>CRM and enterprise finance systems.]]></body>
+					<questionWeight>2</questionWeight>
+				</question>
+				<question>
+					<title><![CDATA[ENGAGEMENT WITH EMERGING CHANNELS]]></title>
+					<body><![CDATA[Tracking and listening capabilities reach beyond the Web site,<br/>including social media, mobile and gaming; technical<br/>adaptability strategy and plan for future evolution]]></body>
+					<questionWeight>1</questionWeight>
+				</question>
+			<sectionWeight>1</sectionWeight>
+		</section>
+	</quiz>
+
+</root>
