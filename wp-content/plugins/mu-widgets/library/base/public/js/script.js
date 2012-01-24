@@ -1,14 +1,14 @@
-function v44v (data){
-	this.data = jQuery.extend(v44v_data,data);
+function v45v (data){
+	this.data = jQuery.extend(v45v_data,data);
 };
 
-v44v.prototype.log = function(value) {
+v45v.prototype.log = function(value) {
 	if(this.data.dodebug==1)
 	{
 		console.log(value);
 	}
 }
-v44v.prototype.json = function(url,data,success) {
+v45v.prototype.json = function(url,data,success) {
 	jQuery.ajax({
 			type:'POST',
 			url:url,
@@ -17,7 +17,7 @@ v44v.prototype.json = function(url,data,success) {
 			dataType:'json'
 	});
 }
-v44v.prototype.void = function(value,def_value) {
+v45v.prototype.void = function(value,def_value) {
 	var retval =  '';
 	if(typeof(def_value) == 'undefined')
 	{
@@ -36,6 +36,6 @@ v44v.prototype.void = function(value,def_value) {
 	}
 	return retval;
 }
-v44v.prototype.entitydecode = function(encodedStr) {
+v45v.prototype.entitydecode = function(encodedStr) {
 	return jQuery("<div/>").html(encodedStr).text();
 }

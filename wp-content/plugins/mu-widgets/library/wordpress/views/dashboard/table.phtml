@@ -1,5 +1,5 @@
 <table class="widefat <?php echo $this->table_type;?>">
-<?php if (null!==$this->title): ?>
+<?php if (!empty($this->title)): ?>
 	<caption><?php echo $this->title;?></caption>
 <?php endif?>
 	<colgroup>
@@ -29,13 +29,15 @@
 		</tr>
 	</tfoot>
 	<?php endif;?>
+	<?php if(count($this->rows)>0):?>
 	<tbody>
 	<?php $cnt=1;foreach($this->rows as $row):?>
-		<tr class="<?php echo $this->alternate()?> row<?php echo $cnt++;?>">
+		<tr class="<?php if(isset($this->alternate)){echo $this->alternate;}else{echo $this->alternate();}?> row<?php echo $cnt++;?>">
 		<?php echo $row;?>
 		</tr>
 	<?php endforeach;?>
 	</tbody>
+	<?php endif?>
 </table>
 <?php if (''!=$this->apply): ?>
 <input type='submit' id='submit' class='button-primary' value='<?php echo $this->apply;?>' />

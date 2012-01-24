@@ -1,11 +1,21 @@
 <?php
-class bv44v_loader extends bv44v_base {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
+class bv45v_loader extends bv45v_base {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function sanitize_path($path) {
 		return rtrim ( $path, DIRECTORY_SEPARATOR );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function includepath($folders = null, $reverse = false) {
+		$return = array ();
 		if (null !== $folders) {
-			$return = array ();
+			$dirs = array();
 			foreach ( $this->application()->folders as $path ) {
 				foreach ( ( array ) $folders as $folder ) {
 					$newfolder = $path . DIRECTORY_SEPARATOR . $this->sanitize_path ( $folder );
@@ -25,6 +35,9 @@ class bv44v_loader extends bv44v_base {
 		}
 		return $return;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function load_class($class) {
 		if (class_exists ( $class, false )) {
 			return;
@@ -33,7 +46,7 @@ class bv44v_loader extends bv44v_base {
 		$found = false;
 		foreach ( $this->application()->folders as $key => $value ) {
 			if (strpos($key,'_')!==0) {
-				$start = "{$key}v44v";
+				$start = "{$key}v45v";
 				if (strpos ( $file, $start ) === 0) {
 					$file = str_replace ( $start, $value, $file );
 					$found = true;
@@ -54,7 +67,9 @@ class bv44v_loader extends bv44v_base {
 			throw new Exception ( "File \"{$file}\" does not exist or class \"{$class}\" was not found in the file" );
 		}
 	}
-	
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/	
 	public function find_file($filename, $quiet = false, $include_path = null) {
 		if (null === $include_path) {
 			$include_path = $this->includepath ();
@@ -72,6 +87,9 @@ class bv44v_loader extends bv44v_base {
 		}
 		return false;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function file($filename) {
 		$filename = $this->find_file ( $filename );
 		return file_get_contents ( $filename );

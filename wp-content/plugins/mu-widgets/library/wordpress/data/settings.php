@@ -1,5 +1,11 @@
 <?php
-class wv44v_data_settings extends bv44v_data_settings {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
+class wv45v_data_settings extends bv45v_data_settings {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function get_post($get_id = false) {
 		$post = get_page_by_title ( $this->application ()->slug, OBJECT, 'dcoda_settings' );
 		$return = null;
@@ -10,12 +16,15 @@ class wv44v_data_settings extends bv44v_data_settings {
 		} else {
 			$return = array ();
 			if ($post) {
-				$return = bv44v_data_json::decode ( $post->post_content, true );
+				$return = bv45v_data_json::decode ( $post->post_content, true );
 			
 			}
 		}
 		return $return;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function options($show_hidden = false, $saved_only = false) {
 		$sql = "
 SELECT meta_key
@@ -36,6 +45,9 @@ WHERE `post_id` = %d;
 		}
 		return $options;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function get_post_id() {
 		$id = $this->get_post ( true );
 		if (null === $id) {
@@ -43,20 +55,32 @@ WHERE `post_id` = %d;
 		}
 		return $id;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function __get($key) {
 		$value = parent::__get ( $key );
 		$value = apply_filters ( "{$this->application ()->slug}_read", $value, $key, $this->_option );
 		$value = apply_filters ( "{$this->application ()->slug}_read_{$key}", $value, $this->_option );
+		$value = apply_filters ( "v45v_{$this->application ()->slug}_read", $value, $key, $this->_option );
+		$value = apply_filters ( "v45v_{$this->application ()->slug}_read_{$key}", $value, $this->_option );
 		if (null !== $this->_option) {
 			$value = apply_filters ( "{$this->application ()->slug}_read_{$key}_{$this->_option}", $value );
+			$value = apply_filters ( "v45v_{$this->application ()->slug}_read_{$key}_{$this->_option}", $value );
 		}
 		return $value;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function __set($key, $value) {
 		$value = apply_filters ( "{$this->application ()->slug}_write", $value, $key, $this->_option );
 		$value = apply_filters ( "{$this->application ()->slug}_write_{$key}", $value, $this->_option );
+		$value = apply_filters ( "v45v_{$this->application ()->slug}_write", $value, $key, $this->_option );
+		$value = apply_filters ( "v45v_{$this->application ()->slug}_write_{$key}", $value, $this->_option );
 		if (null !== $this->_option) {
 			$value = apply_filters ( "{$this->application ()->slug}_write_{$key}_{$this->_option}", $value );
+			$value = apply_filters ( "v45v_{$this->application ()->slug}_write_{$key}_{$this->_option}", $value );
 			$data = $this->get_meta ();
 		} else {
 			$data = $this->get_post ();
@@ -68,20 +92,32 @@ WHERE `post_id` = %d;
 			$this->write_post ( $data );
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	protected function code_array(&$data) {
 		//array_walk_recursive ( $data, array ($this, 'code' ) );
 		$data = json_encode ( $data );
 		$data = addcslashes ( $data );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	protected function code(&$data) {
 		$data = ($data);
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function write_meta($data) {
 		//$this->code_array ( $data );
 		//print_r ( $data );
 		update_post_meta ( $this->get_post_id (), $this->_option, $data );
 		$this->_data = null;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function get_meta($key = null) {
 		if (null === $this->_option && null === $key) {
 			return array ();
@@ -99,10 +135,13 @@ WHERE `post_id` = %d;
 				$meta = array ();
 			}
 		
-		//$meta = bv44v_data_json::decode ( $meta, true );
+		//$meta = bv45v_data_json::decode ( $meta, true );
 		}
 		return $meta;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function write_post($data) {
 		$post = array ();
 		$id = get_page_by_title ( $this->application ()->slug, OBJECT, 'dcoda_settings' );
@@ -124,8 +163,11 @@ WHERE `post_id` = %d;
 		$this->_data = null;
 		return $id;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function post($key = null) {
-		if ($_SERVER ['REQUEST_METHOD'] == 'POST') {
+		if ($_SERVER ['REQUEST_METHOD'] == 'POST') {		
 			$this->write ( $_POST, $key );
 		}
 		if (null === $key) {
@@ -134,14 +176,20 @@ WHERE `post_id` = %d;
 			return $this->$key;
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function write($data, $key = null) {
 		//echo 'here ' . $key;
 		if (null === $key) {
 			foreach ( $data as $key => &$value ) {
 				$value = apply_filters ( "{$this->application()->slug}_write", $value );
 				$value = apply_filters ( "{$this->application()->slug}_write_{$key}", $value );
+				$value = apply_filters ( "v45v_{$this->application()->slug}_write", $value );
+				$value = apply_filters ( "v45v_{$this->application()->slug}_write_{$key}", $value );
 				if (null !== $this->_option) {
 					$value = apply_filters ( "{$this->application()->slug}_write_{$key}_{$this->_option}", $value );
+					$value = apply_filters ( "v45v_{$this->application()->slug}_write_{$key}_{$this->_option}", $value );
 				}
 			}
 			if (null !== $this->_option) {
@@ -159,6 +207,9 @@ WHERE `post_id` = %d;
 		}
 	}
 	// only to be used to move data as it get only the save data and does not apply filters
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function get($key = null) {
 		//echo 'here ' . $key;
 		if (null === $key) {
@@ -167,16 +218,20 @@ WHERE `post_id` = %d;
 			return $this->get_meta ( $key );
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function copy($dst, $src = null) {
-		$this->pre();
 		$data = $this->get ( $src );
 		$option = $this->_option;
 		$this->_option = $dst;
 		$this->write ( $data );
 		$this->_option = $option;
-		$this->pre();
 	}
 	// bare in mine that deleting a post deletes all meta too.
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function delete($key = null) {
 		if (null === $key) {
 			wp_delete_post ( $this->get_post_id (), true );
@@ -185,11 +240,17 @@ WHERE `post_id` = %d;
 		}
 	}
 	// unset works only on saved data. values may still much through from the hard settings
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function __unset($key) {
 		$data = $this->get_post ();
 		unset ( $data [$key] );
 		$this->write_post ( $data );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public static function setup($show = false) {
 		$labels = array ();
 		$labels ['name'] = _x ( "DCoda Settings", 'post type general name' );
@@ -224,6 +285,9 @@ WHERE `post_id` = %d;
 		$args ['supports'] = array ('title', 'editor', 'custom-fields' );
 		register_post_type ( 'dcoda_settings', $args );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function refresh() {
 		$settings = array ();
 		$data = parent::refresh ();
@@ -238,7 +302,7 @@ WHERE `post_id` = %d;
 		if (null !== $data) {
 			$settings [] = $data;
 		}
-		$this->_data = bv44v_data_array::merge ( $settings );
+		$this->_data = bv45v_data_array::merge ( $settings );
 		return $this->_data;
 	}
 }

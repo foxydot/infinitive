@@ -1,41 +1,117 @@
 <?php
-if (! class_exists ( 'bv44v_application' )) :
+if (! class_exists ( 'bv45v_application' )) :
 	require dirname ( __FILE__ ) . '/base.php';
-	class bv44v_application extends bv44v_base {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
+	class bv45v_application extends bv45v_base {
+/*****************************************************************************************
+* ??document??used??
+*****************************************************************************************/
 		public function file()
 		{
 			return $this->_filename;
 		}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 		public function &table($table = null) {
 			return $this->cache ( $this->classes->table, $table, false );
 		}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 		public function &sqlite() {
-			return $this->cache ( 'bv44v_data_sqlite' );
+			return $this->cache ( 'bv45v_data_sqlite' );
 		}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 		public function &request() {
-			return $this->cache ( 'bv44v_request' );
+			return $this->cache ( 'bv45v_request' );
 		}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 		public function &data($data = null) {
 			return $this->cache ( $this->classes->data, $data );
 		}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 		public function &help($tag) {
-			return $this->cache ( 'bv44v_data_help', $tag );
+			return $this->cache ( 'bv45v_data_help', $tag );
 		}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 		public function &form($form = null) {
 			return $this->cache ( $this->classes->form, $form );
 		}
-		public function setup_controllers() {
-			$directories = array ('controllers' );
-			if($this->dodebug())
-			{
-				$directories[] = 'sandbox';
-			}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
+		public function setup_models() {
+			$directories = array ('models' );
 			$dirs = $this->loader ()->includepath ($directories);
 			foreach ( $dirs as $dir ) {
-				$fs = new bv44v_fs ( $this, $dir ,10);
+				$fs = new bv45v_fs ( $this, $dir ,10);
 				$controllers = $fs->dir ( '*.php' );
 				foreach ( $controllers as $controller ) {
 					$class = basename ( $controller, ".php" );
+					// special case, models whos filename already begins with the slug will be loaded manually later
+					if(strpos($class,$this->application()->slug)!==0)
+					{
+						$dir=str_replace('\\','/' , $controller);
+						$prefix = $this->application()->slug.'_';
+						foreach($this->folders as $key=>$value)
+						{
+							if(strpos($key,'_')===false)
+							{
+								if(strpos($dir, $value)!==false)
+								{
+									$prefix = $key.'v45v_';
+									break;
+								}
+							}
+						}
+						$class=$prefix.$class;
+						if (! class_exists ( $class )) {
+							include $controller;
+						}
+						if (! class_exists ( $class ))
+						{
+							throw new exception('Model '.$class.' not loaded');
+						}
+					}
+				}
+			}
+		}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
+		public function setup_controllers() {
+			$directories = array ('controllers' );
+			$dirs = $this->loader ()->includepath ($directories);
+			foreach ( $dirs as $dir ) {
+				$fs = new bv45v_fs ( $this, $dir ,10);
+				$controllers = $fs->dir ( '*.php' );
+				foreach ( $controllers as $controller ) {
+					$class = basename ( $controller, ".php" );
+					$dir=str_replace('\\','/' , $controller);
+					$prefix = $this->application()->slug.'_';
+					foreach($this->folders as $key=>$value)
+					{
+						if(strpos($key,'_')===false)
+						{
+							if(strpos($dir, $value)!==false)
+							{
+								$prefix = $key.'v45v_';
+								break;
+							}
+						}
+					}
+					$class=$prefix.$class;
 					if (! class_exists ( $class )) {
 						include $controller;
 					}
@@ -46,6 +122,9 @@ if (! class_exists ( 'bv44v_application' )) :
 		/*********************************************************************
 		 * Settings Getter, Setters & unsetters
 		 *********************************************************************/
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 		public function __get($key) {
 			if (isset ( $this->_config->$key )) {
 				return $this->_config->$key;
@@ -53,10 +132,16 @@ if (! class_exists ( 'bv44v_application' )) :
 			//throw new exception ( $key . " not set" );
 			return null;
 		}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 		public function __isset($key) {
 			//$this->get_xml ( $key, $this->_scope );
 			return isset ( $this->_xml [$this->_scope] [$key] );
 		}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 		public function __unset($key) {
 			if (isset ( $this->_config->$key )) {
 				unset ( $this->_config->$key );
@@ -66,13 +151,19 @@ if (! class_exists ( 'bv44v_application' )) :
 		 * 
 		 *********************************************************************/
 		
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 		public function version() {
-			$return = $this->version . '.v44v';
+			$return = $this->version . '.v45v';
 			if ($this->dodebug ()) {
 				$return .= '.' . time ();
 			}
 			return $return;
 		}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 		public function siteuri($array = false) {
 			$return = array ('protocol' => 'http://', 'uri' => 'test.com' );
 			if (! $array) {
@@ -80,6 +171,9 @@ if (! class_exists ( 'bv44v_application' )) :
 			}
 			return $return;
 		}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 		private $_page = null;
 		public function page() {
 			if (null === $this->_page) {
@@ -87,6 +181,9 @@ if (! class_exists ( 'bv44v_application' )) :
 			}
 			return $this->_page;
 		}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 		public function set_page($page = null) {
 			if (null === $page) {
 				$this->_page = urldecode ( $this->relative_path () );
@@ -94,6 +191,9 @@ if (! class_exists ( 'bv44v_application' )) :
 				$this->_page = urldecode ( '/' . ltrim ( rtrim ( $page, '/' ), '/' ) );
 			}
 		}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 		public function relative_path($uri = null) {
 			if (null === $uri) {
 				$uri = $_SERVER ['REQUEST_URI'];
@@ -109,31 +209,38 @@ if (! class_exists ( 'bv44v_application' )) :
 			$uri = '/' . ltrim ( rtrim ( substr ( $uri, strlen ( $root_uri ) ), '/' ), '/' );
 			return $uri;
 		}
+/*****************************************************************************************
+* ??document??used??
+*****************************************************************************************/
 		private $_config = null;
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 		public function __construct($filename) {
 			parent::__construct ( $this );
 			$this->_filename = $filename; // legacy get rid of as soon as possible
 			//load just enough classes to get the settings
-			if (! class_exists ( 'bv44v_data_settings' )) {
+			if (! class_exists ( 'bv45v_data_settings' )) {
 				$dir = dirname ( $filename );
 				require_once $dir . '/library/base/data/settings.php';
 			}
-			$this->_config = bv44v_data_settings::config ( $filename );
+			$this->_config = bv45v_data_settings::config ( $filename );
 			// load the classes specified in the classes
 			// legacy
-			//$this->pre();
-			//var_dump($this->classes);
-			//$this->pre();
 			foreach ( $this->classes->_load as $library ) {
 				if (! is_array ( $library )) {
 					$this->loader ()->load_class ( $library );
 				}
 			}
 			unset ( $this->classes->_load );
+			$this->setup_models ();
 			$this->setup_controllers ();
 		}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 		public function &loader() {
-			return $this->cache ( 'bv44v_loader' );
+			return $this->cache ( 'bv45v_loader' );
 		}
 	}
 endif;

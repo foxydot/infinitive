@@ -1,5 +1,11 @@
 <?php
-class wv44v_action extends bv44v_action {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
+class wv45v_action extends bv45v_action {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 /***************************************************************************************
 * default sub menu items
 ***************************************************************************************/
@@ -12,6 +18,25 @@ class wv44v_action extends bv44v_action {
 		}
 		return $this->show_default_items;
 	}
+/*****************************************************************************************
+* deschedule any action that are schedule to run, call on deactivation
+*****************************************************************************************/
+	public function deschedule()
+	{
+		foreach($this->get_actions('wpaction') as $action)
+		{
+			if(null!==$action['schedule'])
+			{
+				if(wp_next_scheduled($action ['raw_action_title'])!==false)
+				{
+					wp_clear_scheduled_hook($action ['raw_action_title']);
+				}
+			}
+		}
+	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function getting_startedActionMeta($return) {
 		if ($this->help('gettingstarted')->url()=="#" || !$this->show_default_items()) {
 			$return ['hide'] = 1;
@@ -19,18 +44,19 @@ class wv44v_action extends bv44v_action {
 			$return ['title'] = 'Help';
 			$return ['link_name'] = 'Getting Started';
 			$return ['url'] = $this->help('gettingstarted')->url();
-			$return ['classes'] [] = 'v44v_icon16x16';
-			$return ['classes'] [] = 'v44v_icon16x16_info';
+			$return ['classes'] [] = 'v45v_16x16_info';
 			$return ['priority'] = 2;
 		}
 		return $return;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function multisiteActionMeta($return) {
 		if(is_multisite() && $this->application()->multisite)
 		{
 			$return ['link_name'] = $return ['title'];
-			$return ['classes'] [] = 'v44v_icon16x16';
-			$return ['classes'] [] = 'v44v_icon16x16_multisite';
+			$return ['classes'] [] = 'v45v_16x16_multisite';
 			$return ['priority'] = 1;
 		}
 		else
@@ -39,6 +65,9 @@ class wv44v_action extends bv44v_action {
 		}
 		return $return;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function multisiteAction()
 	{
 		if(!isset($this->view->rows))
@@ -55,6 +84,9 @@ class wv44v_action extends bv44v_action {
 		$page = $this->render_table();
 		return $page;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	protected function render_table()
 	{
 		if(!isset($this->view->title))
@@ -92,6 +124,9 @@ class wv44v_action extends bv44v_action {
 		$page = $this->render_script('dashboard/table.phtml',false);
 		return $page;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function PluginActionMeta($return) {
 		if (! isset ( $this->application ()->wordpress->uri ) || !$this->show_default_items()) {
 			$return ['hide'] = 1;
@@ -99,12 +134,14 @@ class wv44v_action extends bv44v_action {
 			$return ['probono'] = true;
 			$return ['title'] = 'Plugin Site';
 			$return ['url'] = $this->application ()->wordpress->uri;
-			$return ['classes'] [] = 'v44v_icon16x16';
-			$return ['classes'] [] = 'v44v_icon16x16_home';
+			$return ['classes'] [] = 'v45v_16x16_home';
 			$return ['priority'] = 10;
 		}
 		return $return;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function DonateActionMeta($return) {
 		if (! isset ( $this->application ()->wordpress->donate_link ) || !$this->show_default_items()) {
 			$return ['hide'] = 1;
@@ -112,8 +149,7 @@ class wv44v_action extends bv44v_action {
 			$return ['link_name'] = $return ['title'];
 			$return ['probono'] = true;
 			$return ['url'] = $this->application ()->wordpress->donate_link;
-			$return ['classes'] [] = 'v44v_icon16x16';
-			$return ['classes'] [] = 'v44v_icon16x16_donate';
+			$return ['classes'] [] = 'v45v_16x16_donate';
 			$return ['priority'] = 10;
 		}
 		return $return;
@@ -125,6 +161,9 @@ class wv44v_action extends bv44v_action {
 	/**
 	*	present basic authentication and validate against WordPress login
 	**/
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	protected function basic_auth() {
 		$credentials = array ();
 		if (array_key_exists ( 'PHP_AUTH_USER', $_SERVER ) && array_key_exists ( 'PHP_AUTH_PW', $_SERVER )) {
@@ -141,6 +180,9 @@ class wv44v_action extends bv44v_action {
 /***************************************************************************************
 * dashboard layout
 ***************************************************************************************/
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function menu($page, $menu, $pages) {
 		$this->view->title = $menu ['title'];
 		if ($menu ['title'] != $page ['title']) {
@@ -162,7 +204,7 @@ class wv44v_action extends bv44v_action {
 					$this->view->items [$key] ['url'] = $baseUrl .'&page2=' . $value ['slug'];
 				}
 				if ((! isset ( $_GET ['page2'] ) && ! $current) || substr ( $_SERVER ['REQUEST_URI'], - strlen ( $this->view->items [$key] ['url'] ) ) == $this->view->items [$key] ['url']) {
-					$this->view->items [$key] ['classes'] [] = 'v44v_current';
+					$this->view->items [$key] ['classes'] [] = 'v45v_current';
 					$current = true;
 				}
 				$this->view->items [$key] ['classes'] = implode ( ' ', array_unique($this->view->items [$key] ['classes'] ));
@@ -170,6 +212,9 @@ class wv44v_action extends bv44v_action {
 		}
 		return $this->render_script ( 'dashboard/menu.phtml',false );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function icon($page, $menu) {
 		$action = $page;
 		if (! isset ( $action ['icon'] )) {
@@ -187,18 +232,25 @@ class wv44v_action extends bv44v_action {
 		}
 		return $this->render_script ( 'dashboard/icon.phtml',false );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function wrapper($page, $classes = array(), $attr = null, $tag = 'div') {
 		$classes [] = 'wrap';
-		$classes [] = 'v44v';
-		$classes [] = $this->application ()->slug;
+		$classes [] = 'v45v';
+		if($this->dodebug())
+		{
+			$classes [] = 'v45v_debug';
+		}
+		$classes [] = 'v45v_'.$this->application ()->slug;
 		$this->view->page = $page;
 		$this->view->tag = $tag;
 		$this->view->classes = implode ( ' ', $classes );
 		return $this->render_script ( 'dashboard/wrapper.phtml',false );
 	}
-/***************************************************************************************
-* 
-***************************************************************************************/
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function control_url($control) {
 		$return = trim ( get_bloginfo ( 'url' ), '/' );
 		if (get_option ( 'permalink_structure' ) == '') {
@@ -210,6 +262,9 @@ class wv44v_action extends bv44v_action {
 		return $return . $control;
 	
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function dashboard($srch_menu, $srch_sub = null) {
 		global $menu;
 		$srch_menu = array ($srch_menu, __ ( $srch_menu ) );
@@ -258,9 +313,15 @@ class wv44v_action extends bv44v_action {
 		}
 		return $return;
 	}
+/*****************************************************************************************
+* ??document??used??
+*****************************************************************************************/
 	protected function set_view() {
-		$this->view = new wv44v_view ( $this->application () );
+		$this->view = new wv45v_view ( $this->application () );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	protected function dispatch() {
 		$this->view->args = array ();
 		if (count ( func_get_args () ) > 0) {
@@ -281,13 +342,15 @@ class wv44v_action extends bv44v_action {
 		}
 		return $this->view->args [0];
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	/*******************************************************************
 	 * Init Functions
 	 *******************************************************************/
 	public function __construct(&$application) {
 		parent::__construct ( $application );
-		//$this->debug('here');
-		//add_action('plugins_loaded',array($this,'setup_wpactions'));
+		add_action($application->slug.'_deschedule',array($this,'deschedule'));
 		$this->setup_wpactions ();
 	}
 	/*******************************************************************
@@ -300,12 +363,49 @@ class wv44v_action extends bv44v_action {
 		}
 		parent::setup_action ();
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function setup_wpactions() {
 		$this->add_action_type ( 'wpaction', 'WPaction' );
 		foreach ( ( array ) $this->get_actions ( 'wpaction' ) as $action ) {
 			add_action ( $action ['raw_action_title'], $this->callback_filter ( $action ['action_callback'] ), $action ['priority'] );
+			// check if the action is scheduled or that is is already scheduled
+			if(null!==$action['schedule'])
+			{
+				if( null===$action ['schedule_start'])
+				{
+					$action ['schedule_start']=time();
+				}
+				$scheduled = wp_next_scheduled($action ['raw_action_title']);
+				// if its not scheduled and you not clear the schedule schedule it.
+				if ($scheduled===false && $action['schedule']!='clear') {
+					wp_schedule_event($action ['schedule_start'], $action ['schedule'], $action ['raw_action_title']);
+				}
+				else
+				{
+					// if the action is set to clear the schedule, clear it.
+					$scheduled = wp_get_schedule($action ['raw_action_title']);
+					if($action['schedule']=='clear' && $scheduled!==false)
+					{
+						wp_clear_scheduled_hook($action ['raw_action_title']);
+					}
+					else
+					{
+						// if its already scheduled, check the frequency has not changed.
+						if($scheduled!=$action['schedule'])
+						{
+							wp_clear_scheduled_hook($action ['raw_action_title']);
+							wp_schedule_event($action ['schedule_start'], $action ['schedule'], $action ['raw_action_title']);
+						}
+					}
+				}
+			}
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function setup_wpfilters() {
 		$this->add_action_type ( 'wpfilter', 'WPfilter' );
 		foreach ( ( array ) $this->get_actions ( 'wpfilter' ) as $action ) {
@@ -313,12 +413,18 @@ class wv44v_action extends bv44v_action {
 			add_filter ( $action ['raw_action_title'], $this->callback_filter ( $action ['action_callback'] ), $action ['priority'], $numargs );
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function setup_wpshortcodes() {
 		$this->add_action_type ( 'wpshortcode', 'WPshortcode' );
 		foreach ( ( array ) $this->get_actions ( 'wpshortcode' ) as $action ) {
 			add_shortcode ( $action ['raw_action_title'], $this->callback_filter ( $action ['action_callback'] ) );
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function setup_wppages() {
 		// don't setup for dashboard
 		if (is_admin ()) {
@@ -338,6 +444,9 @@ class wv44v_action extends bv44v_action {
 			}
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function setup_wpnotices() {
 		// only setup for dashboard
 		if (! is_admin ()) {
@@ -355,9 +464,15 @@ class wv44v_action extends bv44v_action {
 			echo $this->wrapper ( $output );
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function admin_noticesWPactionA() {
 		$this->setup_wpnotices ();
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function generate_rewrite_rulesWPaction($wp_rewrite) {
 		$new_rules = array ();
 		foreach ( ( array ) $this->get_actions ( 'wppage' ) as $action ) {
@@ -365,10 +480,16 @@ class wv44v_action extends bv44v_action {
 		}
 		$wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function query_varsWPfilter($qvars) {
 		$qvars [] = 'wppage';
 		return $qvars;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function template_redirectWPaction() {
 		global $wp_query;
 		global $wp_rewrite;
@@ -387,6 +508,9 @@ class wv44v_action extends bv44v_action {
 			}
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	protected function pages($slug) {
 		$siteurl = $this->application ()->siteuri ( true );
 		$host = trim ( $_SERVER ['HTTP_HOST'], '/' );
@@ -417,6 +541,9 @@ class wv44v_action extends bv44v_action {
 		$pages = array_slice ( $pages, count ( $slug ) );
 		return $pages;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function setup() {
 		foreach ( $this->get_actions ( 'wpmenu' ) as $menu ) {
 			if ($menu ['menu'] != 'Sandbox' || $this->dodebug ()) {
@@ -461,6 +588,9 @@ class wv44v_action extends bv44v_action {
 			}
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function callback() {
 		$page = urldecode ( $_GET ['page'] );
 		$menu = false;
@@ -492,7 +622,7 @@ class wv44v_action extends bv44v_action {
 			$this->view->updated = $this->updated ();
 			if(!isset($this->view->form_name))
 			{
-				$this->view->form_name = 'v44v_form';
+				$this->view->form_name = 'v45v_form';
 			}
 			$this->view->output = $output;
 			
@@ -501,6 +631,9 @@ class wv44v_action extends bv44v_action {
 			echo $this->wrapper ( $output );
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	/*******************************************************************
 	 * Default actions of all types but only the ones that need to be done for all classes
 	 *******************************************************************/
@@ -508,12 +641,21 @@ class wv44v_action extends bv44v_action {
 		$this->setup_wpfilters ();
 		$this->setup_wpshortcodes ();
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function initWPactionA() {
 		$this->setup_wppages ();
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function admin_menuWPactionA() {
 		$this->setup_wpmenu ();
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function setup_wpmenu() {
 		// only setup for dashboard
 		if (! is_admin ()) {
@@ -524,6 +666,9 @@ class wv44v_action extends bv44v_action {
 			$this->setup ( $action );
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function plugin_action_linksWPfilter($links, $file) {
 		if ($file != plugin_basename ( $this->application ()->filename )) {
 			return $links;
@@ -545,7 +690,9 @@ class wv44v_action extends bv44v_action {
 		}
 		return $links;
 	}
-
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 /*******************************************************************
  * General functions share by this class type
  *******************************************************************/

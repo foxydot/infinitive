@@ -1,13 +1,13 @@
 /***********************************************************************************
 * Menu Tweaks
 ***********************************************************************************/
-.v44v ul.subsubsub li
+.v45v ul.subsubsub li
 {
 	padding-left: 1px;
 	padding-right: 0;
 	border-left: 1px solid #aaaaaa;
 }
-.v44v ul.subsubsub li:first-child
+.v45v ul.subsubsub li:first-child
 {
 	padding-left: 0;
 	border-left: none;
@@ -15,162 +15,145 @@
 /***********************************************************************************
 * Table
 ***********************************************************************************/
-.v44v caption
+.v45v caption
 {
 	padding-top:1em;
 	font-weight: bold;
 	text-align:left;
 }
-.v44v table input[type="text"]
+.v45v table input[type="text"]
 {
 	width:100%;
 	max-width:200px;
 	margin:0;
 }
-.v44v table select
+.v45v table select
 {
 	width:100%;
 	max-width:170px;
 	margin:0;
 }
-.v44v table textarea
+.v45v table textarea
 {
 	width:100%;
 	margin:0;
 	height:2em;
 }
-.v44v table textarea:focus
+.v45v table textarea.expand:focus
 {
 	height:20em;
 }
-.v44v table input[type="text"].number
+.v45v table input[type="text"].number
 {
 	width:3em;
 }
-.v44v table input[type="text"].color_number,
-.v44v table textarea.color_number
+.v45v table select.number
+{
+	width:4em;
+}
+.v45v table input[type="text"].color_number,
+.v45v table textarea.color_number
 {
 	width:6em;
 }
-.v44v col
+.v45v col
 {
 	width:200px;
 }
-.v44v col:last-child
+.v45v col:last-child
 {
 	width:auto;
 }
-.v44v table.survey_list .col1,
-.v44v table.survey_list .col2,
-.v44v table.survey_list .col4
+.v45v table.survey_list .col5
+{
+	width:300px;
+}
+.v45v table.exportreaders_list .col1,
+.v45v table.redactor_list .col1,
+.v45v table.delete_list .col1,
+.v45v table.survey_list .col1,
+.v45v table.survey_list .col2,
+.v45v table.survey_list .col4
 {
 	width:22px;
 }
-.v44v tbody th
+.v45v tbody th
 {
 	text-align: right;
 	vertical-align: top;
 }
-
-table.vxx44v_cookie,
-table.vxx44v_wpuser,
-table.vxx44v_formsent,
-table.v44v_new tbody,
-table.v44v_name .row2,
-table.v44v_name .row3,
-table.v44v_name .row4,
-table.v44v_name .row5,
-table.v44v_name .row6,
-table.v44v_name .row7,
-table.v44v_name .row8,
-table.v44v_email .row2,
-table.v44v_email .row3,
-table.v44v_email .row4,
-table.v44v_email .row5,
-table.v44v_email .row6,
-table.v44v_email .row7,
-table.v44v_email .row8,
-table.v44v_submit .row2,
-table.v44v_submit .row3,
-table.v44v_submit .row4,
-table.v44v_submit .row5,
-table.v44v_submit .row6,
-table.v44v_submit .row7,
-table.v44v_submit .row8,
-table.v44v_textarea .row2,
-table.v44v_textarea .row3,
-table.v44v_textarea .row4,
-table.v44v_textarea .row5,
-table.v44v_textarea .row6,
-table.v44v_textarea .row7,
-table.v44v_textarea .row8,
-table.v44v_poll_question .row2,
-table.v44v_poll_question .row4,
-table.v44v_poll_question .row5,
-table.v44v_poll_question .row6,
-table.v44v_poll_question .row7,
-table.v44v_poll_question .row8,
-table.v44v_quiz_question .row2,
-table.v44v_quiz_question .row5,
-table.v44v_quiz_question .row6,
-table.v44v_quiz_question .row7,
-table.v44v_quiz_question .row8,
-table.v44v_text .row2,
-table.v44v_text .row4,
-table.v44v_text .row5,
-table.v44v_text .row6,
-table.v44v_text .row7,
-table.v44v_text .row8,
-table.v44v_link .row2,
-table.v44v_link .row3,
-table.v44v_link .row4,
-table.v44v_link .row5,
-table.v44v_link .row6,
-table.v44v_link .row7,
-table.v44v_link .row8,
-table.v44v_radio .row2,
-table.v44v_radio .row3,
-table.v44v_radio .row4,
-table.v44v_radio .row5,
-table.v44v_radio .row6,
-table.v44v_radio .row7,
-table.v44v_radio .row8,
-table.v44v_cc .row2,
-table.v44v_cc .row3,
-table.v44v_cc .row4,
-table.v44v_cc .row5,
-table.v44v_cc .row6,
-table.v44v_cc .row7,
-table.v44v_cc .row8,
-table.v44v_checkbox .row2,
-table.v44v_checkbox .row4,
-table.v44v_checkbox .row5,
-table.v44v_checkbox .row6,
-table.v44v_checkbox .row7,
-table.v44v_checkbox .row8,
-table.v44v_number_captcha .row2,
-table.v44v_number_captcha .row3,
-table.v44v_number_captcha .row4,
-table.v44v_number_captcha .row5,
-table.v44v_number_captcha .row6,
-table.v44v_number_captcha .row7,
-table.v44v_number_captcha .row8,
-table.v44v_recaptcha .row1,
-table.v44v_recaptcha .row2,
-table.v44v_recaptcha .row3,
-table.v44v_recaptcha .row4,
-table.v44v_recaptcha .row5,
-table.v44v_recaptcha .row6,
-table.v44v_recaptcha .row7,
-table.v44v_recaptcha .row8
+table.v45v_dummy
 {
-	display:none;
+	border:none;
+	padding:0;
+	margin:0;
 }
-.v44v_form ul:first-child caption
-{
-	background-color: red;
-}
-.v44v th ul.subsubsub
+ul.v45v_field_definitions,
+ul.v45v_field_definitions li,
+ul.v45v_field_definitions table
 {
 	margin:0;
+	padding:0;
+}
+.v45v_show_hide .subsubsub
+{
+	margin:0;
+	padding:0;
+	font-size:.8em;
+}
+.v45v_body
+{
+	padding-right:29em;
+}
+.v45v_body .v45v_inner
+{
+	padding:0;
+}
+.v45v_sidebar
+{
+	position: absolute;
+	top:71px;
+	right:20px;
+	width:28em;
+}
+v45v_field_definitions td ul.subsubsub,
+v45v_field_definitions td li
+{
+	margin:0!important;
+	padding:0!important;
+}
+.v45v label.disabled
+{
+	color:gray;
+}
+.v45v_sidebar table.v45v_general .col1
+{
+	width:100px;
+}
+
+.v45v th ul.subsubsub
+{
+	margin:0;
+}
+.v45v input.shortcode
+{
+	border:none;
+	background-color:transparent;
+}
+.v45v table .type
+{
+	background-color:#dddddd;
+}
+.v45v table.middle
+{
+	border-bottom:none;
+	margin-bottom:1em;
+}
+.v45v table.top
+{
+	border:none;
+}
+.v45v_show_hide .subsubsub
+{
+	display:none;
 }

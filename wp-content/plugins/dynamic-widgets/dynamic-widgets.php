@@ -4,9 +4,9 @@
  * Plugin URI: http://www.qurl.nl/dynamic-widgets/
  * Description: Dynamic Widgets gives you full control on which pages your widgets will appear. It lets you dynamicly show or hide widgets on WordPress pages.
  * Author: Qurl
- * Version: 1.4.2
+ * Version: 1.5.0
  * Author URI: http://www.qurl.nl/
- * Tags: widget, widgets, dynamic, sidebar, custom, rules, logic, admin, condition, conditional tags, wpml, qtranslate, wpec, buddypress
+ * Tags: widget, widgets, dynamic, sidebar, custom, rules, logic, admin, condition, conditional tags, hide, show, wpml, qtranslate, wpec, buddypress, pods
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,37 +15,44 @@
  *
  * Released under the GPL v.2, http://www.gnu.org/copyleft/gpl.html
  *
- * @version $Id: dynamic-widgets.php 432832 2011-09-03 10:41:24Z qurl $
+ * @version $Id: dynamic-widgets.php 488903 2012-01-12 18:17:27Z qurl $
  * @copyright 2011 Jacco Drabbe
  *
  * Thanks to Alexis Nomine for the contribution of the French (fr_FR) language files, several L10N fixes and change of the edit options UI.
  * Thanks to Daniel Bihler for the contribution of the German (de_DE) language files.
  * Thanks to Eduardo Larequi for the contribution of the Spanish (es_ES) language files and several L10N fixes.
+ * Thanks to Hanolex for the contribution of the Chinese (Simplified) (zh_CN) language files.
+ * Thanks to Liudas Ališauskas for the contribution of the Lithuanian (lt_LT) language files.
  *
  * WPML Plugin support via API
- * Using constants	ICL_PLUGIN_PATH > dynwid_admin_edit.php, mods/wpml_module.php, dynwid_init_worker.php, dynwid_worker.php
- * Using functions  wpml_get_default_language() > dynwid_init_worker.php
- *                  wpml_get_current_language() > dynwid_init_worker.php, dynwid_worker.php, plugin/wpml.php
- *                  wpml_get_content_translation() > plugin/wpml.php
+ * Using constants	ICL_PLUGIN_PATH > mods/wpml_module.php
+ * Using functions  wpml_get_default_language() > mods/wpml_module.php
+ *                  wpml_get_current_language() > mods/wpml_module.php
+ *                  wpml_get_content_translation() > mods/wpml_module.php
  * 									wpml_get_active_languages() > mods/wpml_module.php
  *
  * QTranslate Plugin support via API
- * Using constants 	QTRANS_INIT > dynwid_init_worker.php, dynwid_worker.php, mods/qtranslate_module.php
- * Using functions	qtrans_getLanguage() > dynwid_init_worker.php, dynwid_worker.php
- * Using WPOptions	qtranslate_default_language > dynwid_init_worker.php
- * 									qtranslate_enabled_languages > mods/qtranslate_module.php
+ * Using constants 	QTRANS_INIT > mods/qt_module.php
+ * Using functions	qtrans_getLanguage() > mods/qt_module.php
+ * Using WPOptions	qtranslate_default_language > mods/qt_module.php
+ * 									qtranslate_enabled_languages > mods/qt_module.php
  *
  * WPSC/WPEC Plugin support
- * Using constants	WPSC_TABLE_PRODUCT_CATEGORIES	> dynwid_admin_overview.php, plugin/wpsc.php
- * 									WPSC_VERSION > mods/wpec_module.php, dynwid_init_worker.php, plugin/wpsc.php
- * Using vars 			$wpsc_query > dynwid_init_worker.php, plugin/wpsc.php
+ * Using constants	WPSC_TABLE_PRODUCT_CATEGORIES	> dynwid_admin_overview.php
+ * 									WPSC_VERSION > mods/wpsc_module.php
+ * Using vars 			$wpsc_query > mods/wpsc_module.php
  *
  * BP Plugin support
- * Using constants	BP_VERSION > mods/bp_module, dynwid_init_worker.php
- * User vars				$bp > dynwid_init_worker.php, plugin/bp.php
+ * Using constants	BP_VERSION > mods/bp_module.php
+ * User vars				$bp > mods/bp_module.php
+ *
+ * Pods Plugin support
+ * Using constants 	PODS_VERSION_FULL > mods/pods_module.php
+ * Using vars				$pod_page_exists > mods/pods_module.php, dynwid_worker.php
 **/
 
   // Constants
+  define('DW_CLASSES', dirname(__FILE__) . '/' . 'classes/');
   define('DW_DEBUG', FALSE);
   define('DW_DB_TABLE', 'dynamic_widgets');
   define('DW_L10N_DOMAIN', 'dynamic-widgets');
@@ -53,22 +60,21 @@
   define('DW_LIST_STYLE', 'style="overflow:auto;height:240px;"');
   define('DW_OLD_METHOD', get_option('dynwid_old_method'));
   define('DW_PAGE_LIMIT', get_option('dynwid_page_limit', 500));
+  define('DW_MINIMUM_PHP', '5.1.0');
+  define('DW_MINIMUM_WP', '3.0');
   define('DW_MODULES', dirname(__FILE__) . '/' . 'mods/');
   define('DW_PLUGIN', dirname(__FILE__) . '/' . 'plugin/');
   define('DW_TIME_LIMIT', 86400);				// 1 day
   define('DW_URL', 'http://www.qurl.nl');
-  define('DW_VERSION', '1.4.2');
+  define('DW_VERSION', '1.5.0');
   define('DW_VERSION_URL_CHECK', DW_URL . '/wp-content/uploads/php/dw_version.php?v=' . DW_VERSION . '&n=');
 	define('DW_WPML_API', '/inc/wpml-api.php');			// WPML Plugin support - API file relative to ICL_PLUGIN_PATH
 	define('DW_WPML_ICON', 'img/wpml_icon.png');	// WPML Plugin support - WPML icon
 
-	// Class version to use
-  if ( version_compare(PHP_VERSION, '5.0.0', '<') ) {
-    define('DW_CLASSFILE', 'dynwid_class_php4.php');
-  } else {
-    define('DW_CLASSFILE', 'dynwid_class.php');
+	// Classes - only PHP5
+  if ( version_compare(PHP_VERSION, DW_MINIMUM_PHP, '>=') ) {
+  	 require_once(dirname(__FILE__) . '/dynwid_class.php');
   }
-  require_once(dirname(__FILE__) . '/' . DW_CLASSFILE);
 
   // Functions
 	/**
@@ -128,7 +134,31 @@
 					$wpdb->query($query);
 				}
 			}
-		}
+
+/*    1.5b3 > Added support for widget display setting options for Tag Pages.
+   		Need to apply archive rule to tag also to keep same behavior. */
+			if ( version_compare($version, '1.5b3', '<') ) {
+				$query = "SELECT widget_id FROM " . $dbtable . " WHERE maintype = 'archive'";
+				$results = $wpdb->get_results($query);
+				foreach ( $results as $myrow ) {
+					$query = "INSERT INTO " . $dbtable . "(widget_id, maintype, value) VALUES ('" . $myrow->widget_id . "', 'tag', '0')";
+					$wpdb->query($query);
+				}
+			}
+			
+/*		1.5b10 > Added exclusion rule for first posts page by moving the static posts page out of pages
+			Need to apply the setting of the static posts page to posts page (type 'front-page') to keep same behavior. */
+/*			if ( version_compare($version, '1.5b10', '<') ) {
+				if ( get_option('show_on_front') == 'page' ) {
+					$id = get_option('page_for_posts');
+					$query = "SELECT widget_id"; // get the widget_id(s) which have option set for posts page
+					// get the widget_id(s) which have default option set for pages
+					// do an array_intersect for combination
+					// apply default option to posts page
+					// apply exception to posts page and check default
+				}
+			} */
+		} 
 		update_option('dynwid_version', DW_VERSION);
 	}
 
@@ -301,6 +331,10 @@
   function dynwid_add_widget_control() {
     $DW = &$GLOBALS['DW'];
 
+  	// Loading the options strings from the modules
+  	$DW->loadModules();
+  	$DW->getModuleName();
+
     /*
       Hooking into the callback of the widgets by moving the existing callback to wp_callback
       and setting callback with own callback function.
@@ -336,6 +370,25 @@
     if ( isset($_GET['dynwid_save']) && $_GET['dynwid_save'] == 'yes' ) {
       add_action('sidebar_admin_page', 'dynwid_add_widget_page');
     }
+
+  	// Saving state of hide title checkbox -> maybe use filter "widget_update_callback"
+  	/* if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+  		$dw_hide_title = get_option('dw_hide_title');
+  		if ( $dw_hide_title === FALSE ) {
+  			$dw_hide_title = array();
+  		}
+  		$widget_id = $_POST['widget-id'];
+
+  		$var = 'dw_hide_title_' . $widget_id;
+  		if ( isset($_POST[$var])  && $_POST[$var] == 'on' && ! in_array($widget_id, $dw_hide_title) ) {
+  			$dw_hide_title[ ] = $widget_id;
+  		} else if (! isset($_POST[$var]) && in_array($widget_id, $dw_hide_title) ) {
+  			$key = array_search($widget_id, $dw_hide_title);
+  			unset($dw_hide_title[$key]);
+  		}
+
+  		update_option('dw_hide_title', $dw_hide_title);
+  	} */
   }
 
   /**
@@ -349,8 +402,7 @@
 		$lead = __('Dynamic Widgets Options saved', DW_L10N_DOMAIN);
   	$msg = __('for', DW_L10N_DOMAIN) . ' ' .  $name;
 
-		$mbox = new DWMessageBox();
-  	$mbox->create($lead, $msg);
+  	DWMessageBox::create($lead, $msg);
   }
 
   /**
@@ -449,6 +501,32 @@
   }
 
   /**
+   * dynwid_disabled_page() Error boxes to show in admin when DW can not be initialised due to not meeting sysreq.
+   * @since 1.5b1
+   *
+   */
+  function dynwid_disabled_page() {
+  	// As the DWMessagebox class is not loaded, we can not use it
+  	$php = version_compare(PHP_VERSION, DW_MINIMUM_PHP, '>=');
+  	$wp = version_compare($GLOBALS['wp_version'], DW_MINIMUM_WP, '>=');
+
+  	if (! $php ) {
+  		echo '<div class="error" id="message"><p>';
+  		_e('<b>ERROR</b> Your host is running a too low version of PHP. Dynamic Widgets needs at least version', DW_L10N_DOMAIN);
+  		echo ' ' . DW_MINIMUM_PHP . '.';
+  		echo '<br />See <a href="' . DW_URL . '/question/my-hoster-is-still-using-php4-so-what/">this page</a> why.';
+  		echo '</p></div>';
+  	}
+
+  	if (! $wp ) {
+  		echo '<div class="error" id="message"><p>';
+  		_e('<b>ERROR</b> Your host is running a too low version of WordPress. Dynamic Widgets needs at least version', DW_L10N_DOMAIN);
+  		echo ' ' . DW_MINIMUM_WP . '.';
+  		echo '</p></div>';
+  	}
+  }
+
+  /**
    * dynwid_filter_init() Init of the worker
    * @since 1.3.5
    */
@@ -477,30 +555,39 @@
    * @since 1.0
    */
   function dynwid_init() {
-    $GLOBALS['DW'] = new dynWid();
-  	$DW = &$GLOBALS['DW'];
+  	$php = version_compare(PHP_VERSION, DW_MINIMUM_PHP, '>=');
+  	$wp = version_compare($GLOBALS['wp_version'], DW_MINIMUM_WP, '>=');
 
-  	if ( is_admin() ) {
-  	  if ( isset($_POST['dynwid_save']) && $_POST['dynwid_save'] == 'yes' ) {
-  	    require_once(dirname(__FILE__) . '/dynwid_admin_save.php');
-  	  }
+  	if ( $php && $wp ) {
+  		$GLOBALS['DW'] = new dynWid();
+  		$DW = &$GLOBALS['DW'];
+  		$DW->plugin_url = WP_PLUGIN_URL . '/' . str_replace( basename(__FILE__), '', plugin_basename(__FILE__) );
 
-  		load_plugin_textdomain(DW_L10N_DOMAIN, FALSE, dirname(plugin_basename(__FILE__)) . '/locale');
+  		if ( is_admin() ) {
+  			if ( isset($_POST['dynwid_save']) && $_POST['dynwid_save'] == 'yes' ) {
+  				require_once(dirname(__FILE__) . '/dynwid_admin_save.php');
+  			}
 
-			add_action('admin_menu', 'dynwid_add_admin_menu');
-  		if ( $DW->enabled ) {
-  			add_action('edit_tag_form_fields', 'dynwid_add_tag_page');
-  			add_action('edited_term', 'dynwid_save_tagdata');
-  			add_action('in_plugin_update_message-' . plugin_basename(__FILE__), 'dynwid_check_version', 10, 2);
-  			add_action('plugin_action_links_' . plugin_basename(__FILE__), 'dynwid_add_plugin_actions');
-  			add_action('save_post', 'dynwid_save_postdata');
-  			add_action('sidebar_admin_setup', 'dynwid_add_widget_control');
+  			load_plugin_textdomain(DW_L10N_DOMAIN, FALSE, dirname(plugin_basename(__FILE__)) . '/locale');
+  			add_action('admin_menu', 'dynwid_add_admin_menu');
+
+  			if ( $DW->enabled ) {
+  				add_action('edit_tag_form_fields', 'dynwid_add_tag_page');
+  				add_action('edited_term', 'dynwid_save_tagdata');
+  				add_action('in_plugin_update_message-' . plugin_basename(__FILE__), 'dynwid_check_version', 10, 2);
+  				add_action('plugin_action_links_' . plugin_basename(__FILE__), 'dynwid_add_plugin_actions');
+  				add_action('save_post', 'dynwid_save_postdata');
+  				add_action('sidebar_admin_setup', 'dynwid_add_widget_control');
+  			}
+  		} else {
+  			if ( $DW->enabled ) {
+  				add_action('wp_head', 'dynwid_filter_widgets');
+  			}
   		}
-		} else {
-			if ( $DW->enabled ) {
-				add_action('wp_head', 'dynwid_filter_widgets');
-			}
-		}
+  	} else {
+  		// Show errors in the admin page
+  		add_submenu_page('themes.php', __('Dynamic Widgets', DW_L10N_DOMAIN), __('Dynamic Widgets', DW_L10N_DOMAIN), 'edit_theme_options', 'dynwid-config', 'dynwid_disabled_page');
+  	}
   }
 
 	/**
@@ -663,10 +750,18 @@
 	  $widget_id = $args[0]['widget_id'];
 	  $wp_callback = $DW->registered_widget_controls[$widget_id]['wp_callback'];
 
+		// Hide title option
+/*		$dw_hide_title = get_option('dw_hide_title');
+		$checked = FALSE;
+		if ( in_array($widget_id, $dw_hide_title) ) {
+			$checked = TRUE;
+		} */
+
 	  // Calling original callback first
     call_user_func_array($wp_callback, $args);
 
 	  // Now adding the dynwid text & link
+		// echo '<p><input id="dw_hide_title_' . str_replace('-', '_', $widget_id) . '" type="checkbox" name="dw_hide_title_' . $widget_id . '" ' . ( ($checked ? ' checked="checked"' : '' ) ) . ' /> <label for="dw_hide_title_' . str_replace('-', '_', $widget_id) . '">Hide the title</label></p>';
 	  echo '<p>' . __('Dynamic Widgets', DW_L10N_DOMAIN) . ': ';
 		echo '<a style="text-decoration:none;" title="' . __('Edit Dynamic Widgets Options', DW_L10N_DOMAIN) . '" href="themes.php?page=dynwid-config&action=edit&id=' . $widget_id . '&returnurl=widgets.php' . '">';
 		echo ( $DW->hasOptions($widget_id) ) ? __('Dynamic', DW_L10N_DOMAIN) : __('Static', DW_L10N_DOMAIN);
@@ -688,6 +783,7 @@
 	    }
 
 	    $last = count($s) - 1;
+	    $string = '';
 	    for ( $i = 0; $i < $last; $i++ ) {
 	      $type = $s[$i];
 	      if (! empty($DW->dwoptions[$type]) ) {
@@ -726,9 +822,6 @@
 				}
 			}
 		} else {
-			if ( $DW->wpsc ) {
-				$wpsc_query = &$GLOBALS['wpsc_query'];
-			}
 			require(dirname(__FILE__) . '/dynwid_worker.php');
 		}
 

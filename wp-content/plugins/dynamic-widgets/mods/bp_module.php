@@ -3,82 +3,183 @@
  * BP module
  * http://buddypress.org/
  *
- * @version $Id: bp_module.php 403464 2011-07-01 20:30:55Z qurl $
+ * @version $Id: bp_module.php 452610 2011-10-18 19:44:46Z qurl $
  * @copyright 2011 Jacco Drabbe
  */
 
-	if ( defined('BP_VERSION') ) {
-		$DW->bp = TRUE;
-		require_once(DW_PLUGIN . 'bp.php');
+	class DW_BP extends DWModule {
+		protected static $except = 'Except on the components pages';
+		public static $option = array( 'bp'	=> 'BuddyPress', 'bp-group'	=> 'BuddyPress Groups' );
+		public static $plugin = array( 'bp' => FALSE, 'bp_groups' => FALSE );
+		protected static $question = 'Show widget default on BuddyPress pages?';
+		protected static $type = 'complex';
 
-		$opt_bp = $DW->getDWOpt($_GET['id'], 'bp');
-		$bp_components = dw_get_bp_components();
-		if ( count($bp_components) > DW_LIST_LIMIT ) {
-			$bp_condition_select_style = DW_LIST_STYLE;
+		public static function admin() {
+			$DW = &$GLOBALS['DW'];
+
+			parent::admin();
+
+			if ( self::detect() ) {
+				$list = self::getBPcomponents();
+
+				// BP components
+				self::mkGUI(self::$type, self::$option['bp'], self::$question, self::$info, self::$except, $list, 'bp');
+
+				// BP Groups
+				if ( $DW->bp_groups ) {
+					self::$question = 'Show widget default on BuddyPress Group pages?';
+					self::GUIHeader(self::$option['bp-group'], self::$question, NULL, NULL, $DW->getDWOpt($_GET['id'], 'bp-group'));
+					self::GUIOption('bp-group', $DW->getDWOpt($_GET['id'], 'bp-group'));
+
+					echo '<table border="0" cellspacing="0" cellpadding="0">';
+					echo '<tr><td valign="top">';
+
+					self::$except = 'Except in the groups';
+					$list = self::getBPgroups();
+					self::GUIComplex(self::$except, $list, NULL, 'bp-group');
+
+					echo '</td><td style="width:10px"></td><td valign="top">';
+
+					self::$except = 'Except in the group pages';
+					$list = array(
+										'forum_index' 	=> __('Forum Index', DW_L10N_DOMAIN),
+										'forum_topic' 	=> __('Forum Topics', DW_L10N_DOMAIN),
+										'members_index'	=> __('Members Index', DW_L10N_DOMAIN)
+									);
+					self::GUIComplex(self::$except, $list, NULL, 'bp_group');
+
+					echo '</td></tr></table>';
+					self::GUIFooter();
+				}
+			}
 		}
-		unset($tmp);
-?>
 
-<h4><b><?php _e('BuddyPress', DW_L10N_DOMAIN); ?></b><?php echo ( $opt_bp->count > 0 ) ? ' <img src="' . $DW->plugin_url . 'img/checkmark.gif" alt="Checkmark" />' : ''; ?></h4>
-<div class="dynwid_conf">
-<?php _e('Show widget default on BuddyPress pages?', DW_L10N_DOMAIN); ?><br />
-<?php $DW->dumpOpt($opt_bp); ?>
-<input type="radio" name="bp" value="yes" id="bp-yes" <?php echo ( $opt_bp->selectYes() ) ? $opt_bp->checked : ''; ?> /> <label for="bp-yes"><?php _e('Yes'); ?></label>
-<input type="radio" name="bp" value="no" id="bp-no" <?php echo ( $opt_bp->selectNo() ) ? $opt_bp->checked : ''; ?> /> <label for="bp-no"><?php _e('No'); ?></label><br />
-<?php _e('Except on the components pages', DW_L10N_DOMAIN); ?>:<br />
-<div id="bp-select" class="condition-select" <?php echo ( isset($bp_condition_select_style) ) ? $bp_condition_select_style : ''; ?>>
-<?php foreach ( $bp_components as $id => $component ) { ?>
-<input type="checkbox" id="bp_act_<?php echo $id; ?>" name="bp_act[]" value="<?php echo $id; ?>" <?php echo ( $opt_bp->count > 0 && in_array($id, $opt_bp->act) ) ? 'checked="checked"' : ''; ?> /> <label for="bp_act_<?php echo $id; ?>"><?php echo $component; ?></label><br />
-<?php } ?>
-</div>
-</div><!-- end dynwid_conf -->
+		public static function detect($update = TRUE) {
+			$DW = &$GLOBALS['DW'];
+			$DW->bp = FALSE;
 
-<!-- BuddyPress Groups //-->
-<?php
-		if ( $DW->bp_groups ) {
-			$opt_bp_group = $DW->getDWOpt($_GET['id'], 'bp-group');
+			if ( defined('BP_VERSION') ) {
+				if ( $update ) {
+					$DW->bp = TRUE;
+				}
+				return TRUE;
+			}
+			return FALSE;
+		}
 
-			$bp_groups = dw_get_bp_groups();
-			if ( count($bp_groups) > DW_LIST_LIMIT ) {
-				$bp_group_condition_select_style = DW_LIST_STYLE;
+		public static function detectComponent() {
+			$bp = &$GLOBALS['bp'];
+			$DW = &$GLOBALS['DW'];
+
+			if ( self::detect(FALSE) ) {
+				/*
+				   Array of BP components needed as a workaround for certain themes claiming an invalid BP component,
+				   confusing DW by detecting BP, when it should be Page.
+				*/
+				$components = self::getBPcomponents(FALSE);
+				$bp_components = array_keys($components);
+
+				if (! empty($bp->current_component) && in_array($bp->current_component, $bp_components) ) {
+					if ( $bp->current_component == 'groups' && ! empty($bp->current_item) ) {
+						$DW->bp_groups = TRUE;
+						$DW->whereami = 'bp-group';
+						$DW->message('BP detected, component: ' . $bp->current_component . '; Group: ' . $bp->current_item . ', Page changed to bp-group');
+					} else {
+						$DW->bp = TRUE;
+						$DW->whereami = 'bp';
+						$DW->message('BP detected, component: ' . $bp->current_component . ', Page changed to bp');
+					}
+				}
+			}
+		}
+
+		protected static function getBPcomponents($update = TRUE) {
+			$bp = &$GLOBALS['bp'];
+			$DW = &$GLOBALS['DW'];
+			$components = array();
+
+			foreach ( $bp->active_components as $key => $value ) {
+				if ( version_compare(BP_VERSION, '1.5', '<') ) {
+					$c = &$value;
+				} else {
+					$c = &$key;
+				}
+				
+				if ( $c == 'groups' ) {
+					$components[$c] = ucfirst($c) . ' (only main page)';
+					$DW->bp_groups = TRUE;
+				} else {
+					$components[$c] = ucfirst($c);
+				}
 			}
 
-			$bp_group_pages = array(
-				'forum_index' 	=> __('Forum Index', DW_L10N_DOMAIN),
-				'forum_topic' 	=> __('Forum Topics', DW_L10N_DOMAIN),
-				'members_index'	=> __('Members Index', DW_L10N_DOMAIN)
-			);
-?>
-<h4><b><?php _e('BuddyPress Groups', DW_L10N_DOMAIN); ?></b><?php echo ( $opt_bp_group->count > 0 ) ? ' <img src="' . $DW->plugin_url . 'img/checkmark.gif" alt="Checkmark" />' : ''; ?></h4>
-<div class="dynwid_conf">
-<?php _e('Show widget default on BuddyPress Group pages?', DW_L10N_DOMAIN); ?><br />
-<?php $DW->dumpOpt($opt_bp_group); ?>
-<input type="radio" name="bp-group" value="yes" id="bp-group-yes" <?php echo ( $opt_bp_group->selectYes() ) ? $opt_bp_group->checked : ''; ?> /> <label for="bp-group-yes"><?php _e('Yes'); ?></label>
-<input type="radio" name="bp-group" value="no" id="bp-group-no" <?php echo ( $opt_bp_group->selectNo() ) ? $opt_bp_group->checked : ''; ?> /> <label for="bp-group-no"><?php _e('No'); ?></label><br />
-<table border="0" cellspacing="0" cellpadding="0">
-<tr>
-  <td valign="top">
-		<?php _e('Except in the groups', DW_L10N_DOMAIN); ?>:<br />
-		<div id="bp-group-select" class="condition-select" <?php echo ( isset($bp_group_condition_select_style) ) ? $bp_group_condition_select_style : ''; ?>>
-		<?php foreach ( $bp_groups as $id => $group ) { ?>
-		<input type="checkbox" id="bp_group_act_<?php echo $id; ?>" name="bp_group_act[]" value="<?php echo $id; ?>" <?php echo ( count($opt_bp_group->act) > 0 && in_array($id, $opt_bp_group->act) ) ? 'checked="checked"' : ''; ?> /> <label for="bp_group_act_<?php echo $id; ?>"><?php echo ucfirst($group); ?></label><br />
-		<?php	 } ?>
-		</div>
- </td>
-  <td style="width:10px"></td>
-  <td valign="top">
-		<?php _e('Except in the group pages', DW_L10N_DOMAIN); ?>:<br />
-		<div id="bp-group-select" class="condition-select" <?php echo ( isset($bp_group_condition_select_style) ) ? $bp_group_condition_select_style : ''; ?>>
-		<?php foreach ( $bp_group_pages as $id => $group_pages ) { ?>
-		<input type="checkbox" id="bp_group_act_<?php echo $id; ?>" name="bp_group_act[]" value="<?php echo $id; ?>" <?php echo ( count($opt_bp_group->act) > 0 && in_array($id, $opt_bp_group->act) ) ? 'checked="checked"' : ''; ?> /> <label for="bp_group_act_<?php echo $id; ?>"><?php echo $group_pages; ?></label><br />
-		<?php	 } ?>
-		</div>
-  </td>
-</tr>
-</table>
-</div><!-- end dynwid_conf -->
+			asort($components);
+			return $components;
+		}
 
-<?php
-		}	// end $DW->bp_groups
-	} // end $DW->bp;
+		protected static function getBPgroups() {
+			$bp = &$GLOBALS['bp'];
+			$wpdb = &$GLOBALS['wpdb'];
+
+			$groups = array();
+			$table = $bp->groups->table_name;
+			$fields = array('slug', 'name');
+			$query = "SELECT " . implode(', ', $fields) . " FROM " . $table . " ORDER BY name";
+			$results = $wpdb->get_results($query);
+
+			foreach ( $results as $myrow ) {
+				$groups[$myrow->slug] = $myrow->name;
+			}
+
+			return $groups;
+		}
+
+		public static function is_dw_bp_component($id) {
+			$bp = &$GLOBALS['bp'];
+
+			$component = $bp->current_component;
+			if ( in_array($component, $id) ) {
+				return TRUE;
+			}
+			return FALSE;
+		}
+
+		public static function is_dw_bp_group($id) {
+			$bp = &$GLOBALS['bp'];
+
+			$group = $bp->current_item;
+			
+			// Check if there is an hierarchy in the groups (Plugin: BP Group Hierarchy)
+			if ( strpos($group, '/') !== FALSE ) {
+				$group = substr( strrchr($group, '/'), 1 );
+			}
+			
+			if ( in_array($group, $id) ) {
+				return TRUE;
+			}
+			return FALSE;
+		}
+
+		public static function is_dw_bp_group_forum($id) {
+			$bp = &$GLOBALS['bp'];
+
+			if ( $bp->current_action == 'forum' ) {
+				if ( count($bp->action_variables) > 0 && in_array('forum_topic', $id) ) {
+					return TRUE;
+				} else if ( count($bp->action_variables) == 0 && in_array('forum_index', $id) ) {
+					return TRUE;
+				}
+			}
+			return FALSE;
+		}
+
+		public static function is_dw_bp_group_members($id) {
+			$bp = &$GLOBALS['bp'];
+
+			if ( $bp->current_action == 'members' && in_array('members_index', $id) ) {
+				return TRUE;
+			}
+			return FALSE;
+		}
+	}
 ?>

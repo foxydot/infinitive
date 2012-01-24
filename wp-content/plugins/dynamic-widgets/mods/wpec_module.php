@@ -3,39 +3,81 @@
  *	WPEC Module
  *  http://getshopped.org/
  *
- * @version $Id: wpec_module.php 422921 2011-08-13 14:34:41Z qurl $
+ * @version $Id: wpec_module.php 437634 2011-09-13 19:19:13Z qurl $
  * @copyright 2011 Jacco Drabbe
  */
 
-	if ( defined('WPSC_VERSION') && version_compare(WPSC_VERSION, '3.8', '<') ) {
-		$DW->wpsc = TRUE;
-		require_once(DW_PLUGIN . 'wpsc.php');
+	class DW_WPSC extends DWModule {
+		protected static $except = 'Except the categories';
+		public static $option = array( 'wpsc' => 'WPSC Category' );
+		public static $plugin = array( 'wpsc' => FALSE );
+		protected static $question = 'Show widget default on WPSC categories?';
+		protected static $type = 'complex';
 
-		$opt_wpsc = $DW->getDWOpt($_GET['id'], 'wpsc');
+		public static function admin() {
+			$DW = &$GLOBALS['DW'];
 
-		$wpsc = dw_wpsc_get_categories();
-		if ( count($wpsc) > DW_LIST_LIMIT ) {
-			$wpsc_condition_select_style = DW_LIST_STYLE;
+			parent::admin();
+
+			if ( self::detect() ) {
+				$list = self::getWPSCcategories();
+				self::mkGUI(self::$type, self::$option[self::$name],self::$question ,self::$info, self::$except, $lists);
+			}
 		}
 
-		if ( count($wpsc) > 0 ) {
-?>
-<h4><b><?php _e('WPSC Category', DW_L10N_DOMAIN); ?></b><?php echo ( $opt_wpsc->count > 0 ) ? ' <img src="' . $DW->plugin_url . 'img/checkmark.gif" alt="Checkmark" />' : ''; ?></h4>
-<div class="dynwid_conf">
-<?php _e('Show widget default on WPSC categories?', DW_L10N_DOMAIN); ?><br />
-<?php $DW->dumpOpt($opt_wpsc); ?>
-<input type="radio" name="wpsc" value="yes" id="wpsc-yes" <?php echo ( $opt_wpsc->selectYes() ) ? $opt_wpsc->checked : ''; ?> /> <label for="wpsc-yes"><?php _e('Yes'); ?></label>
-<input type="radio" name="wpsc" value="no" id="wpsc-no" <?php echo ( $opt_wpsc->selectNo() ) ? $opt_wpsc->checked : ''; ?> /> <label for="wpsc-no"><?php _e('No'); ?></label><br />
-<?php _e('Except the categories', DW_L10N_DOMAIN); ?>:<br />
-<div id="wpsc-select" class="condition-select" <?php echo ( isset($wpsc_condition_select_style) ) ? $wpsc_condition_select_style : ''; ?>>
-<?php
-	foreach ( $wpsc as $id => $cat ) {
-		echo '<input type="checkbox" id="wpsc_act_' . $id . '" name="wpsc_act[]" value="' . $id . '"' . ( $opt_wpsc->count > 0 && in_array($id, $opt_wpsc->act) ? 'checked="checked"' : ''  ) . ' /> <label for="wpsc_act_' . $id . '">' . $cat . '</label><br />';
+		public static function detect($update = TRUE) {
+			$DW = &$GLOBALS['DW'];
+			$DW->wpsc = FALSE;
+
+			if ( defined('WPSC_VERSION') && version_compare(WPSC_VERSION, '3.8', '<') ) {
+				if ( $update ) {
+					$DW->wpsc = TRUE;
+				}
+				return TRUE;
+			}
+			return FALSE;
+		}
+
+		public static function detectCategory() {
+			if ( self::detect(FALSE) ) {
+				$wpsc_query = &$GLOBALS['wpsc_query'];
+
+				if ( $wpsc_query->category > 0 ) {
+					$DW->wpsc = TRUE;
+					$DW->whereami = 'wpsc';
+					$DW->message('WPSC detected, page changed to ' . $DW->whereami . ', category: ' . $wpsc_query->category);
+				}
+			}
+		}
+
+		public static function getWPSCcategories() {
+			$wpdb = &$GLOBALS['wpdb'];
+
+			$categories = array();
+			$table = WPSC_TABLE_PRODUCT_CATEGORIES;
+			$fields = array('id', 'name');
+			$query = "SELECT " . implode(', ', $fields) . " FROM " . $table . " WHERE active = '1' ORDER BY name";
+			$results = $wpdb->get_results($query);
+
+			foreach ( $results as $myrow ) {
+				$categories[$myrow->id] = $myrow->name;
+			}
+
+			return $categories;
+		}
+
+		public static function is_dw_wpsc_category($id) {
+			$wpsc_query = &$GLOBALS['wpsc_query'];
+			$category = $wpsc_query->category;
+
+			if ( is_int($id) ) {
+				$id = array($id);
+			}
+
+			if ( in_array($category, $id) ) {
+				return TRUE;
+			}
+			return FALSE;
+		}
 	}
-?>
-</div>
-</div><!-- end dynwid_conf -->
-<?php
-		}
-	} // end DW->wpsc
 ?>

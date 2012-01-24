@@ -1,7 +1,22 @@
 <?php
-class bv44v_request extends bv44v_base {
-	public function is_post()
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
+class bv45v_request extends bv45v_base {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
+	public function is_post($form=null)
 	{
-		return ($_SERVER ['REQUEST_METHOD'] == 'POST');
+		$return = false;
+		if ($_SERVER ['REQUEST_METHOD'] == 'POST')
+		{
+			$return = true;
+			if(null!==$form)
+			{
+				$return = isset($_POST['submit'][$this->application()->slug][$form]);
+			}
+		}
+		return $return;
 	}
 }

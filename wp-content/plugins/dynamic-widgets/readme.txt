@@ -1,16 +1,18 @@
 === Plugin Name ===
 Contributors: Qurl
 Donate link:
-Tags: widget, widgets, dynamic, sidebar, custom, rules, logic, admin, condition, conditional tags, hide, wpml, qtranslate, wpec, buddypress
-Requires at least: 2.9.1
-Tested up to: 3.2.1
-Stable tag: 1.4.2
+Tags: widget, widgets, dynamic, sidebar, custom, rules, logic, admin, condition, conditional tags, hide, show, wpml, qtranslate, wpec, buddypress, pods, bbpress
+Requires at least: 3.0.0
+Tested up to: 3.3.1
+Stable tag: 1.5.0
 
 Dynamic Widgets gives you full control on which pages your widgets will appear. It lets you dynamicly show or hide widgets on WordPress pages.
 
 == Description ==
 
-Dynamic Widgets gives you full control on which pages your widgets will appear. It lets you dynamically hide or show widgets on WordPress pages by setting conditional logic rules with just a few mouse clicks. No knowledge of PHP required. No fiddling around with conditional tags. You can set conditional rules by Role, Dates, Browser, Language (WPML or QTranslate), for the Homepage, Single Posts, Attachments, Pages, Authors, Categories, Archives, Error Page, Search Page, Custom Post Types, Custom Post Type Archives, Custom Taxonomies in Custom Post Types, Custom Taxonomies Archives, WPEC/WPSC Categories, BuddyPress Components and BuddyPress Groups.
+Dynamic Widgets gives you full control on which pages your widgets will appear. It lets you dynamically show or hide widgets on WordPress pages by setting conditional logic rules with just a few mouse clicks. No knowledge of PHP required. No fiddling around with conditional tags. You can set conditional rules by Role, Dates, Browser, Language (WPML or QTranslate), for the Homepage, Single Posts, Attachments, Pages, Authors, Categories, Tags, Archives, Error Page, Search Page, Custom Post Types, Custom Post Type Archives, Custom Taxonomies in Custom Post Types, Custom Taxonomies Archives, WPEC/WPSC Categories, BuddyPress Components, BuddyPress Groups, Pods pages and bbPress.
+
+For the latest news about Dynamic Widgets visit [my website](http://www.qurl.nl/).
 
 * Default widget display setting is supported for:
   - User roles
@@ -24,6 +26,7 @@ Dynamic Widgets gives you full control on which pages your widgets will appear. 
   - Pages
   - Author pages
   - Category pages
+  - Tag pages
   - Archive pages
   - Error Page
   - Search Page
@@ -33,6 +36,8 @@ Dynamic Widgets gives you full control on which pages your widgets will appear. 
   - WP Shopping Cart / WP E-Commerce Categories
   - BuddyPress Components pages
   - BuddyPress Groups
+  - Pods pages
+  - bbPress User Profile pages
 
 * Exception rules can be created for:
   - User roles on role, including not logged in (anonymous) users
@@ -40,26 +45,34 @@ Dynamic Widgets gives you full control on which pages your widgets will appear. 
   - Browsers on browser name
   - Theme Templates on template name
   - Languages (WPML or QTranslate) on language
-  - Single post pages on Author, Categories, Tags and/or Individual posts
+  - Front page on first page
+  - Single post pages on Author, Categories (including inheritance from hierarchical parents), Tags and/or Individual posts
   - Pages on Page Title, including inheritance from hierarchical parents
   - Author pages on Author
-  - Category pages on Category name
+  - Category pages on Category name, including inheritance from hierarchical parents
+  - Tag pages on Tag
   - Custom Posts Type on Custom Taxonomy and Custom Post Name, including inheritance from hierarchical parents
   - Custom Post Type Archive pages on Custom Post Type
   - Custom Taxonomy Archive pages on Custom Taxonomy Name, including inheritance from hierarchical parents
   - WP Shopping Cart / WP E-Commerce Categories on Category name
   - BuddyPress Component pages on Component
-  - BuddyPress Groups on Group or Component
+  - BuddyPress Groups on Group, including hierarchical Groups provided by BP Group Hierarchy or Component
+  - Pods pages on page
 
 * Plugin support for:
+	- bbPress
 	- BuddyPress
+	- BuddyPress Group Hierarchy
 	- QTranslate
+	- Pods
   - WP MultiLingual (WPML)
   - WP Shopping Cart / WP E-Commerce (WPSC / WPEC)
 
 * Language files provided:
+	- Chinese (Simplified) (zh_CN) by Hanolex
 	- French (fr_FR) by Alexis Nomine
 	- German (de_DE) by Daniel Bihler
+	- Lithuanian (lt_LT) by Liudas Ališauskas
 	- Spanish (es_ES) by Eduardo Larequi
 
 == Installation ==
@@ -81,11 +94,11 @@ For the latest FAQ, please visit the [online FAQ](http://www.qurl.nl/dynamic-wid
 1. A properly working WordPress site (doh!).
 2. Your theme must have at least one dynamic sidebar.
 3. Your theme must call `wp_head()`.
-4. PHP5 is highly recommended. Read on if your host uses PHP4.
+4. PHP5, PHP 5.3 is highly recommended.
 
-= My hoster is (still) using PHP4, so what? =
+= My hoster is (still) using PHP4 =
 
-Start immediately looking for another hoster. YES, immediately! NOW! Pronto!  Starting with version 1.5 of Dynamic Widgets PHP4 will not be NOT SUPPORTED anymore.
+Sorry, Dynamic Widgets is not compatible with PHP4. Look for another hosting company. The one you're having now don't deserve your money.
 
 = I'm not sure my theme is calling `wp_head()`. Can I check? =
 
@@ -147,6 +160,27 @@ Please check the [Issue Tracker](http://www.qurl.nl/dynamic-widgets/issue-tracke
 
 == Changelog ==
 
+= Version 1.5.0bx =
+
+* Added Pods plugin support.
+* Added Tag Archive Pages support.
+* Added hierarchical inheritance for Categories.
+* Added workaround to detect correct template when using Pods.
+* Added negative exceptions for Role.
+* Added an "Only on first page" exception for Front Page.
+* Added support for BP Group Hierarchy.
+* Added support for bbPress User Profile pages.
+* Added Chinese (Simplified) language files (locale: zh_CN) - xie xie Hanolex!
+* Added Lithuanian language files (locale: lt_LT) - dekoju Liudas! 
+* Added a "Save & Return" button to the widget options page.
+* Bugfix for subscribers show up in the author lists in WP > 3.1.
+* Bugfix for Taxonomies in Custom Post Types are not always saved.
+* Bugfix for Custom Posts box is sometimes empty.
+* Fixed several PHP notices about undefined variables.
+* Removed support for individual Custom Posts.
+* Removed PHP4 support, minimum PHP version is now 5.1.0.
+* Removed WP < 3.0 support. Minimum WordPress version is now 3.0.
+
 = Version 1.4.2 =
 
 * Added QTranslate support.
@@ -176,7 +210,7 @@ Please check the [Issue Tracker](http://www.qurl.nl/dynamic-widgets/issue-tracke
 * Bugfix for not correct displaying of options string in the widget admin when having options set for Custom Post Type Archives, BuddyPress, BuddyPress Groups.
 * Bugfix for losing exception rules for single posts and tags in rare cases.
 * Bugfix for showing empty Custom Post Type Archives option in settings screen.
-* Bugfix for unexptected behaviour when setting BP groups default to 'No'.
+* Bugfix for unexpected behaviour when setting BP groups default to 'No'.
 * Bugfix for only showing the last Custom Posts in the list.
 * Limited the list of authors to users with user level > 0. (WP 3.1 and higher)
 * Security fix in the usage of the returnURL.
@@ -306,15 +340,12 @@ Please check the [Issue Tracker](http://www.qurl.nl/dynamic-widgets/issue-tracke
 
 == Release notes ==
 
-WPEC 3.8 or higher user: Please note due to the use of Custom Posts and Custom Taxonomies, the 'WPEC Categories" section has been removed in Dynamic Widgets and replaced by "Categories (Products)". Copy over the settings you have in "WPEC Categories" to "Custom Taxonomy Archives: Categories" before updating to 1.4.2.
-
-Change of requirements: The 1.4 branch of Dynamic Widgets will be the last branch to support WordPress < 3.0 and -Yes, it's really going to happen- also the last for PHP4. This 1.4.2 version will probably be the last in this branch. So, when you're still on a WordPress version lower than 3.0 you should really consider upgrading. When you see in the footer of the Dynamic Widgets pages after the version number "PHP4" you're going to be in big trouble when you don't take any action.
+Change of requirements: PHP 5.1.0 or higher and WordPress 3.0 or higher. This version has 7 features added and 3 bugs fixed.
 
 == Upgrade Notice ==
 
-= 1.4.2 =
-This version has 3 features added and 5 bugs fixed.
-WPEC 3.8 or higher user: Please read the release notes before upgrading.
+= 1.5.0 =
+Change of requirements: PHP 5.1.0 or higher and WordPress 3.0 or higher. This version has 7 features added and 3 bugs fixed. When you upgrade manually, be sure to remove the whole dynamic-widgets directory. Do a fresh copy of this version. Some files have been renamed. Old files remaining might lead to unexpected behaviour.
 
 == Screenshots ==
 

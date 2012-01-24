@@ -1,7 +1,16 @@
 <?php
-class bv44v_fs extends bv44v_base {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
+class bv45v_fs extends bv45v_base {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private $dirHandle = null;
 	private $path = "";
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function path($path = null) {
 		if(null!==$path)
 		{
@@ -9,10 +18,15 @@ class bv44v_fs extends bv44v_base {
 		}
 		return $this->path;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private $dir = null;
 	const type_file = 1;
 	const type_directory = 2;
-	
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/	
 	public function fnmatch($pattern, $string) {
 		for($op = 0, $npattern = '', $n = 0, $l = strlen ( $pattern ); $n < $l; $n ++) {
 			switch ($c = $pattern [$n]) {
@@ -57,7 +71,9 @@ class bv44v_fs extends bv44v_base {
 			return false;
 		return preg_match ( '/' . $npattern . '/i', $string );
 	}
-	
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function dir($pattern = '*.*', $type = null, $recursionDepth = 0) {
 		if (is_null ( $type )) {
 			$type = self::type_directory + self::type_file;
@@ -95,19 +111,28 @@ class bv44v_fs extends bv44v_base {
 		}
 		return $return;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function relativeDir($pattern = '*.*', $type = null, $recursionDepth = 0) {
 		$dir = $this->dir ( $pattern, $type, $recursionDepth );
 		$start = strlen ( $this->path () ) + 1;
-		$return = new bv44v_Array ( );
+		$return = new bv45v_Array ( );
 		foreach ( ( array ) $dir as $item ) {
 			$return [] = substr ( $item, $start );
 		}
 		return $return;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function __construct(&$application, $path = null) {
 		parent::__construct ( $application );
 		$this->path = $path;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function openDir() {
 		if (is_dir ( $this->path () )) {
 			$this->dirHandle = opendir ( $this->path () );
@@ -116,6 +141,9 @@ class bv44v_fs extends bv44v_base {
 		}
 		return (! is_null ( $this->dirHandle ));
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function closeDir() {
 		if (! is_null ( $this->dirHandle )) {
 			closedir ( $this->dirHandle );

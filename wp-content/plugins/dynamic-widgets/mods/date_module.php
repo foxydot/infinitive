@@ -3,28 +3,39 @@
  * Date Module
  * Can't use DWOpts object because value = the actual date
  *
- * @version $Id: date_module.php 402236 2011-06-28 20:46:55Z qurl $
+ * @version $Id: date_module.php 437634 2011-09-13 19:19:13Z qurl $
  * @copyright 2011 Jacco Drabbe
  */
 
-	$date_yes_selected = 'checked="checked"';
-	$opt_date = $DW->getOpt($_GET['id'], 'date');
-	if ( count($opt_date) > 0 ) {
-		foreach ( $opt_date as $value ) {
-			switch ( $value->name ) {
-				case 'date_start':
-					$date_start = $value->value;
-					break;
+	class DW_Date extends DWModule {
+		public static $option = array( 'date' => 'Date' );
+		protected static $overrule = TRUE;
+		protected static $type = 'custom';
 
-				case 'date_end':
-					$date_end = $value->value;
-					break;
+		public static function admin() {
+			$DW = $GLOBALS['DW'];
+
+			parent::admin();
+
+			$date_yes_selected = 'checked="checked"';
+			$opt_date = $DW->getOpt($_GET['id'], 'date');
+
+			if ( count($opt_date) > 0 ) {
+				foreach ( $opt_date as $value ) {
+					switch ( $value->name ) {
+						case 'date_start':
+							$date_start = $value->value;
+							break;
+
+						case 'date_end':
+							$date_end = $value->value;
+							break;
+					}
+				}
+
+				$date_no_selected = $date_yes_selected;
+				unset($date_yes_selected);
 			}
-		}
-
-		$date_no_selected = $date_yes_selected;
-		unset($date_yes_selected);
-	}
 ?>
 
 <h4><b><?php _e('Date'); ?></b><?php echo ( count($opt_date) > 0 ) ? ' <img src="' . $DW->plugin_url . 'img/checkmark.gif" alt="Checkmark" />' : ''; ?></h4>
@@ -56,3 +67,37 @@
 </table>
 </div>
 </div><!-- end dynwid_conf -->
+
+<script type="text/javascript">
+/* <![CDATA[ */
+  function showCalendar(id) {
+    if ( jQuery('#date-no').is(':checked') ) {
+      var id = '#'+id;
+      jQuery(function() {
+  		  jQuery(id).datepicker({
+  		    dateFormat: 'yy-mm-dd',
+  		    minDate: new Date(<?php echo date('Y, n - 1, j'); ?>),
+  		    onClose: function() {
+  		    	jQuery(id).datepicker('destroy');
+  		    }
+  		  });
+        jQuery(id).datepicker('show');
+    	});
+    } else {
+      jQuery('#date-no').attr('checked', true);
+      swTxt(cDate, false);
+      showCalendar(id);
+    }
+  }
+
+  var cDate =  new Array('date_start', 'date_end');
+
+  if ( jQuery('#date-yes').is(':checked') ) {
+  	swTxt(cDate, true);
+  }
+/* ]]> */
+</script>
+<?php
+		}
+	}
+?>

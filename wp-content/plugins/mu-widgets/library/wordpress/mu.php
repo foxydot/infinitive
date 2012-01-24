@@ -1,5 +1,11 @@
 <?php
-class wv44v_mu extends bv44v_base {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
+class wv45v_mu extends bv45v_base {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function blogs_current_user_can($capabilities) {
 		$blogs = array ();
 		$capabilities = ( array ) $capabilities;
@@ -20,14 +26,23 @@ class wv44v_mu extends bv44v_base {
 		}
 		return $blogs;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	function is_plugin_active_on_blog($blog_id, $plugin) {
 		return in_array ( $plugin, ( array ) get_blog_option ( $blog_id, 'active_plugins' ) ) || is_plugin_active_for_network ( $plugin );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function copy_post($dest_name, $post_id) {
 		$blogs = $this->mu ()->blogs_current_user_can ( 'administrator' );
 		$dest_id = $blogs [$dest_name]->userblog_id;
 		return $this->_copy_post ( $dest_id, $post_id );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function _copy_post($dest_id, $post_id, $new_parent = 0) {
 		$post = get_post ( $post_id, ARRAY_A );
 		$post ['post_parent'] = $new_parent;
@@ -50,18 +65,27 @@ class wv44v_mu extends bv44v_base {
 			$this->_copy_comments ( $dest_id, $id, $new_post_id );
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function _copy_postmeta($dest_id, $meta_id, $new_post_id) {
 		$meta = $this->posts ()->get_post_meta_by_id ( $meta_id );
 		switch_to_blog ( $dest_id );
 		add_post_meta ( $new_post_id, $meta ['meta_key'], $meta ['meta_value'] );
 		restore_current_blog ();
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function _copy_commentmeta($dest_id, $meta_id, $new_comment_id) {
 		$meta = $this->comments ()->get_comment_meta_by_id ( $meta_id );
 		switch_to_blog ( $dest_id );
 		add_comment_meta ( $new_comment_id, $meta ['meta_key'], $meta ['meta_value'] );
 		restore_current_blog ();
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function _copy_comments($dest_id, $comment_id, $new_post_id, $new_comment_parent = 0) {
 		$data = get_comment ( $comment_id, ARRAY_A );
 		unset ( $data ['comment_ID'] );

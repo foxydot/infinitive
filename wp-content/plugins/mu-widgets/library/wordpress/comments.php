@@ -1,5 +1,11 @@
 <?php
-class wv44v_comments extends bv44v_base {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
+class wv45v_comments extends bv45v_base {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function child_ids($comment_id) {
 		$sql = "SELECT `comment_ID` FROM `%s` WHERE `comment_parent` = %d;";
 		$sql = sprintf ( $sql, $this->table ( 'comments' )->name (), $comment_id );
@@ -7,6 +13,9 @@ class wv44v_comments extends bv44v_base {
 		$ids = $this->table ()->first_column ( $ids );
 		return $ids;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function meta_ids($comment_id) {
 		$sql = "SELECT `meta_id` FROM `%s` WHERE `comment_id` = %d;";
 		$sql = sprintf ( $sql, $this->table ( 'commentmeta' )->name (), $comment_id );
@@ -14,6 +23,9 @@ class wv44v_comments extends bv44v_base {
 		$ids = $this->table ()->first_column ( $ids );
 		return $ids;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	function get_comment_meta_by_id($meta_id) {
 		$sql = "SELECT * FROM `%s` WHERE `meta_id` = %d";
 		$sql = sprintf ( $sql, $this->table ( 'commentmeta' )->name (), $meta_id );

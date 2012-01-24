@@ -4,11 +4,19 @@ $slide_width = $group['image_width'];
 $thumb_width = $group['thumb_image_width'];
 $slide_columns = (int)($slide_width / ($thumb_width + 10));
 $slide_row = ceil($image_number / $slide_columns);
-$nav_spacing = ($slide_row * ($thumb_height + 8));
 
-$css .= '.nivoSlider {'; 
+$nav_spacing = 0; 
+if ( $group['slider-controlNav'] == 'true' ) { 
+        if ( $group['slider-controlNavThumbs'] == 'true' ) {
+                $nav_spacing = ($slide_row * ($thumb_height + 8));
+        } else {
+                $nav_spacing = 10; 
+        }
+}
+
+$css .= '#pb_slideshow_slider-' . $this->instance_count . '.nivoSlider {'; 
 $css .= '	height: ' . $group['image_height'] . 'px;';
-$css .= '       margin-bottom:' . ($nav_spacing + 10) . 'px;'; 
+$css .= '       margin-bottom: ' . ($nav_spacing + 10) . 'px;'; 
 $css .=	'}';
 
 if ( $group['slider-align'] == 'left' ) {
@@ -41,7 +49,7 @@ if ( $group['slider-shadows'] == 'true' ) {
 
 if ( $group['slider-controlNavThumbs'] == 'true' ) {
 	
-	$css .= '.nivo-controlNav {';
+	$css .= '#pb_slideshow_slider-' . $this->instance_count . ' .nivo-controlNav {';
 	$css .= '	width: ' . $group['image_width'] . 'px;';
 	$css .= ' 	margin-left: 6px;'; 
 	$css .= '	position:absolute;';
@@ -49,7 +57,7 @@ if ( $group['slider-controlNavThumbs'] == 'true' ) {
 	$css .= '	text-align: center;';
 	$css .= '}';
 	
-	$css .= '.nivo-controlNav img {';
+	$css .= '#pb_slideshow_slider-' . $this->instance_count . ' .nivo-controlNav img {';
 	$css .= '	border: 0px;';
 	$css .= '	background: none;';
 	$css .= '	padding: 0px;';
@@ -65,18 +73,18 @@ if ( $group['slider-controlNavThumbs'] == 'true' ) {
 	$css .= '}';
 } else {
 	
-	$css .= '.nivo-controlNav a {';
+	$css .= '#pb_slideshow_slider-' . $this->instance_count . ' .nivo-controlNav a {';
 	$css .= '	background:url(\'' . $this->_pluginURL . '/layouts/slider/default/bullets.png\') no-repeat;';
 	$css .= '}';
 	
-	$css .= '.nivo-controlNav {';
+	$css .= '#pb_slideshow_slider-' . $this->instance_count . ' .nivo-controlNav {';
 	$css .= '	position:absolute;';
 	$css .= '	left:47%;';
 	$css .= '	bottom:-30px;';
 	$css .= '}';
 	
 	$css .= '/* Control nav styles (e.g. 1,2,3...) */';
-	$css .= '.nivo-controlNav a {';
+	$css .= '#pb_slideshow_slider-' . $this->instance_count . ' .nivo-controlNav a {';
 	$css .= '	position:relative;';
 	$css .= '	z-index:99;';
 	$css .= '	cursor:pointer;';
@@ -89,7 +97,7 @@ if ( $group['slider-controlNavThumbs'] == 'true' ) {
 	$css .= '	float:left;';
 	$css .= '}';
 	
-	$css .= '.nivo-controlNav a.active {';
+	$css .= '#pb_slideshow_slider-' . $this->instance_count . ' .nivo-controlNav a.active {';
 	$css .= '	font-weight:bold;';
 	$css .= '	background-position:-10px 0;';
 	$css .= '}';

@@ -2,13 +2,11 @@
 /**
  * dynwid_admin_overview.php - Overview page
  *
- * @version $Id: dynwid_admin_overview.php 403464 2011-07-01 20:30:55Z qurl $
+ * @version $Id: dynwid_admin_overview.php 488903 2012-01-12 18:17:27Z qurl $
  * @copyright 2011 Jacco Drabbe
  */
 
 	if ( isset($_GET['action']) ) {
-		$mbox = new DWMessageBox();
-
 		switch ( $_GET['action'] ) {
 			case 'dynwid_set_method':
 				if ( $_GET['oldmethod'] == 'on' ) {
@@ -18,7 +16,7 @@
 				}
 
 				$text = __('Method set to', DW_L10N_DOMAIN) . ' ' . ( get_option('dynwid_old_method') ? '\''. __('OLD', DW_L10N_DOMAIN) .'\'' : '\'' . __('FILTER', DW_L10N_DOMAIN) . '\'' );
-				$mbox->create($text, '');
+				DWMessageBox::create($text, '');
 				break;
 
 			case 'dynwid_set_page_limit':
@@ -26,20 +24,26 @@
 				if ( $limit > 0 ) {
 					update_option('dynwid_page_limit', $limit);
 					$text = __('Page limit set to', DW_L10N_DOMAIN) . ' ' . $limit . '.';
-					$mbox->create($text, '');
+					DWMessageBox::create($text, '');
 				} else {
 					$text = __('ERROR', DW_L10N_DOMAIN) . ': ' . strip_tags($_GET['page_limit']) . ' ' . __('is not a valid limit.', DW_L10N_DOMAIN);
-					$mbox->type = 'error';
-					$mbox->create($text, '');
+					DWMessageBox::setTypeMsg('error');
+					DWMessageBox::create($text, '');
 				}
 				break;
 
 			case 'reset':
 				check_admin_referer('plugin-name-action_reset_' . $_GET['id']);
 				$DW->resetOptions($_GET['id']);
-				$mbox->create(__('Widget options have been reset to default.', DW_L10N_DOMAIN), '');
+				DWMessageBox::create(__('Widget options have been reset to default.', DW_L10N_DOMAIN), '');
 				break;
 		} // switch
+	}
+
+	if ( isset($_GET['dynwid_save']) && $_GET['dynwid_save'] == 'yes' ) {
+		$lead = __('Widget options saved.', DW_L10N_DOMAIN);
+		$msg = '';
+		DWMessageBox::create($lead, $msg);
 	}
 
   foreach ( $DW->sidebars as $sidebar_id => $widgets ) {
@@ -137,7 +141,7 @@
 <form action="" method="get">
 <input type="hidden" name="page" value="dynwid-config" />
 <input type="hidden" name="action" value="dynwid_set_page_limit" />
-<b><?php _e('Page limit') ?></b>: <input type="text" name="page_limit" value="<?php echo ( isset($_GET['page_limit']) ) ? $_GET['page_limit'] : DW_PAGE_LIMIT; ?>" style="width:50px" maxlength="4" /> <input class="button-primary" type="submit" value="<? _e('Save'); ?>" />
+<b><?php _e('Page limit', DW_L10N_DOMAIN) ?></b>: <input type="text" name="page_limit" value="<?php echo ( isset($_GET['page_limit']) ) ? $_GET['page_limit'] : DW_PAGE_LIMIT; ?>" style="width:50px" maxlength="4" /> <input class="button-primary" type="submit" value="<? _e('Save'); ?>" />
 <br />
 <?php _e('The page limit sets the limit of number of pages to prevent a timeout when building the hierarchical tree. When the number of pages is above this limit, a flat list will be displayed which is less time consuming.', DW_L10N_DOMAIN); ?>
 <br />

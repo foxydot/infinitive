@@ -1,27 +1,27 @@
 {
 	"classes" :
 	{
-		"application":"wv44v_application",
-		"form":"wv44v_data_form",
-		"table":"wv44v_data_table",
-		"data":"wv44v_data_settings",
-		"legacy":"wv44v_data_legacy",
+		"application":"wv45v_application",
+		"form":"wv45v_data_form",
+		"table":"wv45v_data_table",
+		"data":"wv45v_data_settings",
+		"legacy":"wv45v_data_legacy",
 		"_load":
 		[
-			"wv44v_info",
-			"wv44v_data_table",
-			"wv44v_view",
-			"wv44v_action",
-			"wv44v_widget",
-			"wv44v_data_settings",
-			"wv44v_data_form",
-			"bv44v_http",
-			"wv44v_mu",
-			"wv44v_posts",
-			"wv44v_blogs",
-			"wv44v_data_legacy",
-			"wv44v_comments",
-			"wv44v_user"
+			"wv45v_info",
+			"wv45v_data_table",
+			"wv45v_view",
+			"wv45v_action",
+			"wv45v_widget",
+			"wv45v_data_settings",
+			"wv45v_data_form",
+			"bv45v_http",
+			"wv45v_mu",
+			"wv45v_posts",
+			"wv45v_blogs",
+			"wv45v_data_legacy",
+			"wv45v_comments",
+			"wv45v_user"
 		]
 	},
 	"folders" : {"w":"library/wordpress"},
@@ -32,8 +32,7 @@
 		"author_uri" : "",
 		"uri" : "http:\/\/dcoda.co.uk\/wordpress\/",
 		"at_least" : "3.0.0",
-		"up_to" : "3.3",
-		"tags" : ["php5.2"]
+		"up_to" : "3.3.1"
 	},
 	"priority": 40
 }

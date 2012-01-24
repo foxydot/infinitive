@@ -517,8 +517,8 @@ msgid "Except the posts in category"
 msgstr "Behalve de berichten in de categorie"
 
 #: ../mods/attachment_module.php:14
-msgid "Show widget on attachment pages"
-msgstr "Toon de widget op bijlage pagina's"
+msgid "Show widget on attachment pages?"
+msgstr "Toon de widget op bijlage pagina's?"
 
 #: ../mods/error_module.php:14
 msgid "Show widget on the error page?"
@@ -539,8 +539,8 @@ msgstr ""
 "\t\t\t\t\t"
 
 #: ../mods/archive_module.php:14
-msgid "Show widget on archive pages"
-msgstr "Toon de widget op archief pagina's"
+msgid "Show widget on archive pages?"
+msgstr "Toon de widget op archief pagina's?"
 
 #: ../mods/archive_module.php:18
 msgid "This option does not include Author and Category Pages."
@@ -754,6 +754,14 @@ msgstr "Toon de widget standaard in de WPSC categoriën?"
 #: ../mods/wpml_module.php:21
 msgid "Language (WPML)"
 msgstr "Taal (WPML)"
+
+#: ../mods/pods_module.php:11
+msgid "Except the Pods pages"
+msgstr "Behalve de Pods pagina('s)"
+
+#: ../mods/pods_module.php:14
+msgid "Show widget default on Pods pages?"
+msgstr "Toon de widget op Pods pagina's?"
 
 #~ msgid "Custom Post Type"
 #~ msgstr "Custom Post Type"

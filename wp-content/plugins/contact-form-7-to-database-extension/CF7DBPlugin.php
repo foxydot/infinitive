@@ -225,7 +225,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Add Config page as a top-level menu item on the Admin page
         add_action('admin_menu', array(&$this, 'createAdminMenu'));
 
-        // Add Config page into the Plugins menu
+        // Add Database Options page
         add_action('admin_menu', array(&$this, 'addSettingsSubMenuPage'));
 
         // Hook into Contact Form 7 when a form post is made to save the data to the DB
@@ -309,7 +309,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         if (!$submitTime || !$formName || !$fieldName) {
             CFDBDie::wp_die(__('Missing form parameters', 'contact-form-7-to-database-extension'));
         }
-        $fileInfo = (array) $this->getFileFromDB($submitTime, $formName, $fieldName);
+        $fileInfo = (array)$this->getFileFromDB($submitTime, $formName, $fieldName);
         if ($fileInfo == null) {
             CFDBDie::wp_die(__('No such file.', 'contact-form-7-to-database-extension'));
         }
@@ -331,7 +331,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
     public function ajaxGetFormFields() {
         if (!$this->canUserDoRoleOption('CanSeeSubmitData') || !isset($_REQUEST['form'])) {
-           die();
+            die();
         }
         header('Content-Type: application/json; charset=UTF-8');
         header("Pragma: no-cache");
@@ -622,33 +622,70 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $view->display($this);
     }
 
+    static $checkForCustomDateFormat = true;
+    static $customDateFormat = null;
+    static $dateFormat = null;
+    static $timeFormat = null;
+
     /**
+     * Format input date string
      * @param  $time int same as returned from PHP time()
      * @return string formatted date according to saved options
      */
     public function formatDate($time) {
-        // Convert time to local timezone
-        date_default_timezone_set(get_option('timezone_string'));
-
-        if ($this->getOption('UseCustomDateTimeFormat', 'true') == 'true') {
-            $dateFormat = $this->getOption('SubmitDateTimeFormat', 'Y-m-d H:i:s P');
-            return date($dateFormat, $time);
+        // This method gets executed in a loop. Cache some variable to avoid
+        // repeated get_option calls to the database
+        if (CF7DBPlugin::$checkForCustomDateFormat) {
+            if ($this->getOption('UseCustomDateTimeFormat', 'true') == 'true') {
+                CF7DBPlugin::$customDateFormat = $this->getOption('SubmitDateTimeFormat', 'Y-m-d H:i:s P');
+            }
+            else {
+               CF7DBPlugin::$dateFormat = get_option('date_format');
+               CF7DBPlugin::$timeFormat = get_option('time_format');
+            }
+            // Convert time to local timezone
+            date_default_timezone_set(get_option('timezone_string'));
+            CF7DBPlugin::$checkForCustomDateFormat = false;
         }
-        return date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $time);
+
+        // Support Jalali dates but looking for wp-jalali plugin and
+        // using its 'jdate' function
+        if (is_plugin_active('wp-jalali/wp-jalali.php')) {
+            $jDateFile = WP_PLUGIN_DIR . '/wp-jalali/inc/jalali-core.php';
+            if(file_exists($jDateFile)) {
+                include_once($jDateFile);
+                if (function_exists('jdate')) {
+                    //return jdate('l, F j, Y');
+                    if (CF7DBPlugin::$customDateFormat) {
+                        return jdate(CF7DBPlugin::$customDateFormat, $time);
+                    }
+                    else {
+                        return jdate(CF7DBPlugin::$dateFormat . ' ' . CF7DBPlugin::$timeFormat, $time);
+                    }
+                }
+            }
+        }
+
+        if (CF7DBPlugin::$customDateFormat) {
+            return date(CF7DBPlugin::$customDateFormat, $time);
+        }
+        else {
+            return date_i18n(CF7DBPlugin::$dateFormat . ' ' . CF7DBPlugin::$timeFormat, $time);
+        }
     }
 
     /**
      * @param  $submitTime string PK for form submission
      * @param  $formName string
-     * @param  $fileName string
+     * @param  $fieldName string
      * @return string URL to download file
      */
-    public function getFileUrl($submitTime, $formName, $fileName) {
+    public function getFileUrl($submitTime, $formName, $fieldName) {
         return sprintf('%s?action=cfdb-file&s=%s&form=%s&field=%s',
                        admin_url('admin-ajax.php'),
                        $submitTime,
                        urlencode($formName),
-                       urlencode($fileName));
+                       urlencode($fieldName));
     }
 
     public function getFormFieldsAjaxUrlBase() {
@@ -724,7 +761,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         // See if there is a local file
         if (is_readable($i18nDir . $locale . '.json')) {
-            $url = $this->getPluginFileUrl() . "dt_i18n/$locale.json";
+            $url = $this->getPluginFileUrl() . "/dt_i18n/$locale.json";
         }
         else {
             // Pull the language code from the $local string

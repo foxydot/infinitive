@@ -9,13 +9,13 @@
 	Plugin Name: Better WP Security
 	Plugin URI: http://bit51.com/software/better-wp-security/
 	Description: Helps protect your Wordpress single or multi-site installation from attackers. Hardens standard Wordpress security by hiding vital areas of your site, protecting access to important files via htaccess, preventing brute-force login attempts, detecting attack attempts, and more.
-	Version: 2.10
+	Version: 2.17
 	Text Domain: better-wp-security
 	Domain Path: /languages
 	Author: Bit51.com
 	Author URI: http://bit51.com
 	License: GPLv2
-	Copyright 2011  Bit51.com  (email : chris@bit51.com)
+	Copyright 2012 Bit51.com  (email : chris@bit51.com)
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU tweaks Public License as published by
@@ -36,6 +36,7 @@
 require_once(trailingslashit(WP_PLUGIN_DIR) . 'better-wp-security/functions/bwps.php');
 require_once(trailingslashit(WP_PLUGIN_DIR) . 'better-wp-security/functions/auth.php');
 require_once(trailingslashit(WP_PLUGIN_DIR) . 'better-wp-security/functions/setup.php');
+require_once(trailingslashit(WP_PLUGIN_DIR) . 'better-wp-security/functions/newuser.php');
 
 //access the wpdb object
 global $wpdb;
@@ -249,7 +250,11 @@ add_action('init', 'BWPS_languages');
  *
  * @global object 
  */
-global $BWPS;
+function start_bwps() {
+	global $BWPS;
 
-//create BWPS object
-$BWPS = new BWPS();
+	//create BWPS object
+	$BWPS = new BWPS();
+}
+
+add_action('init', 'start_bwps');

@@ -1,5 +1,11 @@
 <?php
-class bv44v_action extends bv44v_base {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
+class bv45v_action extends bv45v_base {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function controller() {
 		$this->view->args = array ();
 		if (count ( func_get_args () ) > 0) {
@@ -13,9 +19,15 @@ class bv44v_action extends bv44v_base {
 		}
 		return $this->view->args [0];
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	protected function dispatch() {
 	}
 	
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function render_script($script, $html = true) {
 		$return = null;
 		$this->view->action ( $this );
@@ -40,14 +52,23 @@ class bv44v_action extends bv44v_base {
 		}
 		return $return;
 	}
-	public $view = null;
 	
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
+	public $view = null;
 	protected function set_view() {
 		if (null === $this->view) {
-			$this->view = new bv44v_view ( $this->application () );
+			$this->view = new bv45v_view ( $this->application () );
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private $_update_message=array('class'=>'normal','message'=>'Settings Saved');
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	protected function update_message($message = null,$class=null)
 	{
 		if(null!==$message)
@@ -59,6 +80,9 @@ class bv44v_action extends bv44v_base {
 			$this->_update_message['class'] = $class;
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function updated($message = null,$force=false) {
 		$return = '';
 		if ($this->request()->is_post() || $force) {
@@ -69,8 +93,11 @@ class bv44v_action extends bv44v_base {
 		}
 		return $return;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	protected function marker($tag, $content) {
-		$tagc = bv44v_tag::instance ();
+		$tagc = bv45v_tag::instance ();
 		$matches = $tagc->get ( $tag, $content, true );
 		foreach ( ( array ) $matches as $match ) {
 			$new = call_user_func ( array ($this, $tag . '_Marker' ), $match );
@@ -78,8 +105,13 @@ class bv44v_action extends bv44v_base {
 		}
 		return $content;
 	}
-	protected $title = "";
-	
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
+	protected $title = "";	
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	protected function send_headers($file) {
 		$pi = pathinfo ( $file );
 		if (isset ( $pi ['extension'] )) {
@@ -104,6 +136,9 @@ class bv44v_action extends bv44v_base {
 			}
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	/*******************************************************************
 	 * Init Functions
 	 *******************************************************************/
@@ -118,6 +153,9 @@ class bv44v_action extends bv44v_base {
 	{
 		$this->add_action_type ( 'action', 'Action' );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	/*******************************************************************
 	 * Sort compares used in this class
 	 *******************************************************************/
@@ -127,6 +165,9 @@ class bv44v_action extends bv44v_base {
 		}
 		return $callback;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	/*******************************************************************
 	 * Sort compares used in this class
 	 *******************************************************************/
@@ -136,12 +177,18 @@ class bv44v_action extends bv44v_base {
 		}
 		return ($a ['priority'] < $b ['priority']) ? - 1 : 1;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	protected function sortcmp_action_title($a, $b) {
 		if (strtolower ( $a ['title'] ) == strtolower ( $b ['title'] )) {
 			return 0;
 		}
 		return (strtolower ( $a ['title'] ) < strtolower ( $b ['title'] )) ? - 1 : 1;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	protected function sortcmp_action($a, $b) {
 		if ($a ['hide'] == $b ['hide']) {
 			return $this->sortcmp_action_priority ( $a, $b );
@@ -154,6 +201,9 @@ class bv44v_action extends bv44v_base {
 	/*******************************************************************
 	 * Action
 	 *******************************************************************/
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private $_cache_actions = null;
 	protected function get_actions($get_type = 'action', $get_action = null) {
 		if (null === $this->_cache_actions) {
@@ -199,6 +249,9 @@ class bv44v_action extends bv44v_base {
 		}
 		return false;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function get_action_meta($method, $meta) {
 		$meta ['action_callback'] = array (null, $method );
 		$meta ['action'] = $method;
@@ -246,6 +299,9 @@ class bv44v_action extends bv44v_base {
 	/*******************************************************************
 	 * Action Types
 	 *******************************************************************/
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private $_action_types = array ();
 	protected function add_action_type($action_type, $tag = null, $default_meta = array()) {
 		if (null === $tag) {
@@ -253,6 +309,8 @@ class bv44v_action extends bv44v_base {
 		}
 		$meta = array ();
 		$meta ['slug'] = null;
+		$meta ['schedule'] = null;
+		$meta ['schedule_start'] = null;
 		$meta ['capability'] = 'administrator';
 		$meta ['alert'] = 'normal';
 		$meta ['menu'] = 'Settings';
@@ -270,7 +328,7 @@ class bv44v_action extends bv44v_base {
 		$meta ['raw_action_title'] = null;
 		// probono, true indicate somethinge to be included all fee plugins and removed for custom
 		$meta ['probono'] = false;
-		$meta = bv44v_data_array::merge ( $meta, $default_meta );
+		$meta = bv45v_data_array::merge ( $meta, $default_meta );
 		$meta ['tag'] = $tag;
 		$meta ['type'] = $action_type;
 		$meta ['legacy'] = array ();
@@ -283,9 +341,15 @@ class bv44v_action extends bv44v_base {
 		$this->_cache_actions = null;
 		return true;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	protected function update_action_type($action_type, $default_meta = array()) {
 		return $this->add_action_type ( $action_type, $default_meta );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	protected function remove_action_type($action_type) {
 		$return = false;
 		if (isset ( $this->_action_types [$action_type] )) {
@@ -294,9 +358,15 @@ class bv44v_action extends bv44v_base {
 		}
 		return $return;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	protected function action_types() {
 		return $this->_action_types;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	protected function callback_action($action_meta) {
 		return true;
 	}

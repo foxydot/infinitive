@@ -2,32 +2,70 @@
 /**
  * Author Module
  *
- * @version $Id: author_module.php 418888 2011-08-03 18:36:48Z qurl $
+ * @version $Id: author_module.php 439650 2011-09-18 12:01:48Z qurl $
  * @copyright 2011 Jacco Drabbe
  */
 
-	$opt_author = $DW->getDWOpt($_GET['id'], 'author');
+	class DW_Author extends DWModule {
+		protected static $except = 'Except the author(s)';
+		public static $option = array( 'author' => 'Author Pages' );
+		protected static $question = 'Show widget default on author pages?';
+		protected static $type = 'complex';
 
-	if ( function_exists('get_users') ) {
-		$authors = get_users( array('who' => 'author') );
-	} else {
-		$authors = dwGetAuthors();
-	}
+		public static function admin() {
+			parent::admin();
+			self::mkGUI();
+		}
 
-	if ( count($authors) > DW_LIST_LIMIT ) {
-		$author_condition_select_style = DW_LIST_STYLE;
+		public static function getAuthors() {
+			global $wpdb;
+
+			if ( function_exists('get_users') ) {
+				$authors = get_users( array('who' => 'authors') );
+			} else {
+				$query = "SELECT " . $wpdb->prefix . "users.ID, " . $wpdb->prefix . "users.display_name
+							 FROM " . $wpdb->prefix . "users
+							 JOIN " . $wpdb->prefix . "usermeta ON " . $wpdb->prefix . "users.ID = " . $wpdb->prefix . "usermeta.user_id
+							 WHERE 1 AND " . $wpdb->prefix . "usermeta.meta_key = '" . $wpdb->prefix . "user_level'
+							 	AND " . $wpdb->prefix . "usermeta.meta_value > '0'";
+				$authors = $wpdb->get_results($query);
+			}
+
+			$list = array();
+			foreach ( $authors as $author ) {
+				$list[$author->ID] = $author->display_name;
+			}
+
+			return $list;
+		}
+
+		public static function mkGUI($single = FALSE) {
+			$DW = &$GLOBALS['DW'];
+			$list = self::getAuthors();
+
+			if ( $single ) {
+				self::$opt = $DW->getDWOpt($_GET['id'], 'single-author');
+
+				if ( count($list) > DW_LIST_LIMIT ) {
+					$select_style = DW_LIST_STYLE;
+				}
+
+				if ( count($list) > 0 ) {
+					$DW->dumpOpt(self::$opt);
+					echo '<br />';
+					_e(self::$except, DW_L10N_DOMAIN);
+					echo '<br />';
+					echo '<div id="single-author-select" class="condition-select" ' . ( (isset($select_style)) ? $select_style : '' ) . ' />';
+					foreach ( $list as $key => $value ) {
+						$extra = 'onclick="ci(\'single_author_act_' . $key . '\')"';
+						echo '<input type="checkbox" id="single_author_act_' . $key . '" name="single_author_act[]" value="' . $key . '" ' . ( (self::$opt->count > 0 && in_array($key, self::$opt->act)) ? 'checked="checked"' : '' ) . $extra  . ' /> <label for="single_author_act_' . $key . '">' . $value . '</label><br />' . "\n";
+					}
+					echo '</div>' . "\n";
+				}
+			} else {
+				parent::mkGUI(self::$type, self::$option[self::$name], self::$question, FALSE, self::$except, $list);
+			}
+		}
 	}
 ?>
 
-<h4><b><?php _e('Author Pages', DW_L10N_DOMAIN); ?></b><?php echo ( $opt_author->count > 0 ) ? ' <img src="' . $DW->plugin_url . 'img/checkmark.gif" alt="Checkmark" />' : ''; ?></h4>
-<div class="dynwid_conf">
-<?php _e('Show widget default on author pages?', DW_L10N_DOMAIN); ?><br />
-<?php $DW->dumpOpt($opt_author); ?>
-<input type="radio" name="author" value="yes" id="author-yes" <?php echo ( $opt_author->selectYes() ) ? $opt_author->checked : ''; ?> /> <label for="author-yes"><?php _e('Yes'); ?></label>
-<input type="radio" name="author" value="no" id="author-no" <?php echo ( $opt_author->selectNo() ) ? $opt_author->checked : ''; ?> /> <label for="author-no"><?php _e('No'); ?></label><br />
-<?php _e('Except the author(s)', DW_L10N_DOMAIN); ?>:<br />
-<div id="author-select" class="condition-select" <?php echo ( isset($author_condition_select_style) ) ? $author_condition_select_style : ''; ?>>
-<?php foreach ( $authors as $author ) { ?>
-<input type="checkbox" id="author_act_<?php echo $author->ID; ?>" name="author_act[]" value="<?php echo $author->ID; ?>" <?php echo ( $opt_author->count > 0 && in_array($author->ID, $opt_author->act) ) ? $opt_author->checked : ''; ?> /> <label for="author_act_<?php echo $author->ID; ?>"><?php echo $author->display_name; ?></label><br />
-<?php } ?></div>
-</div><!-- end dynwid_conf -->

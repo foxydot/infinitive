@@ -26,7 +26,7 @@ class BWPS {
 		
 		//stop site for banned users
 		if ($opts['banvisits_enable'] == 1) {
-			add_action('init', array(&$this,'banvisits_banvistor'));
+			$this->banvisits_banvistor();
 		}
 		
 		if ($opts['idetect_d404enable'] == 1) { //if detect 404 mode is enabled
@@ -55,17 +55,17 @@ class BWPS {
 		
 		//remove theme update notifications if turned on
 		if ($opts['tweaks_themeUpdates'] == 1) {
-			add_action('init', array(&$this, 'tweaks_themeupdates'), 1);
+			$this->tweaks_themeupdates();
 		}
 		
 		//remove plugin update notifications if turned on
 		if ($opts['tweaks_pluginUpdates'] == 1) {
-			add_action('init', array(&$this, 'tweaks_pluginupdates'), 1);
+			$this->tweaks_pluginupdates();
 		}
 		
 		//remove core update notifications if turned on
 		if ($opts['tweaks_coreUpdates'] == 1) {
-			add_action('init', array(&$this, 'tweaks_coreupdates'), 1);
+			$this->tweaks_coreupdates();
 		}
 		
 		//remove wlmanifest link if turned on
@@ -110,6 +110,61 @@ class BWPS {
 		//check versions if user is admin
 		if (is_admin()) {
 			$this->checkVersions();
+		}
+		
+		if ($opts['hidebe_enable'] == 1) {
+			global $loginslug;
+			$loginslug = $opts['hidebe_login_slug'];
+			
+			if (!function_exists('wplogin_filter')) {
+				function remove_password_reset_text($text) { 
+					if ($text == 'Lost your password?') { 
+						$text = ''; 
+					} 
+				
+					return $text;  
+				}
+			}
+			
+			if (!function_exists('wplogin_filter')) {
+				function remove_password_reset() { 
+					add_filter('gettext', 'remove_password_reset_text'); 
+				}
+			}
+			
+			add_action ('login_head', 'remove_password_reset');	
+			
+			function remove_password_reset_text_in($text) { 
+				return str_replace('Lost your password</a>?', '</a>', $text); 
+			}
+			
+			add_filter ('login_errors', 'remove_password_reset_text_in');
+			
+			function disable_password_reset() { 
+				return false; 
+			}
+
+			add_filter ('allow_password_reset', 'disable_password_reset');
+		}
+		
+		//update login urls for display
+		add_filter('site_url',  'wplogin_filter', 10, 3);
+		if (!function_exists('wplogin_filter')) {
+			function wplogin_filter( $url, $path, $orig_scheme ) {
+				global $loginslug;
+	
+				$currentFile = $_SERVER["REQUEST_URI"];
+				$parts = Explode('/', $currentFile);
+				$currentFile = substr($parts[1], 0, strpos($parts[1], '?'));
+	
+			    if (!is_user_logged_in() && !$currentFile == 'wp-login.php' && !$loginslug == '') {
+					$old  = array("/(wp-login\.php)/");
+					$new  = array($loginslug);
+					return preg_replace($old, $new, $url, 1);
+				} else {
+					return $url;
+				}
+			}
 		}
 		
 		unset($opts);
@@ -745,14 +800,12 @@ class BWPS {
 		global $wp_version;
 
 		$newVersion = rand(100,500);
-		
-		require_once(ABSPATH . '/wp-includes/pluggable.php');
 
 		//always show real version to site administrators
-		if (!is_admin() || (!is_multisite() && !current_user_can('administrator'))) {
+		if (!is_user_logged_in()) {
 			$wp_version = $newVersion;
 			add_filter( 'script_loader_src', array(&$this, 'tweaks_remove_script_version'), 15, 1 );
-			add_filter( 'style_loader_src', array(&$this, 'tweaks_remove_script_version'), 15, 1 );
+			add_filter( 'style_loader_src', array(&$this, 	'tweaks_remove_script_version'), 15, 1 );
 		}
 	}
 	
@@ -1018,9 +1071,9 @@ class BWPS {
 			//hide wordpress backend
 			$theRules .= "RewriteRule ^" . $login_slug . " ".$dir."wp-login.php?" . $hidebe_key . " [R,L]\n" .
 				"RewriteCond %{HTTP_COOKIE} !^.*wordpress_logged_in_.*$\n" .
-				"RewriteRule ^" . $admin_slug . " ".$dir."wp-login.php?" . $hidebe_key . "&redirect_to=/wp-admin/ [R,L]\n" .
-				"RewriteRule ^" . $admin_slug . " ".$dir."wp-admin/?" . $hidebe_key . " [R,L]\n" .
-				"RewriteRule ^" . $register_slug . " " . $dir . "wp-login.php?" . $hidebe_key . "&action=register [R,L]\n" .
+				"RewriteRule ^" . $admin_slug . "$ ".$dir."wp-login.php?" . $hidebe_key . "&redirect_to=/wp-admin/ [R,L]\n" .
+				"RewriteRule ^" . $admin_slug . "$ ".$dir."wp-admin/?" . $hidebe_key . " [R,L]\n" .
+				"RewriteRule ^" . $register_slug . "$ " . $dir . "wp-login.php?" . $hidebe_key . "&action=register [R,L]\n" .
 				"RewriteCond %{HTTP_REFERER} !^" . $reDomain . "/wp-admin \n" .
 				"RewriteCond %{HTTP_REFERER} !^" . $reDomain . "/wp-login\.php \n" .
 				"RewriteCond %{HTTP_REFERER} !^" . $reDomain . "/" . $login_slug . " \n" .
@@ -1031,7 +1084,7 @@ class BWPS {
 				"RewriteCond %{QUERY_STRING} !^action=rp\n" . 
 				$regEn . 
 				"RewriteCond %{HTTP_COOKIE} !^.*wordpress_logged_in_.*$\n" .
-				"RewriteRule ^wp-login\.php not_found [L]\n";
+				"RewriteRule ^wp-admin/?|^wp-login\.php not_found [L]\n";
 		}
 	
 		//end rewrite rules

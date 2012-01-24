@@ -1,5 +1,11 @@
 <?php
-class bv44v_http extends bv44v_base {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
+class bv45v_http extends bv45v_base {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private $Timeout = 60;
 	public function Timeout($value = null) {
 		if (! is_null ( $value )) {
@@ -7,6 +13,9 @@ class bv44v_http extends bv44v_base {
 		}
 		return $this->Timeout;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private $Port = null;
 	public function Port($value = null) {
 		if (! is_null ( $value )) {
@@ -14,10 +23,16 @@ class bv44v_http extends bv44v_base {
 		}
 		return $this->Port;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private $Headers = array ();
 	public function addHeader($key, $value) {
 		$this->Headers [strtoupper ( $key )] = $value;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function removeHeader($key) {
 		unset ( $this->Headers [strtoupper ( $key )] );
 	}
@@ -27,9 +42,15 @@ class bv44v_http extends bv44v_base {
 		}
 		return $this->Headers;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function logonBasic($username, $password) {
 		$this->Headers ["Authorization"] = "Basic " . base64_encode ( $username . ":" . $password );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private $url = null;
 	public function url($value = null) {
 		if (! is_null ( $value )) {
@@ -37,6 +58,9 @@ class bv44v_http extends bv44v_base {
 		}
 		return $this->url;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private $method = 'GET';
 	public function method($value = null) {
 		if (! is_null ( $value )) {
@@ -44,6 +68,9 @@ class bv44v_http extends bv44v_base {
 		}
 		return $this->method;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function display() {
 		$return = $this->get ();
 		foreach ( $this->returnedHeaders () as $key => $value ) {
@@ -51,6 +78,9 @@ class bv44v_http extends bv44v_base {
 		}
 		echo $return;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private $data = null;
 	public function data($data = null) {
 		if (! is_null ( $data )) {
@@ -65,6 +95,9 @@ class bv44v_http extends bv44v_base {
 		}
 		return $this->data;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private $_user = null;
 	private $_password = null;
 	public function set_user($value = null) {
@@ -81,14 +114,23 @@ class bv44v_http extends bv44v_base {
 	public function password() {
 		return $this->_password;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function __construct($url = null) {
 		parent::__construct ();
 		$this->url = $url;
 		$this->dummyHeaders ();
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function get() {
 		return $this->__request ( $this->url, $this->method, $this->data );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function dummyHeaders() {
 		// stick in defaults
 		$this->Headers ['USER-AGENT'] = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3';
@@ -113,6 +155,9 @@ class bv44v_http extends bv44v_base {
 			}
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function __request($Url, $Method = 'GET', $Data = null) {
 		$pURL = parse_url ( $Url );
 		if (empty ( $pURL ['host'] )) {
@@ -163,18 +208,30 @@ class bv44v_http extends bv44v_base {
 		$this->returnedPage = $content;
 		return $content;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private $returnedPageRaw = '';
 	public function ReturnedPageRaw() {
 		return $this->returnedPageRaw;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private $returnedHeaders = array ();
 	public function returnedHeaders() {
 		return $this->returnedHeaders;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private $returnedPage = "";
 	public function returnedPage() {
 		return $this->returnedPage;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function _request($Stream, $Request, $Method = 'GET', $Data = "") {
 		fwrite ( $Stream, $Request );
 		if ($Method == 'POST') {
@@ -194,6 +251,9 @@ class bv44v_http extends bv44v_base {
 	* @param	string	$Headers
 	* @return	array
 	*/
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function _headers($Headers) {
 		foreach ( ( array ) explode ( "\r\n", $Headers ) as $Header ) {
 			$part = explode ( ": ", $Header, 2 );
@@ -206,6 +266,9 @@ class bv44v_http extends bv44v_base {
 		}
 		return $RetVal;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function transfer_encoding_chunked_decode($in) {
 		$out = '';
 		while ( $in != '' ) {
@@ -233,7 +296,9 @@ class bv44v_http extends bv44v_base {
 		}
 		return $out;
 	}
-	
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/	
 	private function decode_body($info, $str, $eol = "\r\n") {
 		$tmp = $str;
 		$add = strlen ( $eol );

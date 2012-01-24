@@ -519,7 +519,7 @@ msgid "Except the posts in category"
 msgstr ""
 
 #: ../mods/attachment_module.php:14
-msgid "Show widget on attachment pages"
+msgid "Show widget on attachment pages?"
 msgstr ""
 
 #: ../mods/error_module.php:14
@@ -538,7 +538,7 @@ msgid ""
 msgstr ""
 
 #: ../mods/archive_module.php:14
-msgid "Show widget on archive pages"
+msgid "Show widget on archive pages?"
 msgstr ""
 
 #: ../mods/archive_module.php:18
@@ -746,3 +746,10 @@ msgstr ""
 msgid "Language (WPML)"
 msgstr ""
 
+#: ../mods/pods_module.php:11
+msgid "Except the Pods pages"
+msgstr ""
+
+#: ../mods/pods_module.php:14
+msgid "Show widget default on Pods pages?"
+msgstr ""

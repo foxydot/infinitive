@@ -85,3 +85,7 @@
 	added displaybuddy admin menu icon
 1.0.38 - 2011-12-16 - Josh Benham 
 	Updated updater
+1.0.39 - 2012-1-18 - Josh Benham 
+	fixed styling issues
+1.0.40 - 2012-1-18 - Josh Benham 
+	Added Ronald's fixes to the styling. 

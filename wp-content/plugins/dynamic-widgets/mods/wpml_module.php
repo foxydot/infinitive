@@ -2,38 +2,86 @@
 /**
  * WPML Module
  *
- * @version $Id: wpml_module.php 408892 2011-07-12 20:11:47Z qurl $
+ * @version $Id: wpml_module.php 448157 2011-10-06 18:00:02Z qurl $
  * @copyright 2011 Jacco Drabbe
  */
 
-	if ( $DW->wpml ) {
-		$wpml_api = ICL_PLUGIN_PATH . DW_WPML_API;
-		require_once($wpml_api);
+	class DW_WPML extends DWModule {
+		public static $icon;
+		protected static $info = 'Using this option can override all other options.';
+		protected static $except = 'Except the languages';
+		public static $option = array( 'wpml' => 'Language' );
+		protected static $overrule = TRUE;
+		protected static $question = 'Show widget default on all languages?';
+		public static $plugin = array( 'wpml' => FALSE );
+		protected static $type = 'complex';
 
-		$opt_wpml = $DW->getDWOpt($_GET['id'], 'wpml');
-		
-		$wpml_langs = wpml_get_active_languages();
-		if ( count($wpml_langs) > DW_LIST_LIMIT ) {
-			$wpml_condition_select_style = DW_LIST_STYLE;
+		public static function admin() {
+			parent::admin();
+
+			if ( self::detect() ) {
+				$wpml_api = ICL_PLUGIN_PATH . DW_WPML_API;
+				require_once($wpml_api);
+
+				$list = array();
+				$wpml_langs = wpml_get_active_languages();
+				foreach ( $wpml_langs as $lang ) {
+					$code = $lang['code'];
+					$list[$code] = $lang['display_name'];
+				}
+
+				self::mkGUI(self::$type, self::$option[self::$name], self::$question, self::$info, self::$except, $list);
+			}
 		}
-?>
 
-<h4><b><?php _e('Language (WPML)', DW_L10N_DOMAIN); ?></b><?php echo ( $opt_wpml->count > 0 ) ? ' <img src="' . $DW->plugin_url . 'img/checkmark.gif" alt="Checkmark" />' : ''; ?></h4>
-<div class="dynwid_conf">
-<?php _e('Show widget default on all languages?', DW_L10N_DOMAIN); ?> <img src="<?php echo $DW->plugin_url; ?>img/info.gif" alt="info" title="<?php _e('Click to toggle info', DW_L10N_DOMAIN) ?>" onclick="divToggle('wpml');" /><br /><br />
-<?php $DW->dumpOpt($opt_wpml); ?>
-<div>
-	<div id="wpml" class="infotext">
-	<?php _e('Using this option can override all other options.', DW_L10N_DOMAIN); ?><br />
-	</div>
-</div>
-<input type="radio" name="wpml" value="yes" id="wpml-yes" <?php echo ( $opt_wpml->selectYes() ) ? $opt_wpml->checked : ''; ?> /> <label for="wpml-yes"><?php _e('Yes'); ?></label>
-<input type="radio" name="wpml" value="no" id="wpml-no" <?php echo ( $opt_wpml->selectNo() ) ? $opt_wpml->checked : ''; ?> /> <label for="wpml-no"><?php _e('No'); ?></label><br />
-<?php _e('Except the languages', DW_L10N_DOMAIN); ?>:<br />
-<div id="wpml-select" class="condition-select" <?php echo ( isset($wpml_condition_select_style) ? $wpml_condition_select_style : '' ); ?>>
-<?php		foreach ( $wpml_langs as $code => $lang ) { ?>
-<input type="checkbox" id="wpml_act_<?php echo $lang['code']; ?>" name="wpml_act[]" value="<?php echo $lang['code']; ?>" <?php echo ( $opt_wpml->count > 0 && in_array($lang['code'], $opt_wpml->act) ) ? 'checked="checked"' : ''; ?> /> <label for="wpml_act_<?php echo $lang['code']; ?>"><?php echo $lang['display_name']; ?></label><br />
-<?php 	} ?>
-</div>
-</div><!-- end dynwid_conf -->
-<?php } ?>
+		public static function detect($update = TRUE) {
+			$DW = &$GLOBALS['DW'];
+			$DW->wpml = FALSE;
+
+			if ( defined('ICL_PLUGIN_PATH') && file_exists(ICL_PLUGIN_PATH . DW_WPML_API) ) {
+				self::checkOverrule('DW_WPML');
+				if ( $update ) {
+					$DW->wpml = TRUE;
+				}
+				self::$icon = '<img src="' . $DW->plugin_url . DW_WPML_ICON . '" alt="WMPL" title="Dynamic Widgets syncs with other languages of these pages via WPML" style="position:relative;top:2px;" />';
+				return TRUE;
+			}
+			return FALSE;
+		}
+
+		public static function detectLanguage() {
+			$DW = &$GLOBALS['DW'];
+
+			if ( self::detect() ) {
+				$wpml_api = ICL_PLUGIN_PATH . DW_WPML_API;
+				if ( file_exists($wpml_api) ) {
+					require_once($wpml_api);
+
+					$wpmlang = wpml_get_default_language();
+					$curlang = wpml_get_current_language();
+					$DW->message('WPML language: ' . $curlang);
+
+					if ( $wpmlang != $curlang ) {
+						$DW->wpml = TRUE;
+						$DW->message('WPML enabled');
+					}
+
+					return $curlang;
+				}
+			}
+		}
+
+		public static function getID($content_id, $content_type = 'post_page') {
+			$language_code = wpml_get_default_language();
+			$lang = wpml_get_content_translation($content_type, $content_id, $language_code);
+
+			if ( is_array($lang) ) {
+				$id = $lang[$language_code];
+			} else {
+				$id = 0;
+			}
+
+			return $id;
+		}
+	}
+?>

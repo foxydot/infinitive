@@ -1,5 +1,11 @@
 <?php
-class bv44v_data_array {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
+class bv45v_data_array {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public static function merge() {
 		// get the variable number of objects to be merged
 		$params = func_get_args ();
@@ -62,5 +68,17 @@ class bv44v_data_array {
 			}
 		}
 		return $object1;
+	}
+	public static function objects_to_array(&$objects)
+	{
+		$objects = get_object_vars($objects);
+		foreach($objects as &$object)
+		{
+			if(is_object($object))
+			{
+				bv45v_data_array::objects_to_array($object);
+			}
+		}
+		unset($object);
 	}
 }

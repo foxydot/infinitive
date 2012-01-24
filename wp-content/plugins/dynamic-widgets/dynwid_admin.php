@@ -2,7 +2,7 @@
 /**
  * dynwid_admin.php - Startpage for admin
  *
- * @version $Id: dynwid_admin.php 426716 2011-08-21 14:48:48Z qurl $
+ * @version $Id: dynwid_admin.php 488903 2012-01-12 18:17:27Z qurl $
  * @copyright 2011 Jacco Drabbe
  */
 ?>
@@ -15,16 +15,19 @@
 
 <div class="wrap">
 <div class="icon32" id="icon-themes"><br></div>
-<h2>
+<h2><div style="float:left;width:300px;">
 	<?php _e('Dynamic Widgets', DW_L10N_DOMAIN); ?>
 	<input type="image" style="vertical-align: middle;" title="Donate for this plugin via PayPal" alt="Donate" name="submit" src="https://www.paypal.com/en_US/i/btn/x-click-but04.gif" onclick="jQuery('#paypal').submit()">
-</h2>
+</div></h2>
+<div style="border-color: #E3E3E3;border-radius: 6px 6px 6px 6px;border-style: solid;border-width: 1px;padding: 5px;width:360px;float:left;position:relative;top:-7px;">
+<div style="float:left"><a href="<?php echo DW_URL; ?>/"><img src="<?php echo $DW->plugin_url; ?>/img/qurl.png" alt="" title="QURL - Quality and Reliability" /></a></div>
+<div style="float:left;margin-left:7px;">
+<strong>Did you know?</strong><br />
+I also provide other services. See <a href="<?php echo DW_URL; ?>/services/" target="_blank">my website</a> for details.
+</div></div>
+
+<br style="clear:both" />
 <?php
-	if ( DW_CLASSFILE == 'dynwid_class_php4.php' ) {
-		$mbox = new DWMessageBox();
-		$mbox->create('WARNING', 'Your server is running PHP4. Future versions of Dynamic Widgets will not work. See the <a href="' . DW_URL . '/dynamic-widgets/faq/" target="_blank">FAQ</a>.');	
-	}
-	
 	if ( $DW->enabled ) {
 		if ( dynwid_sql_mode() ) {
 			echo '<div class="error" id="message"><p>';
@@ -35,6 +38,7 @@
 		// Actions
 		if ( isset($_GET['action']) && $_GET['action'] == 'edit' ) {
 			$dw_admin_script = '/dynwid_admin_edit.php';
+			$DW->loadModules();
 		} else {
 			$dw_admin_script = '/dynwid_admin_overview.php';
 
@@ -56,7 +60,7 @@
 <!-- Footer //-->
 <div class="clear"><br /><br /></div>
 <div><small>
-  <a href="<?php echo DW_URL; ?>/dynamic-widgets/" target="_blank">Dynamic Widgets</a> v<?php echo DW_VERSION; ?> (<?php echo ( DW_CLASSFILE == 'dynwid_class_php4.php' ? 'PHP4' : 'PHP5' ) . ', ' . ( DW_OLD_METHOD ? __('OLD', DW_L10N_DOMAIN)  : __('FILTER', DW_L10N_DOMAIN) ); ?>)
+  <a href="<?php echo DW_URL; ?>/dynamic-widgets/" target="_blank">Dynamic Widgets</a> v<?php echo DW_VERSION; ?> (<?php echo ( DW_OLD_METHOD ) ? __('OLD', DW_L10N_DOMAIN)  : __('FILTER', DW_L10N_DOMAIN); ?>)
 </small></div>
 
 </div> <!-- /wrap //-->

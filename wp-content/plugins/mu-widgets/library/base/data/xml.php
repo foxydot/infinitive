@@ -1,5 +1,11 @@
 <?php
-class bv44v_data_xml implements Iterator, ArrayAccess, Countable {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
+class bv45v_data_xml implements Iterator, ArrayAccess, Countable {
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public static function reduce(&$array) {
 		if (! isset ( $array ['count'] )) {
 			$new = array ();
@@ -22,7 +28,9 @@ class bv44v_data_xml implements Iterator, ArrayAccess, Countable {
 		}
 		unset ( $array ['count'] );
 	}
-	
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/	
 	public static function load($file) {
 		if (! file_exists ( $file )) {
 			return false;
@@ -37,6 +45,9 @@ class bv44v_data_xml implements Iterator, ArrayAccess, Countable {
 			return $return->regular ();
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private static function decode($xml) {
 		$array = new self ();
 		$sub = array ();
@@ -79,12 +90,18 @@ class bv44v_data_xml implements Iterator, ArrayAccess, Countable {
 		}
 		return $array;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private $values = array ();
 	private $keys = array ();
 	public $true_keys = false;
 	public static function is($value) {
 		return (is_object ( $value ) && get_class ( $value ) == __CLASS__);
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function __construct($array = null) {
 		if (null !== $array) {
 			foreach ( $array as $key => $value ) {
@@ -92,6 +109,9 @@ class bv44v_data_xml implements Iterator, ArrayAccess, Countable {
 			}
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function offset($offset) {
 		if (null !== $offset) {
 			if (is_array ( $offset )) {
@@ -101,13 +121,22 @@ class bv44v_data_xml implements Iterator, ArrayAccess, Countable {
 		}
 		return null;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function rewind() {
 		reset ( $this->keys );
 		return reset ( $this->values );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function current() {
 		return current ( $this->values );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function key() {
 		if ($this->true_keys) {
 			return key ( $this->keys );
@@ -115,13 +144,22 @@ class bv44v_data_xml implements Iterator, ArrayAccess, Countable {
 			return current ( $this->keys );
 		}
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function next() {
 		next ( $this->keys );
 		return next ( $this->values );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function valid() {
 		return key ( $this->values ) !== null;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	private function true_key($key) {
 		if (is_string ( $key )) {
 			$new_key = unserialize ( $key );
@@ -131,6 +169,9 @@ class bv44v_data_xml implements Iterator, ArrayAccess, Countable {
 		}
 		return $key;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function offsetSet($offset, $value) {
 		$offset = $this->true_key ( $offset );
 		$key = $offset;
@@ -151,14 +192,23 @@ class bv44v_data_xml implements Iterator, ArrayAccess, Countable {
 		}
 		$this->keys [$offset] = $key;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function offsetExists($offset) {
 		$offset = $this->offset ( $offset );
 		return $this->values->offsetExists ( $offset );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function offsetUnset($offset) {
 		$offset = $this->offset ( $offset );
 		$this->values->offsetUnset ( $offest );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function offsetGet($offset) {
 		$return = null;
 		if (is_array ( $offset )) {
@@ -177,9 +227,15 @@ class bv44v_data_xml implements Iterator, ArrayAccess, Countable {
 		}
 		return $return;
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function count() {
 		return count ( $this->values );
 	}
+/*****************************************************************************************
+* ??document??
+*****************************************************************************************/
 	public function regular() {
 		$keys = array_unique ( $this->keys );
 		$return = array ();
