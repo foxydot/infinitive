@@ -20,6 +20,11 @@ Description: Provides a replacement for the recent posts widget with advanced se
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+// Make sure we don't expose any info if called directly
+if ( ! function_exists( 'add_action' ) ) {
+    die('Direct script access not allowed');
+}
+
 /**
  * Recent Posts Widget Class
  */
@@ -116,11 +121,12 @@ class RecentPostsPlusMultisite extends WP_Widget {
 		usort($recent_posts,'infinitive_posts_sort');
 		$recent_posts = array_slice($recent_posts, 0, $count);
 		foreach($recent_posts AS $rp){
+			$blog_bug = '<img src="'.get_stylesheet_directory_uri().'/images/bugs/'.$rp->blog_name.'-sm.png" title="'.$rp->blog_name.'" alt="'.$rp->blog_name.'" class="attachment-50x36 wp-post-image" width="36" height="36" />';
 			if($include_post_thumbnail == "false") {
 					$POST_THUMBNAIL = '';
 				} else {
 					//$POST_THUMBNAIL = get_the_post_thumbnail($rp->ID, array($post_thumbnail_width, $post_thumbnail_height));
-					$POST_THUMBNAIL = $rp->featured_image;
+					$POST_THUMBNAIL = $rp->featured_image?$rp->featured_image:$blog_bug;
 				}
 				$POST_TITLE_RAW = strip_tags($rp->post_title);
 				if(empty($truncate_post_title))
