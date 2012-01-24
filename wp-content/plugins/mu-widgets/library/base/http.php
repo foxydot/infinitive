@@ -1,5 +1,5 @@
 <?php
-class bv28v_http extends bv28v_base {
+class bv44v_http extends bv44v_base {
 	private $Timeout = 60;
 	public function Timeout($value = null) {
 		if (! is_null ( $value )) {
@@ -87,7 +87,7 @@ class bv28v_http extends bv28v_base {
 		$this->dummyHeaders ();
 	}
 	public function get() {
-		return $this->request ( $this->url, $this->method, $this->data );
+		return $this->__request ( $this->url, $this->method, $this->data );
 	}
 	private function dummyHeaders() {
 		// stick in defaults
@@ -98,7 +98,7 @@ class bv28v_http extends bv28v_base {
 		$this->Headers ['CONNECTION'] = 'close';
 		// if possible stick in values from th users browser
 		foreach ( $_SERVER as $key => $value ) {
-			if (bv28v_type_string::staticStartsWith ( $key, '-' )) {
+			if (strpos ( $key, '-' ) === 0) {
 				switch (strtoupper ( $key )) {
 					// don't use these vaules as they cause problems
 					case 'HTTP-KEEP_ALIVE' :
@@ -113,7 +113,7 @@ class bv28v_http extends bv28v_base {
 			}
 		}
 	}
-	private function request($Url, $Method = 'GET', $Data = null) {
+	private function __request($Url, $Method = 'GET', $Data = null) {
 		$pURL = parse_url ( $Url );
 		if (empty ( $pURL ['host'] )) {
 			return false;
@@ -206,24 +206,59 @@ class bv28v_http extends bv28v_base {
 		}
 		return $RetVal;
 	}
+	private function transfer_encoding_chunked_decode($in) {
+		$out = '';
+		while ( $in != '' ) {
+			$lf_pos = strpos ( $in, "\012" );
+			if ($lf_pos === false) {
+				$out .= $in;
+				break;
+			}
+			$chunk_hex = trim ( substr ( $in, 0, $lf_pos ) );
+			$sc_pos = strpos ( $chunk_hex, ';' );
+			if ($sc_pos !== false)
+				$chunk_hex = substr ( $chunk_hex, 0, $sc_pos );
+			if ($chunk_hex == '') {
+				$out .= substr ( $in, 0, $lf_pos );
+				$in = substr ( $in, $lf_pos + 1 );
+				continue;
+			}
+			$chunk_len = hexdec ( $chunk_hex );
+			if ($chunk_len) {
+				$out .= substr ( $in, $lf_pos + 1, $chunk_len );
+				$in = substr ( $in, $lf_pos + 2 + $chunk_len );
+			} else {
+				$in = '';
+			}
+		}
+		return $out;
+	}
+	
 	private function decode_body($info, $str, $eol = "\r\n") {
 		$tmp = $str;
 		$add = strlen ( $eol );
 		$str = '';
 		if (isset ( $info ['TRANSFER-ENCODING'] ) && $info ['TRANSFER-ENCODING'] == 'chunked') {
-			do {
-				$tmp = ltrim ( $tmp );
-				$pos = strpos ( $tmp, $eol );
-				$len = hexdec ( substr ( $tmp, 0, $pos ) );
-				if (isset ( $info ['CONTENT-ENCODING'] )) {
-					$str .= gzinflate ( substr ( $tmp, ($pos + $add + 10), $len ) );
-				} else {
-					$str .= substr ( $tmp, ($pos + $add), $len );
-				}
-				$tmp = substr ( $tmp, ($len + $pos + $add) );
-				$check = trim ( $tmp );
-			} while ( ! empty ( $check ) );
-		} else if (isset ( $info ['CONTENT-ENCODING'] )) {
+			$tmp = $this->transfer_encoding_chunked_decode ( $tmp );
+		
+		//			if (function_exists ( 'http_chunked_decode' )) {
+		//				return http_chunked_decode ( $str );
+		//			}
+		//			do {
+		//				$tmp = ltrim ( $tmp );
+		//				$pos = strpos ( $tmp, $eol );
+		//				$len = hexdec ( substr ( $tmp, 0, $pos ) );
+		//				if (isset ( $info ['CONTENT-ENCODING'] )) {
+		//					$inflated = @gzinflate ( substr ( $tmp, ($pos + $add), $len ) );
+		//					$str .= $inflated;
+		//				} else {
+		//					$str .= substr ( $tmp, ($pos + $add), $len );
+		//				}
+		//				$tmp = substr ( $tmp, ($len + $pos + $add) );
+		//				$check = trim ( $tmp );
+		//			} while ( ! empty ( $check ) );
+		}
+		if (isset ( $info ['CONTENT-ENCODING'] )) {
 			$str = gzinflate ( substr ( $tmp, 10 ) );
 		} else {
 			$str = $tmp;

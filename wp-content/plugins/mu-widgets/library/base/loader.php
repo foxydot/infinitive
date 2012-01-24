@@ -1,28 +1,12 @@
 <?php
-class bv28v_loader extends bv28v_base {
-	public function __construct($application) {
-		parent::__construct ( $application );
-		$this->subfolders = array ('library/base','library/wordpress','library/survey','library/api','application', 'application/models' );
-	}
+class bv44v_loader extends bv44v_base {
 	private function sanitize_path($path) {
 		return rtrim ( $path, DIRECTORY_SEPARATOR );
 	}
-	private $includepath = null;
 	public function includepath($folders = null, $reverse = false) {
-		if (null === $this->includepath) {
-			$this->includepath = array ();
-			$path = $this->sanitize_path ( dirname ( $this->application ()->filename () ) );
-			$this->includepath [] = $path;
-			foreach ( $this->subfolders () as $subfolder ) {
-				$newfolder = $path . DIRECTORY_SEPARATOR . $subfolder;
-				if (is_dir ( $newfolder )) {
-					$this->includepath [] = $newfolder;
-				}
-			}
-		}
 		if (null !== $folders) {
-			$dirs = array ();
-			foreach ( $this->includepath as $path ) {
+			$return = array ();
+			foreach ( $this->application()->folders as $path ) {
 				foreach ( ( array ) $folders as $folder ) {
 					$newfolder = $path . DIRECTORY_SEPARATOR . $this->sanitize_path ( $folder );
 					if (is_dir ( $newfolder )) {
@@ -30,39 +14,44 @@ class bv28v_loader extends bv28v_base {
 					}
 				}
 			}
-			if ($reverse) {
-				$dirs = array_reverse ( $dirs );
-			}
 			return $dirs;
 		}
-		return $this->includepath;
+		else
+		{
+			$return = get_object_vars($this->application()->folders);
+		}
+		if ($return) {
+			$return = array_reverse ( $return );
+		}
+		return $return;
 	}
-	private $subfolders = null;
-	public function subfolders() {
-		return $this->subfolders;
-	}
-	public function load_class($class, $dirs = null) {
+	public function load_class($class) {
 		if (class_exists ( $class, false )) {
 			return;
 		}
-		if (null === $dirs) {
-			$dirs = $this->includepath ();
-		}
 		$file = str_replace ( '_', DIRECTORY_SEPARATOR, $class ) . '.php';
-		$file = str_replace ( 'av28v', 'library/api', $file);
-		$file = str_replace ( 'bv28v', 'library/base', $file );
-		$file = str_replace ( 'sv28v', 'library/survey', $file);
-		$file = str_replace ( 'wv28v', 'library/wordpress', $file);
-		$incPath = get_include_path ();
-		if (is_string ( $dirs )) {
-			set_include_path ( $dirs );
-		} else {
-			set_include_path ( implode ( PATH_SEPARATOR, $dirs ) );
+		$found = false;
+		foreach ( $this->application()->folders as $key => $value ) {
+			if (strpos($key,'_')!==0) {
+				$start = "{$key}v44v";
+				if (strpos ( $file, $start ) === 0) {
+					$file = str_replace ( $start, $value, $file );
+					$found = true;
+					break;
+				}
+			}
 		}
-		include_once $file;
-		set_include_path ( $incPath );
+		if(!$found)
+		{
+			$file = $this->application()->directory.'/application/models/'.$file;
+		}
+		if(file_exists($file))
+		{
+			//echo "{$file}<br/>";
+			@include_once $file;
+		}
 		if (! class_exists ( $class, false )) {
-			throw new Exception ( "File \"$file\" does not exist or class \"$class\" was not found in the file" );
+			throw new Exception ( "File \"{$file}\" does not exist or class \"{$class}\" was not found in the file" );
 		}
 	}
 	

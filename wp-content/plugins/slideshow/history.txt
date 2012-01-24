@@ -73,3 +73,15 @@
 	Fixing updater issue
 1.0.33 - 2011-09-22 - Ronald Huereca
 	Fixing updater issue
+1.0.34 - 2011-10-26 - Josh Benham
+	Fixed issues PBSS-4 and PBSS-18
+	PBSS-4: Nivoslider bottom margin
+	PBSS-18: Slideshow thumbnails overlapping other content. 
+1.0.35 - 2011-12-7 - Josh Benham
+	Added support for new 3.3 media uploader
+1.0.36 - 2011-12-8 - Josh Benham 
+	Removed dev code oops
+1.0.37 - 2011-12-12 - Daniel Harzheim
+	added displaybuddy admin menu icon
+1.0.38 - 2011-12-16 - Josh Benham 
+	Updated updater

@@ -1,27 +1,75 @@
-<table class="widefat" cellspacing="0">
+<table>
+	<col class='column_source'/>
+	<col class='column_delete'/>
+	<col class='column_name'/>
+<?php if($this->has_tables): ?>
+	<col class='column_delete'/>
+	<col class='column_table'/>
+<?php endif?>
+<?php if($this->settings_instructionTitle()!=""): ?>
+	<col class='column_instruction'/>
+<?php endif?>
+<?php if($this->settings_actionTitle()!=""): ?>
+	<col class='column_action'/>
+<?php endif?>
+	<col class='column_slack'/>	
 	<thead> 
-		<tr class='<?php echo $this->alternate();?>'>
-			<th class='column_name'><span title='Select <?php echo $this->obj_type;?>s from which to create new <?php echo $this->obj_type;?>s' class='copy_icon'><span title='Select to delete saved <?php echo $this->obj_type;?>s' class='delete_icon'>&nbsp;</span><span class='spacer_icon'>&nbsp;</span>Name</th>
-			<th class='column_table'><span title='Select to delete table' class='delete_icon'>&nbsp;</span>Table</th>
-			<th class='column_instruction'><?php $this->settings_InstructionTitle();?></th>
-			<th class='column_action'><?php $this->settings_actionTitle();?></th>
+		<tr>
+			<th class='v43_icon20x20 v43_icon20x20_copy' title='Select the item to be copied when create new forms.'></th>
+			<th class='v43_icon20x20 v43_icon20x20_delete' title='Select forms to delete, or reset.'></th>
+			<th>Name</th>
+			<th class='v43_icon20x20 v43_icon20x20_delete' title='Select tables to delete.'></th>
+<?php if($this->has_tables): ?>
+			<th>Table</th>
+<?php endif?>
+<?php if($this->settings_instructionTitle()!=""): ?>
+			<th><?php echo $this->settings_instructionTitle();?></th>
+<?php endif?>
+<?php if($this->settings_actionTitle()!=""): ?>
+			<th><?php echo $this->settings_actionTitle();?></th>
+<?php endif?>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
-<?php foreach($this->locations as $this->location):?>
+<?php $this->alternate();foreach($this->locations as $this->name=>$this->location):?>
 		<tr class='<?php echo $this->alternate();?>'>
-			<td ><?php if($this->location['name']!=''){?><input type = 'radio' name='source_setting' value='<?php echo $this->location['name'];?>' <?php if($this->location['name']=='default'){echo ' checked ';}?>/>&nbsp;<input type = 'checkbox' name='delete_setting[]' value='<?php echo $this->location['name'];?>' /><a href='<?php echo $this->base_url?>&page2=Diag&setting=<?php echo $this->location['name'];?>' title='Get diag info on the <?php echo $this->obj_type;?>' class='diag_icon'>&nbsp;</a>&nbsp;<?php }; echo $this->location['name'];?></td>
-			<td><?php if($this->location['table']!=''){?><input type = 'checkbox' name='delete_table[]' value='<?php echo $this->location['table'];?>' />&nbsp;<a title="Download <?php echo $this->location['records']?> Records" href="<?php echo $this->table_url.$this->location['table_name'];?>.csv"><?php echo $this->location['table']?> (<?php echo $this->location['records']?>)</a><?php };?> </td>
-			<td><?php $this->settings_InstructionColumn()?></td>
-			<td class='row_action'><?php $this->settings_actionColumn()?></td>
+<?php if(null!==$this->location['name']): ?>
+			<td>
+				<input type = 'radio' <?php $this->checked('default',$this->name);?> name='source_setting' value='<?php echo $this->name;?>' />
+			</td>
+			<td>
+				<input type = 'checkbox' name='delete_setting[]' value='<?php echo $this->name;?>' />
+			</td>
+			<td>
+				<?php echo $this->location['name'];?>
+			</td>
+<?php else:?>
+	<td colspan=3></td>
+<?php endif?>
+<?php if($this->has_tables): ?>
+	<?php if(null!==$this->location['table']): ?>
+			<td>
+				<input type = 'checkbox' name='delete_table[]' value='<?php echo $this->location['table'];?>' />
+			</td>
+			<td>
+			<a href='#' title='Click to download table as CSV file'>
+			<?php echo $this->location['table'];?> (<?php echo $this->location['count'];?>)
+			</a>
+	<?php else:?>
+	<td colspan=2></td>
+	<?php endif?>
+			</td>
+<?php endif?>
+<?php if($this->settings_instructionTitle()!=""): ?>
+			<td><?php echo $this->settings_instructionColumn()?></td>
+<?php endif?>
+<?php if($this->settings_actionTitle()!=""): ?>
+			<td><?php echo $this->settings_actionColumn()?></td>
+<?php endif?>
+			<td></td>
 		</tr>
 	</tbody>
 <?php endforeach?>
-	<tfoot>
-		<tr class='<?php echo $this->alternate();?> row_new'>
-			<td colspan='4' ><input name='new' type='text'/>&nbsp;New <?php echo $this->obj_type;?>s</td>
-		</tr>
-	</tfoot>
 </table>
-<br/>
 <input type='submit' class='button' value='Apply' />

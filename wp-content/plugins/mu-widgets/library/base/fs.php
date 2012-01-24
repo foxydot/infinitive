@@ -1,10 +1,13 @@
 <?php
-class bv28v_fs extends bv28v_base {
+class bv44v_fs extends bv44v_base {
 	private $dirHandle = null;
 	private $path = "";
 	public function path($path = null) {
-		$return = $this->path->value ( $path );
-		return $return;
+		if(null!==$path)
+		{
+			$this->path = $path;
+		}
+		return $this->path;
 	}
 	private $dir = null;
 	const type_file = 1;
@@ -72,6 +75,7 @@ class bv28v_fs extends bv28v_base {
 				$this->closeDir ();
 			}
 		}
+		//$this->debug($this->dir);
 		$return = array ();
 		$start = 0;
 		foreach ( $this->dir as $entry ) {
@@ -94,15 +98,15 @@ class bv28v_fs extends bv28v_base {
 	public function relativeDir($pattern = '*.*', $type = null, $recursionDepth = 0) {
 		$dir = $this->dir ( $pattern, $type, $recursionDepth );
 		$start = strlen ( $this->path () ) + 1;
-		$return = new bv28v_Array ( );
+		$return = new bv44v_Array ( );
 		foreach ( ( array ) $dir as $item ) {
 			$return [] = substr ( $item, $start );
 		}
 		return $return;
 	}
-	public function __construct($application, $path = null) {
+	public function __construct(&$application, $path = null) {
 		parent::__construct ( $application );
-		$this->path = new bv28v_type_string ( $path );
+		$this->path = $path;
 	}
 	private function openDir() {
 		if (is_dir ( $this->path () )) {
@@ -110,7 +114,6 @@ class bv28v_fs extends bv28v_base {
 		} else {
 			$this->dirHandle = null;
 		}
-		//$this->tdebug($this->path(),$this->dirHandle);
 		return (! is_null ( $this->dirHandle ));
 	}
 	private function closeDir() {

@@ -1,5 +1,5 @@
 <?php
-class bv28v_view extends bv28v_base {
+class bv44v_view extends bv44v_base {
 	private $_action=null;
 	public function action($action=null)
 	{
@@ -177,23 +177,6 @@ class bv28v_view extends bv28v_base {
 		}
 		return $return;
 	}
-	public function post_array($array)
-	{
-		$key='';
-		$first=true;
-		foreach($array as $value)
-		{
-			if($first)
-			{
-				$key=$value;
-				$first=false;
-			}
-			else
-			{	$key.="[{$value}]";
-			}	
-		}
-		return $key;	
-	}	
 	public function render($filename) {
 		$page = "";
 		if (! file_exists ( $filename )) {

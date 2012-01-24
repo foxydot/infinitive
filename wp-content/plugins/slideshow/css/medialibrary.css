@@ -1,0 +1,9 @@
+#image-form .slidetoggle {
+	display: none !important; 
+} 
+#image-form .toggle { 
+	display: none !important; 
+}
+.ml-submit .button { 
+	display: none !important; 
+} 

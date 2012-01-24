@@ -1,5 +1,25 @@
 <?php
 
+function wpcf7_plugin_path( $path = '' ) {
+	return path_join( WPCF7_PLUGIN_DIR, trim( $path, '/' ) );
+}
+
+function wpcf7_plugin_url( $path = '' ) {
+	return plugins_url( $path, WPCF7_PLUGIN_BASENAME );
+}
+
+function wpcf7_admin_url( $args = array() ) {
+	$defaults = array( 'page' => 'wpcf7' );
+	$args = wp_parse_args( $args, $defaults );
+
+	$url = menu_page_url( $args['page'], false );
+	unset( $args['page'] );
+
+	$url = add_query_arg( $args, $url );
+
+	return esc_url_raw( $url );
+}
+
 function wpcf7_messages() {
 	$messages = array(
 		'mail_sent_ok' => array(
@@ -18,17 +38,17 @@ function wpcf7_messages() {
 		),
 
 		'accept_terms' => array(
-			'description' => __( "There is a field of term that sender is needed to accept", 'wpcf7' ),
+			'description' => __( "There are terms that the sender must accept", 'wpcf7' ),
 			'default' => __( 'Please accept the terms to proceed.', 'wpcf7' )
 		),
 
 		'invalid_email' => array(
-			'description' => __( "Email address that sender entered is invalid", 'wpcf7' ),
+			'description' => __( "Email address that the sender entered is invalid", 'wpcf7' ),
 			'default' => __( 'Email address seems invalid.', 'wpcf7' )
 		),
 
 		'invalid_required' => array(
-			'description' => __( "There is a field that sender is needed to fill in", 'wpcf7' ),
+			'description' => __( "There is a field that the sender must fill in", 'wpcf7' ),
 			'default' => __( 'Please fill the required field.', 'wpcf7' )
 		)
 	);
@@ -167,6 +187,7 @@ function wpcf7_l10n() {
 		'ar' => __( 'Arabic', 'wpcf7' ),
 		'hy_AM' => __( 'Armenian', 'wpcf7' ),
 		'bn_BD' => __( 'Bangla', 'wpcf7' ),
+		'be_BY' => __( 'Belarusian', 'wpcf7' ),
 		'bs' => __( 'Bosnian', 'wpcf7' ),
 		'pt_BR' => __( 'Brazilian Portuguese', 'wpcf7' ),
 		'bg_BG' => __( 'Bulgarian', 'wpcf7' ),
@@ -178,6 +199,7 @@ function wpcf7_l10n() {
 		'da_DK' => __( 'Danish', 'wpcf7' ),
 		'nl_NL' => __( 'Dutch', 'wpcf7' ),
 		'en_US' => __( 'English', 'wpcf7' ),
+		'eo_EO' => __( 'Esperanto', 'wpcf7' ),
 		'et' => __( 'Estonian', 'wpcf7' ),
 		'fi' => __( 'Finnish', 'wpcf7' ),
 		'fr_FR' => __( 'French', 'wpcf7' ),
@@ -197,6 +219,7 @@ function wpcf7_l10n() {
 		'mk_MK' => __( 'Macedonian', 'wpcf7' ),
 		'ms_MY' => __( 'Malay', 'wpcf7' ),
 		'ml_IN' => __( 'Malayalam', 'wpcf7' ),
+		'mt_MT' => __( 'Maltese', 'wpcf7' ),
 		'nb_NO' => __( 'Norwegian', 'wpcf7' ),
 		'fa_IR' => __( 'Persian', 'wpcf7' ),
 		'pl_PL' => __( 'Polish', 'wpcf7' ),
@@ -205,18 +228,26 @@ function wpcf7_l10n() {
 		'ro_RO' => __( 'Romanian', 'wpcf7' ),
 		'sr_RS' => __( 'Serbian', 'wpcf7' ),
 		'si_LK' => __( 'Sinhala', 'wpcf7' ),
-		'sk' => __( 'Slovak', 'wpcf7' ),
+		'sk_SK' => __( 'Slovak', 'wpcf7' ),
 		'sl_SI' => __( 'Slovene', 'wpcf7' ),
 		'es_ES' => __( 'Spanish', 'wpcf7' ),
 		'sv_SE' => __( 'Swedish', 'wpcf7' ),
 		'ta' => __( 'Tamil', 'wpcf7' ),
 		'th' => __( 'Thai', 'wpcf7' ),
+		'tl' => __( 'Tagalog', 'wpcf7' ),
 		'tr_TR' => __( 'Turkish', 'wpcf7' ),
 		'uk' => __( 'Ukrainian', 'wpcf7' ),
 		'vi' => __( 'Vietnamese', 'wpcf7' )
 	);
 
 	return $l10n;
+}
+
+function wpcf7_is_rtl() {
+	if ( function_exists( 'is_rtl' ) )
+		return is_rtl();
+
+	return false;
 }
 
 ?>

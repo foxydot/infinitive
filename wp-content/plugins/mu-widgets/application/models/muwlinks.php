@@ -10,7 +10,7 @@ class muwlinks extends WP_Widget_Links {
 		$this->muwidgets->swap_back();
 	}
 	
-	function update($new_instance, $old_instance) {
+	function update($new_instance, $instance) {
 		$instance = parent::update ( $new_instance, $instance );
 		return $this->muwidgets->update($instance,$new_instance);
 	}

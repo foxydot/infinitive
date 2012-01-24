@@ -1,5 +1,5 @@
 <?php
-class bv28v_tag extends bv28v_base {
+class bv44v_tag extends bv44v_base {
 	const anchor_pattern = '|<[\s]*a[\s\w]*(.*)[\s\w]*>([\w\W]*)<\s*/\s*a\s*>|Ui';
 	public function get($tag, $content, $comment = false) {
 		$comment_start = '';

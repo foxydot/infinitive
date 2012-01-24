@@ -410,11 +410,24 @@ class BWPS {
 		
 		$qstring = $wpdb->escape($_SERVER['REQUEST_URI']);
 					
-		$hackQuery = "INSERT INTO " . BWPS_TABLE_D404 . " (computer_id, qstring, attempt_date)
-			VALUES ('" . $this->computer_id . "', '" . $qstring . "', " . time() . ");";
+		$hackQuery = "INSERT INTO " . BWPS_TABLE_D404 . " (computer_id, qstring, referrer, attempt_date)
+			VALUES ('" . $this->computer_id . "', '" . $qstring . "', '" . $_SERVER['HTTP_REFERER'] . "', " . time() . ");";
 			
 		unset($opts);		
 		return $wpdb->query($hackQuery);
+	}
+	
+	/**
+	 * List logged 404 errors
+	 * @return Boolean
+	 * @param String
+	 */
+	function d404_list404s() {
+		global $wpdb;
+		
+		$d404list = $wpdb->get_results("SELECT computer_id, qstring, referrer FROM " . BWPS_TABLE_D404, ARRAY_A);
+				
+		return $d404list;
 	}
 	
 	/**
@@ -450,22 +463,57 @@ class BWPS {
 		
 		$opts = $this->getOptions();
 		
-		$lockTime = time();
+		$whitelist = explode("\n",$opts['idetect_whitelist']);
+		
+		$ban = true;
+		
+		foreach ($whitelist as $item) {
+			if (strstr($item,' - ')) {
+				$range = explode('-', $item);
+				$start = trim($range[0]);
+				$end = trim($range[1]);	
+				if($BWPS->banvisits_ipinrange($this->computer_id, $start, $end)) {
+					$ban = false;
+				}
+			} else {
+				$ipParts = explode('.',$item);
+				$isIP = 0;
+				foreach ($ipParts as $part) {
+					if (is_numeric(trim($part)) || trim($part) == '*') {
+						$isIP++;
+					}
+				}
+				if($isIP == 4) {
+					if($ip == $this->computer_id) {
+						$ban = false;							
+					}
+				} else {
+					$host =  gethostbyaddr ( $this->computer_id );
+					if (trim($host) == trim($item)) {
+						$ban = false;
+					} 
+				}
+			}
+		}
+		
+		if ($ban == true) {
+			$lockTime = time();
 				
-		$lHost = "INSERT INTO " . BWPS_TABLE_LOCKOUTS . " (computer_id, lockout_date, mode)
-			VALUES ('" . $this->computer_id . "', " . $lockTime . ", 1)";
+			$lHost = "INSERT INTO " . BWPS_TABLE_LOCKOUTS . " (computer_id, lockout_date, mode)
+				VALUES ('" . $this->computer_id . "', " . $lockTime . ", 1)";
 					
-		$wpdb->query($lHost);	
+			$wpdb->query($lHost);	
 		
-		if ($opts['idetect_emailnotify'] == 1) { //email the site admin if necessary
-			$mesEmail = __("A computer", 'better-wp-security') . ", " .$this->computer_id . ", " . __('has been locked out of the Wordpress site at', 'better-wp-security') . " " . get_bloginfo('url') . " " . __('until', 'better-wp-security') . " " . date("l, F jS, Y \a\\t g:i:s a e",($lockTime + $opts['idetect_lolength'])) . " " . __('due to too attempts to open a page that doesn\'t exist. You may login to the site to manually release the lock if necessary.', 'better-wp-security');
-			$toEmail = get_site_option("admin_email");
-			$subEmail = get_bloginfo('name') . ' ' . __('Site Lockout Notification', 'better-wp-security');
-			$mailHead = 'From: ' . get_bloginfo('name')  . ' <' . $toEmail . '>' . "\r\n\\";
+			if ($opts['idetect_emailnotify'] == 1) { //email the site admin if necessary
+				$mesEmail = __("A computer", 'better-wp-security') . ", " .$this->computer_id . ", " . __('has been locked out of the Wordpress site at', 'better-wp-security') . " " . get_bloginfo('url') . " " . __('until', 'better-wp-security') . " " . date("l, F jS, Y \a\\t g:i:s a e",($lockTime + $opts['idetect_lolength'])) . " " . __('due to too attempts to open a page that doesn\'t exist. You may login to the site to manually release the lock if necessary.', 'better-wp-security');
+				$toEmail = get_site_option("admin_email");
+				$subEmail = get_bloginfo('name') . ' ' . __('Site Lockout Notification', 'better-wp-security');
+				$mailHead = 'From: ' . get_bloginfo('name')  . ' <' . $toEmail . '>' . "\r\n\\";
 			
-			$sendMail = wp_mail($toEmail, $subEmail, $mesEmail, $headers);
-		}		
-		
+				$sendMail = wp_mail($toEmail, $subEmail, $mesEmail, $headers);
+			}		
+		}
+			
 		unset($opts);
 			
 	}
@@ -514,7 +562,6 @@ class BWPS {
 		global $wpdb;
 		
 		$opts = $this->getOptions();
-			
 
 		$lockList = $wpdb->get_results("SELECT lockout_ID, lockout_date, computer_id FROM " . BWPS_TABLE_LOCKOUTS  . " WHERE lockout_date  + " . $opts['idetect_lolength'] . " > " . time() . " AND mode = 1;", ARRAY_A);
 					

@@ -1,0 +1,14 @@
+<th>
+	Central Blog:
+</th>
+<td>
+	<select name='multisite[blog_id]'>
+		<option value="">None</option>
+		<?php foreach($this->blogs as $blog): ?>
+		<option 
+			<?php echo $this->selected($blog->userblog_id,$this->multisite['blog_id']);?>
+			value="<?php echo $blog->userblog_id;?>"
+			><?php echo $blog->siteurl;?></option>
+		<?php endforeach?>
+	</select>
+</td>

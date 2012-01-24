@@ -1,0 +1,11 @@
+<table class='<?php echo $this->name?>'>
+	<?php foreach($this->columns as $key=>$value): ?>
+		<col class='<?php echo $key?>'/>
+	<?php endforeach ?>
+	<thead> 
+		<tr>
+			<?php foreach($this->columns as $key=>$value): ?>
+				<th><?php echo $value;?></th>
+			<?php endforeach ?>
+		</tr>
+	</thead>

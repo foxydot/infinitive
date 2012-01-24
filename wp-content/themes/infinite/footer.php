@@ -39,5 +39,5 @@
 	wp_footer();
 ?>
 </body>
-</html>
+</html><!-- THIS IS THE PRODUCTION SERVER -->
 <?php restore_current_blog(); ?>

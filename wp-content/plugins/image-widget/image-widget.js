@@ -88,13 +88,22 @@
 			'class', (align == 'none' ? '' : 'align'+align)
 		);
 	}
+	
+	function imgHandler(event) {
+		event.preventDefault();
+		window.send_to_editor = image_widget_send_to_editor;
+		tb_show("Add an Image", event.target.href, false);
+	}
 
 	$(document).ready(function() {
-		$("a.thickbox-image-widget").live('click', function(event) {
-			event.preventDefault();
-			window.send_to_editor = image_widget_send_to_editor;
-			tb_show("Add an Image", event.target.href, false);
-		});
+		// Use new style event handling since $.fn.live() will be deprecated
+		if ( typeof $.fn.on !== 'undefined' ) {
+			$("#wpbody").on("click", ".thickbox-image-widget", imgHandler);
+		}
+		else {
+			$("a.thickbox-image-widget").live('click', imgHandler);
+		}
+		
 		// Modify thickbox link to fit window. Adapted from wp-admin\js\media-upload.dev.js.
 		$('a.thickbox-image-widget').each( function() {
 			var href = $(this).attr('href'), width = $(window).width(), H = $(window).height(), W = ( 720 < width ) ? 720 : width;

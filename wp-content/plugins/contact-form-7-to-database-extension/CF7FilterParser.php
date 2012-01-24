@@ -156,6 +156,9 @@ class CF7FilterParser implements CF7DBEvalutator {
      * @return boolean result of evaluating $data against expression tree
      */
     public function evaluate(&$data) {
+        // Use times in local timezone
+        date_default_timezone_set(get_option('timezone_string'));
+        
         $retVal = true;
         if ($this->tree) {
             $retVal = false;
@@ -179,7 +182,7 @@ class CF7FilterParser implements CF7DBEvalutator {
 
     public function evaluateComparison($andExpr, &$data) {
         if (is_array($andExpr) && count($andExpr) == 3) {
-            $left = $data[$andExpr[0]];
+            $left = isset($data[$andExpr[0]]) ? $data[$andExpr[0]] : null;
             $op = $andExpr[1];
             $right = $andExpr[2];
             if ($this->compValuePreprocessor) {
@@ -188,6 +191,11 @@ class CF7FilterParser implements CF7DBEvalutator {
                 }
                 catch (Exception $ex) {
                     trigger_error($ex, E_USER_NOTICE);
+                }
+            }
+            if ($andExpr[0] == 'submit_time') {
+                if (!is_numeric($right)) {
+                    $right = strtotime($right);
                 }
             }
             if (!$left && !$right) {
@@ -221,7 +229,7 @@ class CF7FilterParser implements CF7DBEvalutator {
             $right = (float)$right;
         }
 
-        // Could do this easier with eval() but I want since this text ultimately
+        // Could do this easier with eval() but since this text ultimately
         // comes form a shortcode's user-entered attributes, I want to avoid a security hole
         $retVal = false;
         switch ($operator) {

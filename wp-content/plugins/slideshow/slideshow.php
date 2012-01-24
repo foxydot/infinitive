@@ -4,7 +4,7 @@
  * Plugin Name: Slideshow
  * Plugin URI: http://pluginbuddy.com/purchase/displaybuddy/
  * Description: DisplayBuddy Series - Slideshow lets you display images anywhere on your site with fully customizable animated transitions and advanced effects.
- * Version: 1.0.33
+ * Version: 1.0.38
  * Author: The PluginBuddy Team
  * Author URI: http://pluginbuddy.com/
  *
@@ -19,14 +19,15 @@
  * 
  * 1. Navigate to the new plugin menu in the Wordpress Administration Panel.
  *
+
  */
 
 
 if (!class_exists('pluginbuddy_slideshow')) {
 	class pluginbuddy_slideshow {
-		var $_version = '1.0.33';
-		var $_updater = '1.0.7';
-		
+		var $_version = '1.0.38';
+		var $_updater = '1.0.8';
+		var $_wp_minimum = '3.2.1';
 		var $_var = 'pluginbuddy_slideshow'; // Format: pluginbuddy-pluginnamehere. All lowecase, no dashes.
 		var $_name = 'Slideshow'; // Pretty plugin name. Only used for display so any format is valid.
 		var $_series = 'DisplayBuddy'; // Series name if applicable.
@@ -111,22 +112,45 @@ if (!class_exists('pluginbuddy_slideshow')) {
 				add_action( 'init', array( &$this, 'upgrader_instantiate' ), 101 );
 				
 				require_once( $this->_pluginPath . '/lib/medialibrary/medialibrary.php' );
-				$this->_medialibrary = new PluginBuddyMediaLibrary( $this,
-					array(
-						'select_button_text'			=>			'Select this Image',
-						'tabs'					=>			array( 'pb_uploader' => 'Upload Images to Media Library', 'library' => 'Select from Media Library' ),
-						'show_input-image_alt_text'		=>			false,
-						'show_input-url'			=>			false,
-						'show_input-image_align'		=>			false,
-						'show_input-image_size'			=>			false,
-						'show_input-description'		=>			true,
-						'custom_help-caption'			=>			'Overlaying text to be displayed if captions are enabled.',
-						'custom_help-description'		=>			'Optional URL for this image to link to.',
-						'custom_label-description'		=>			'Link URL',
-						'use_textarea-caption'			=>			true,
-						'use_textarea-description'		=>			false,
-					)
-				);
+
+				global $wp_version;
+
+				// Check for Wordpress Version for media library. 
+				if ( version_compare( $wp_version, $this->_wp_minimum, '<=' ) ) {
+					$media_lib_version =  array(
+							'select_button_text'			=>			'Select this Image',
+							'tabs'					=>			array( 'pb_uploader' => 'Upload Images to Media Library', 'library' => 'Select from Media Library' ),
+							'show_input-image_alt_text'		=>			false,
+							'show_input-url'			=>			false,
+							'show_input-image_align'		=>			false,
+							'show_input-image_size'			=>			false,
+							'show_input-description'		=>			true,
+							'custom_help-caption'			=>			'Overlaying text to be displayed if captions are enabled.',
+							'custom_help-description'		=>			'Optional URL for this image to link to.',
+							'custom_label-description'		=>			'Link URL',
+							'use_textarea-caption'			=>			true,
+							'use_textarea-description'		=>			false,
+						);
+				}
+			
+				else { 
+					$media_lib_version =  array(
+							'select_button_text'			=>			'Select this Image',
+							'tabs'					=>			array( 'type' => 'Upload Images to Media Library', 'library' => 'Select from Media Library' ),
+							'show_input-image_alt_text'		=>			false,
+							'show_input-url'			=>			false,
+							'show_input-image_align'		=>			false,
+							'show_input-image_size'			=>			false,
+							'show_input-description'		=>			true,
+							'custom_help-caption'			=>			'Overlaying text to be displayed if captions are enabled.',
+							'custom_help-description'		=>			'Optional URL for this image to link to.',
+							'custom_label-description'		=>			'Link URL',
+							'use_textarea-caption'			=>			true,
+							'use_textarea-description'		=>			false,
+						);
+				}
+				$this->_medialibrary = new PluginBuddyMediaLibrary( $this, $media_lib_version );
+				
 				
 				require_once( $this->_pluginPath . '/classes/admin.php' );
 			} else {

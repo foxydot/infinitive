@@ -1,23 +1,43 @@
 <?php
-if (! class_exists ( 'bv28v_application' )) :
+if (! class_exists ( 'wv44v_application' )) :
 	require_once dirname ( dirname ( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'base/application.php';
-	class wv28v_application extends bv28v_application {
-		protected function set_frontcontroller() {
-			parent::set_frontcontroller ( wv28v_controller_front::getInstance ( $this->application () ) );
+	class wv44v_application extends bv44v_application {
+		/*********************************************************************
+		 * Settings Getter, Setters & unsetters
+		 *********************************************************************/
+		public function &user($user_id = null) {
+			return $this->cache ( 'wv44v_user', $user_id );
 		}
-		protected $passed_classes = null;
-		public function __construct($filename = "", $classes = array(), $handler = 'wv28v_settings') {
-			$this->passed_classes = $classes;
-			add_action ( "plugins_loaded", array ($this, "setup" ) );
-			parent::__construct ( $filename, $handler );
-			$this->info = new wv28v_info ( $this );
-			add_action ( "admin_menu", array ($this, "pages" ) );
+		/*********************************************************************
+		 * 
+		 *********************************************************************/
+		public function siteuri($array = false) {
+			$siteurl = strtolower ( get_option ( 'siteurl' ) );
+			$siteurl = explode ( '//', $siteurl );
+			$protocol = $siteurl [0] . '//';
+			$siteurl = $siteurl [1];
+			$siteurl = explode ( '?', $siteurl );
+			$siteurl = urldecode ( trim ( $siteurl [0], '/' ) );
+			$return = array ('protocol' => $protocol, 'uri' => $siteurl );
+			if (! $array) {
+				$return = implode ( '', $return );
+			}
+			return $return;
 		}
-		public function pages() {
-			$obj = new wv28v_controller_action_sandboxsandbox ( $this );
-			$obj->setup ();
-			$obj = new wv28v_controller_action_pluginsandbox ( $this );
-			$obj->setup ();
+		public function pluginuri() {
+			$return = substr ( $this->directory, strlen ( ABSPATH ) );
+			$return = str_replace ( '\\', '/', $return );
+			$return = $this->siteuri () . '/' . $return;
+			return $return;
+		}
+		public function __construct($filename) {
+			parent::__construct ( $filename );
+			$this->legacy ()->move();
+			add_action('init',array($this,'init'));
+		}
+		public function init()
+		{
+			do_action('sandbox_register',$this->application());
 		}
 		public function relative_path($uri = null) {
 			global $current_blog;
@@ -33,22 +53,25 @@ if (! class_exists ( 'bv28v_application' )) :
 			$uri = '/' . rtrim ( $uri, '/' );
 			return $uri;
 		}
-		public function setup() {
-			load_plugin_textdomain ( get_class ( $this ), false, dirname ( plugin_basename ( $this->application ()->filename () ) ) . "/languages/" );
+		public function &info() {
+			return $this->cache ( 'wv44v_info' );
 		}
-		public function preload_classes($classes = array()) {
-			$classes = ( array ) $classes;
-			array_unshift ( $classes, 'wv28v_info', 'wv28v_values', 'wv28v_table', 'wv28v_table_sitemeta', 'wv28v_table_sites', 'wv28v_table_site', 'wv28v_table_posts', 'wv28v_table_postmeta', 'wv28v_table_blogs', 'wv28v_table_blog', 'wv28v_table_options', 'wv28v_table_users', 'wv28v_table_usermeta', 'wv28v_table_commentmeta', 'wv28v_view', 'wv28v_controller_action_abstract', 'wv28v_controller_action_action', 'wv28v_controller_action_adminmenu', 'wv28v_controller_action_control', 'wv28v_controller_action_filter', 'wv28v_controller_front', 'wv28v_controller_dispatcher', 'wv28v_table_comments', 'wv28v_settings', 'wv28v_controller_action_pluginsandbox', 'wv28v_controller_action_sandboxsandbox' );
-			foreach ( $this->passed_classes as $class ) {
-				$classes [] = $class;
-			}
-			parent::preload_classes ( $classes );
+		public function &mu() {
+			return $this->cache ( 'wv44v_mu' );
 		}
-		private $info = null;
-		public function info() {
-			return $this->info;
+		
+		public function &posts() {
+			return $this->cache ( 'wv44v_posts' );
 		}
+		public function &blogs() {
+			return $this->cache ( 'wv44v_blogs' );
+		}
+		public function &legacy() {
+			return $this->cache ( $this->classes->legacy );
+		}
+		public function &comments() {
+			return $this->cache ( 'wv44v_comments' );
+		}
+	
 	}
-
-
 endif;

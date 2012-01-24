@@ -109,6 +109,13 @@ class ExportBase {
                 $this->debug = true;
             }
 
+            $this->isFromShortCode = isset($this->options['fromshortcode']) &&
+                    $this->options['fromshortcode'] === true;
+
+            if (!isset($this->options['unbuffered'])) {
+                $this->options['unbuffered'] = $this->isFromShortCode ? 'false' : 'true';
+            }
+
             if (isset($this->options['showColumns'])) {
                 $this->showColumns = $this->options['showColumns'];
             }
@@ -123,8 +130,6 @@ class ExportBase {
                 $this->hideColumns = preg_split('/,/', $this->options['hide'], -1, PREG_SPLIT_NO_EMPTY);
             }
 
-            $this->isFromShortCode = isset($this->options['fromshortcode']) &&
-                    $this->options['fromshortcode'] === true;
 
             if ($htmlOptions) {
                 if (isset($this->options['class'])) {
@@ -218,6 +223,11 @@ class ExportBase {
      */
     protected function &getColumnsToDisplay($dataColumns) {
 
+        if (empty($dataColumns)) {
+            $retCols = array();
+            return $retCols;
+        }
+
         //$dataColumns = array_merge(array('Submitted'), $dataColumns);
         $showCols = empty($this->showColumns) ? $dataColumns : $this->matchColumns($this->showColumns, $dataColumns);
         if (empty($this->hideColumns)) {
@@ -285,10 +295,13 @@ class ExportBase {
             $queryOptions['submitTimeKeyName'] = $submitTimeKeyName;
         }
         if (!empty($this->rowFilter) && isset($this->options['limit'])) {
-            // have data iterator apply the limit if it is not areadly
-            // being applied in SQL directly, which we do where there are
+            // have data iterator apply the limit if it is not already
+            // being applied in SQL directly, which we do when there are
             // no filter constraints.
             $queryOptions['limit'] = $this->options['limit'];
+        }
+        if (isset($this->options['unbuffered'])) {
+            $queryOptions['unbuffered'] = $this->options['unbuffered'];
         }
 
         $this->dataIterator->query($sql, $this->rowFilter, $queryOptions);
@@ -370,6 +383,17 @@ class ExportBase {
                     }
                     if (in_array($anOrderBy, $fields) || $anOrderBy == 'submit_time') {
                         $orderBys[] = '`' . $anOrderBy . '`' . $ascOrDesc;
+                    }
+                    else {
+                        // Want to add a different collation as a different sorting mechanism
+                        // Actually doesn't work because MySQL does not allow COLLATE on a select that is a group function
+                        $collateIdx = stripos($anOrderBy, ' COLLATE');
+                        if ($collateIdx > 0) {
+                            $collatedField = substr($anOrderBy, 0, $collateIdx);
+                            if (in_array($collatedField, $fields)) {
+                                $orderBys[] = '`' . $collatedField . '`' . substr($anOrderBy, $collateIdx) . $ascOrDesc;
+                            }
+                        }
                     }
                 }
             }

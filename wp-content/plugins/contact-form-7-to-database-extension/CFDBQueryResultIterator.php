@@ -112,16 +112,53 @@ class CFDBQueryResultIterator {
             trigger_error("MySQL Connection failed: " . mysql_error(), E_USER_NOTICE);
             return;
         }
-        mysql_query('SET NAMES utf8', $con);
+
+        // Target charset is in wp-config.php DB_CHARSET
+        if (defined('DB_CHARSET')) {
+            if (DB_CHARSET != '') {
+                global $wpdb;
+                if (method_exists($wpdb, 'set_charset')) {
+                    $collate = null;
+                    if (defined('DB_COLLATE')) {
+                        if (DB_COLLATE != '') {
+                            $collate = DB_COLLATE;
+                        }
+                    }
+                    $wpdb->set_charset($con, DB_CHARSET, $collate);
+                }
+                else {
+                    $setCharset = 'SET NAMES \'' . DB_CHARSET . '\'';
+                    if (defined('DB_COLLATE')) {
+                        if (DB_COLLATE != '') {
+                            $setCharset = $setCharset . ' COLLATE \'' . DB_COLLATE . '\'';
+                        }
+                    }
+                    mysql_query($setCharset, $con);
+                }
+            }
+        }
+
         if (!mysql_select_db(DB_NAME, $con)) {
-            trigger_error("MySQL DB Select failed: " . mysql_error(), E_USER_NOTICE);
+            trigger_error('MySQL DB Select failed: ' . mysql_error(), E_USER_NOTICE);
             return;
         }
-        $this->results = mysql_unbuffered_query($sql, $con);
-        if (!$this->results) {
-            trigger_error("MySQL unbuffered query failed: " . mysql_error(), E_USER_NOTICE);
-            return;
+
+        if (isset($queryOptions['unbuffered']) && $queryOptions['unbuffered'] === 'true') {
+            // FYI: using mysql_unbuffered_query disrupted nested shortcodes if the nested one does a query also
+            $this->results = mysql_unbuffered_query($sql, $con);
+            if (!$this->results) {
+                trigger_error('mysql_unbuffered_query failed: ' . mysql_error(), E_USER_NOTICE);
+                return;
+            }
         }
+        else {
+            $this->results = mysql_query($sql, $con);
+            if (!$this->results) {
+                trigger_error('mysql_query failed: ' . mysql_error(), E_USER_NOTICE);
+                return;
+            }
+        }
+
 
         $this->columns = array();
         $this->row = mysql_fetch_assoc($this->results);

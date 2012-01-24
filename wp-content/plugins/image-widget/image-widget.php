@@ -3,23 +3,23 @@
 Plugin Name: Image Widget
 Plugin URI: http://wordpress.org/extend/plugins/image-widget/
 Description: Simple image widget that uses native Wordpress upload thickbox to add image widgets to your site.
-Author: Shane and Peter, Inc.
-Version: 3.2.8
-Author URI: http://www.shaneandpeter.com
+Author: Modern Tribe, Inc.
+Version: 3.2.11
+Author URI: http://tri.be/
 */
 
 // Load the widget on widgets_init
-function load_sp_image_widget() {
-	register_widget('SP_Image_Widget');
+function tribe_load_image_widget() {
+	register_widget('Tribe_Image_Widget');
 }
-add_action('widgets_init', 'load_sp_image_widget');
+add_action('widgets_init', 'tribe_load_image_widget');
 
 /**
  * SP Image Widget class
  *
  * @author Shane & Peter, Inc. (Peter Chester)
  **/
-class SP_Image_Widget extends WP_Widget {
+class Tribe_Image_Widget extends WP_Widget {
 	
 	var $pluginDomain = 'sp_image_widget';
 
@@ -29,7 +29,7 @@ class SP_Image_Widget extends WP_Widget {
 	 * @return void
 	 * @author Shane & Peter, Inc. (Peter Chester)
 	 */
-	function SP_Image_Widget() {
+	function Tribe_Image_Widget() {
 		$this->loadPluginTextDomain();
 		$widget_ops = array( 'classname' => 'widget_sp_image', 'description' => __( 'Showcase a single image with a Title, URL, and a Description', $this->pluginDomain ) );
 		$control_ops = array( 'id_base' => 'widget_sp_image' );

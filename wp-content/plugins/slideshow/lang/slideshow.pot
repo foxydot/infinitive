@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/slideshow\n"
-"POT-Creation-Date: 2011-09-22 14:09-0500\n"
+"POT-Creation-Date: 2011-12-16 18:40-0600\n"
 "PO-Revision-Date: 2011-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Chris Jean <support@ithemes.com>\n"
 "MIME-Version: 1.0\n"
@@ -37,91 +37,91 @@ msgstr ""
 msgid "&#8220;%s&#8221; has failed to upload due to an error"
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:293
+#: lib/medialibrary/medialibrary.php:304
 msgid "Title"
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:302
+#: lib/medialibrary/medialibrary.php:313
 msgid "Caption"
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:319
+#: lib/medialibrary/medialibrary.php:330
 msgid "Description"
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:330
+#: lib/medialibrary/medialibrary.php:341
 msgid "Link URL"
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:333
+#: lib/medialibrary/medialibrary.php:344
 msgid "Enter a link URL or click above for presets."
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:341
+#: lib/medialibrary/medialibrary.php:352
 msgid "File URL"
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:345
+#: lib/medialibrary/medialibrary.php:356
 msgid "Location of the uploaded file."
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:363
+#: lib/medialibrary/medialibrary.php:374
 msgid "Alt text for the image, e.g. &#8220;The Mona Lisa&#8221;"
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:368
+#: lib/medialibrary/medialibrary.php:379
 msgid "Alternate Text"
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:377
+#: lib/medialibrary/medialibrary.php:388
 msgid "Alignment"
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:465
+#: lib/medialibrary/medialibrary.php:476
 #, php-format
 msgid "Sorry, you have filled your storage quota (%s MB)."
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:477
+#: lib/medialibrary/medialibrary.php:488
 msgid "Select Files"
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:561
+#: lib/medialibrary/medialibrary.php:572
 msgid "Choose files to upload"
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:563
+#: lib/medialibrary/medialibrary.php:574
 msgid "Cancel Upload"
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:565 lib/medialibrary/medialibrary.php:578
+#: lib/medialibrary/medialibrary.php:576 lib/medialibrary/medialibrary.php:589
 #, php-format
 msgid "Maximum upload file size: %d%s"
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:567
+#: lib/medialibrary/medialibrary.php:578
 msgid "After a file has been uploaded, you can add titles and descriptions."
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:574 lib/medialibrary/medialibrary.php:575
+#: lib/medialibrary/medialibrary.php:585 lib/medialibrary/medialibrary.php:586
 msgid "Upload"
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:575
+#: lib/medialibrary/medialibrary.php:586
 msgid "Cancel"
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:580
+#: lib/medialibrary/medialibrary.php:591
 msgid ""
 "If you want to use all capabilities of the uploader, like uploading multiple "
 "files at once, please upgrade to lighttpd 1.5."
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:652
+#: lib/medialibrary/medialibrary.php:663
 msgid "File type does not meet security guidelines. Try another."
 msgstr ""
 
-#: lib/medialibrary/medialibrary.php:667
+#: lib/medialibrary/medialibrary.php:678
 msgid "The uploaded file could not be moved."
 msgstr ""
 

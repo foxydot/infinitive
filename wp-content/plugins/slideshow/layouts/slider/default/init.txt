@@ -1,4 +1,15 @@
-$css .= '.nivoSlider { height: ' . $group['image_height'] . 'px; }';
+$image_number = count($group['images']);
+$thumb_height = $group['thumb_image_height'];
+$slide_width = $group['image_width'];
+$thumb_width = $group['thumb_image_width'];
+$slide_columns = (int)($slide_width / ($thumb_width + 10));
+$slide_row = ceil($image_number / $slide_columns);
+$nav_spacing = ($slide_row * ($thumb_height + 8));
+
+$css .= '.nivoSlider {'; 
+$css .= '	height: ' . $group['image_height'] . 'px;';
+$css .= '       margin-bottom:' . ($nav_spacing + 10) . 'px;'; 
+$css .=	'}';
 
 if ( $group['slider-align'] == 'left' ) {
 	$css .= '.nivoSlider { margin-right: auto; }';
@@ -32,12 +43,16 @@ if ( $group['slider-controlNavThumbs'] == 'true' ) {
 	
 	$css .= '.nivo-controlNav {';
 	$css .= '	width: ' . $group['image_width'] . 'px;';
+	$css .= ' 	margin-left: 6px;'; 
 	$css .= '	position:absolute;';
-	$css .= '	bottom:-' . ($group['thumb_image_height']+10) . 'px; /* Put the nav below the slider */';
+	$css .= '	bottom:-' . ( $nav_spacing+10 ) . 'px; /* Put the nav below the slider */';	
 	$css .= '	text-align: center;';
 	$css .= '}';
 	
 	$css .= '.nivo-controlNav img {';
+	$css .= '	border: 0px;';
+	$css .= '	background: none;';
+	$css .= '	padding: 0px;';
 	$css .= '	cursor: pointer;';
 	$css .= '	display:inline; /* Unhide the thumbnails */';
 	$css .= '	position:relative;';
@@ -80,3 +95,4 @@ if ( $group['slider-controlNavThumbs'] == 'true' ) {
 	$css .= '}';
 	
 }
+

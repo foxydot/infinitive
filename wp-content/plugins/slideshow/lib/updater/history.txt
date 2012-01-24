@@ -9,3 +9,6 @@
 	Added support for new plugin class names.
 1.0.3 - 2010-06-03 - Dustin Bolton
 	Fixed changelog viewing not working.
+1.0.4 - 1.0.7 - Ronald
+1.0.8 - 2011-12-16 - Dustin Bolton
+	Bypassed WordPress options caching to fix saving issue.

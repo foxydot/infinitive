@@ -1,10 +1,10 @@
 === Image Widget ===
-Contributors: Shane & Peter, Inc., mattwiebe
+Contributors: moderntribe, peterchester, mattwiebe, Produced by Modern Tribe, Inc.
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4BSPTNFFY6AL6
 Tags: widget, image, ad, banner, simple, upload, sidebar, admin, thickbox, resize
 Requires at least: 3.0
-Tested up to: 3.1
-Stable tag: 3.2.8
+Tested up to: 3.3
+Stable tag: 3.2.11
 
 == Description ==
 
@@ -68,9 +68,18 @@ function my_template_filter($template) {
 
 == Changelog ==
 
+= 3.2.11 =
+
+* Yet another minor JS fix to hopefully address issues of lightbox not working
+
+= 3.2.10 =
+
+* Fix JS typo.
+
 = 3.2.9 =
 
 * Minor JS fix to hopefully address issues of lightbox not working
+* Use new the new [jQuery.fn.on](http://api.jquery.com/on/) method for forward compatibility.
 
 = 3.2.8 =
 

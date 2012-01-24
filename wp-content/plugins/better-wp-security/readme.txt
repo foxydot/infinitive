@@ -4,8 +4,8 @@ Contributors: Bit51
 Donate link: http://bit51.com/software/better-wp-security/
 Tags: security, secure, multi-site, network, mu, login, lockdown, htaccess, hack, header, cleanup, ban, restrict, access, protect, protection, disable, images, image, hotlink, admin, username, database, prefix, wp-content, rename, directory, directories, secure, SSL
 Requires at least: 3.0
-Tested up to: 3.2
-Stable tag: 2.8
+Tested up to: 3.3-beta2
+Stable tag: 2.10
 
 Helps secure Wordpress by protecting your single or multi-site installation from attackers. Hardens standard Wordpress security by hiding vital areas of your site, protecting access to important files via htaccess, preventing brute-force login attempts, detecting attack attempts, and more.
 
@@ -14,7 +14,7 @@ Released under the terms of the GNU General Public License.
 
 == Description ==
 
-= \#1 WORDPRESS SECURITY PLUGIN =
+= #1 WORDPRESS SECURITY PLUGIN =
 
 Better WP Security takes the best Wordpress security features and techniques and combines them in a single plugin thereby ensuring that as many security holes as possible are patched without  having to worry about conflicting features or the possibility of missing anything on your site.
 
@@ -47,6 +47,7 @@ Better WP Security takes the best Wordpress security features and techniques and
 * French by Claude ALTAYRAC
 * German by <a href="www.smeier.biz">Stefan Meier</a>
 * Italian by <a href="http://www.polslinux.it">Paolo Stivanin</a>
+* Romanian by <a href="http://noblecom.com">Luke Tyler</a>
 
 = More Information =
 * <a href="http://bit51.com/2011/09/fixing-better-wp-security-lockouts/">Fixing Better WP Security Lockouts</a>

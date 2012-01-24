@@ -1,6 +1,11 @@
 <?php
-class muwidgetsaction extends wv28v_controller_action_action {
-	public function initAction() {
+class muwidgetsaction extends wv44v_action {
+	public function muwidgetsWPmenuMeta($return) {
+		$return ['menu'] = '';
+		$return ['title'] = $this->application()->name;
+		return $return;
+	}
+	public function widgets_initWPaction() {
 		$this->application ()->loader ()->load_class ( 'muwarchives' );
 		register_widget ( 'muwarchives' );
 		$this->application ()->loader ()->load_class ( 'muwcalendar' );
@@ -24,5 +29,14 @@ class muwidgetsaction extends wv28v_controller_action_action {
 		$this->application ()->loader ()->load_class ( 'muwtagcloud' );
 		register_widget ( 'muwtagcloud' );
 	}
+	public function widgetsActionMeta($return) {
+		$return ['link_name'] = $return ['title'];
+		$return ['url'] = $this->dashboard('Appearance','Widgets')->url;
+		$return ['classes'] [] = 'v44v_icon16x16';
+		$return ['classes'] [] = 'v44v_icon16x16_settings';
+		$return ['priority'] = -1;
+		return $return;
+	}
+
 }
 		

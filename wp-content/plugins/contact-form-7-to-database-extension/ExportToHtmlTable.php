@@ -25,6 +25,11 @@ require_once('CFDBExport.php');
 class ExportToHtmlTable extends ExportBase implements CFDBExport {
 
     /**
+     * @var bool
+     */
+    static $wroteDefaultHtmlTableStyle = false;
+
+    /**
      * Echo a table of submitted form data
      * @param string $formName
      * @param array $options
@@ -42,7 +47,7 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
         if ($options && is_array($options)) {
             if (isset($options['useDT'])) {
                 $useDT = $options['useDT'];
-                $this->htmlTableClass = '';
+                //$this->htmlTableClass = '';
 
                 if (isset($options['printScripts'])) {
                     $printScripts = $options['printScripts'];
@@ -89,7 +94,7 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
         $this->setDataIterator($formName, $submitTimeKeyName);
 
         if ($useDT) {
-            $dtJsOptions = $options['dt_options'];
+            $dtJsOptions = isset($options['dt_options']) ? $options['dt_options'] : false;
             if (!$dtJsOptions) {
                 $dtJsOptions = '"bJQueryUI": true, "aaSorting": []';
                 $i18nUrl = $this->plugin->getDataTableTranslationUrl();
@@ -107,7 +112,7 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
             <?php
         }
 
-        if ($this->htmlTableClass == $this->defaultTableClass) {
+        if ($this->htmlTableClass == $this->defaultTableClass && !ExportToHtmlTable::$wroteDefaultHtmlTableStyle) {
             ?>
             <style type="text/css">
                 table.<?php echo $this->defaultTableClass ?> {
@@ -115,6 +120,12 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
                     border-spacing: 0;
                     border: 0 solid gray;
                     font-size: x-small;
+                }
+
+                br {
+                    <?php /* Thanks to Alberto for this style which means that in Excel IQY all the text will
+                     be in the same cell, not broken into different cells */ ?>
+                    mso-data-placement: same-cell;
                 }
 
                 table.<?php echo $this->defaultTableClass ?> th {
@@ -139,7 +150,7 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
                 }
             </style>
             <?php
-
+            ExportToHtmlTable::$wroteDefaultHtmlTableStyle = true;
         }
 
         if ($this->style) {

@@ -21,7 +21,7 @@ function wpcf7_ajax_onload() {
 
 	$echo = json_encode( $items );
 
-	if ( $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' ) {
+	if ( wpcf7_is_xhr() ) {
 		@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
 		echo $echo;
 	}
@@ -41,7 +41,7 @@ function wpcf7_ajax_json_echo() {
 
 	if ( isset( $_POST['_wpcf7'] ) ) {
 		$id = (int) $_POST['_wpcf7'];
-		$unit_tag = $_POST['_wpcf7_unit_tag'];
+		$unit_tag = wpcf7_sanitize_unit_tag( $_POST['_wpcf7_unit_tag'] );
 
 		if ( $wpcf7_contact_form = wpcf7_contact_form( $id ) ) {
 
@@ -84,7 +84,7 @@ function wpcf7_ajax_json_echo() {
 
 	$echo = json_encode( $items );
 
-	if ( $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' ) {
+	if ( wpcf7_is_xhr() ) {
 		@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
 		echo $echo;
 	} else {
@@ -93,6 +93,13 @@ function wpcf7_ajax_json_echo() {
 	}
 
 	exit();
+}
+
+function wpcf7_is_xhr() {
+	if ( ! isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) )
+		return false;
+
+	return $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
 }
 
 add_action( 'init', 'wpcf7_submit_nonajax', 11 );
@@ -306,13 +313,13 @@ function wpcf7_script_is() {
 }
 
 if ( WPCF7_LOAD_CSS )
-	add_action( 'wp_print_styles', 'wpcf7_enqueue_styles' );
+	add_action( 'wp_enqueue_scripts', 'wpcf7_enqueue_styles' );
 
 function wpcf7_enqueue_styles() {
 	wp_enqueue_style( 'contact-form-7', wpcf7_plugin_url( 'styles.css' ),
 		array(), WPCF7_VERSION, 'all' );
 
-	if ( 'rtl' == get_bloginfo( 'text_direction' ) ) {
+	if ( wpcf7_is_rtl() ) {
 		wp_enqueue_style( 'contact-form-7-rtl', wpcf7_plugin_url( 'styles-rtl.css' ),
 			array(), WPCF7_VERSION, 'all' );
 	}

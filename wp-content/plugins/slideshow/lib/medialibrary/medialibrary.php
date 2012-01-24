@@ -36,8 +36,8 @@ if (!class_exists("PluginBuddyMediaLibrary")) {
 			'js_return_type'				=>		'serialize',						// Format to return data to parent window when insert image/file is selected. Valid options: serialize, json
 			'select_button_text'			=>		'Select This Image',				// Text for the button to be clicked to select image.
 			'tabs'							=>		array(
-														'pb_uploader'	=>		'PluginBuddy Uploader',
-														'type'			=>		'From Computer',
+														'type'	=>		'PluginBuddy Uploader',
+														'type_comp'			=>		'From Computer',
 														'type_url'		=>		'From URL',
 														'gallery'		=>		'Gallery',
 														'library'		=>		'Media Library'
@@ -90,7 +90,8 @@ if (!class_exists("PluginBuddyMediaLibrary")) {
 						add_filter( 'media_upload_tabs', array( &$this, 'filter_media_upload_tabs' ) );
 						
 					}
-					
+					//add_action( 'init', array( &$this, 'insert_custom_message')  );
+					add_action( 'init', array( &$this, 'media_test_script')  );  
 					add_filter( 'attachment_fields_to_edit', array( &$this, 'filter_attachment_fields_to_edit' ), 5, 2 );
 					add_action( 'media_upload_pb_uploader', array( &$this, 'action_media_upload_pb_uploader' ) );
 					add_filter( 'media_send_to_editor', array( &$this, 'filter_media_send_to_editor' ), 5, 3 );
@@ -101,6 +102,16 @@ if (!class_exists("PluginBuddyMediaLibrary")) {
 				}
 			}
 		}
+		function media_test_script() { 
+			wp_enqueue_style( 'medialibrarycss' , $this->_parent->_pluginURL . '/css/medialibrary.css');
+		}
+		function insert_custom_message() {
+			echo '<script type="text/javascript">' . "\n";
+			echo '	jQuery(document).ready(function() {' . "\n";
+			echo '		jQuery( \'<p>This is a test</p>\' ).insertAfter( \'.after-file-upload\' );' . "\n";
+			echo '});' . "\n";
+			echo '</script>' . "\n";
+		} 
 		
 		// For use when editing
 		function filter_media_upload_library() {

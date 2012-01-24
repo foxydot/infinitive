@@ -1,0 +1,22 @@
+[11-Nov-2011 10:17:05] PHP Warning:  file_put_contents(../../data/infinitive-log.txt) [<a href='function.file-put-contents'>function.file-put-contents</a>]: failed to open stream: No such file or directory in /home3/infinjr1/public_html/meter/submit_data.php on line 50
+[11-Nov-2011 10:17:05] PHP Warning:  sqlite_open() [<a href='function.sqlite-open'>function.sqlite-open</a>]: unable to open database: /home3/infinjr1/data/meterdata.db in /home3/infinjr1/public_html/meter/submit_data.php on line 97
+[11-Nov-2011 10:17:43] PHP Warning:  file_put_contents(../../data/infinitive-log.txt) [<a href='function.file-put-contents'>function.file-put-contents</a>]: failed to open stream: No such file or directory in /home3/infinjr1/public_html/meter/submit_data.php on line 50
+[11-Nov-2011 10:17:43] PHP Warning:  sqlite_open() [<a href='function.sqlite-open'>function.sqlite-open</a>]: unable to open database: /home3/infinjr1/data/meterdata.db in /home3/infinjr1/public_html/meter/submit_data.php on line 97
+[11-Nov-2011 11:45:20] PHP Warning:  file_put_contents(../../data/infinitive-log.txt) [<a href='function.file-put-contents'>function.file-put-contents</a>]: failed to open stream: No such file or directory in /home3/infinjr1/public_html/meter/submit_data.php on line 50
+[11-Nov-2011 11:45:20] PHP Warning:  sqlite_open() [<a href='function.sqlite-open'>function.sqlite-open</a>]: unable to open database: /home3/infinjr1/data/meterdata.db in /home3/infinjr1/public_html/meter/submit_data.php on line 97
+[21-Nov-2011 07:13:23] PHP Warning:  file_put_contents(../../data/infinitive-log.txt) [<a href='function.file-put-contents'>function.file-put-contents</a>]: failed to open stream: No such file or directory in /home3/infinjr1/public_html/meter/submit_data.php on line 50
+[21-Nov-2011 07:13:23] PHP Warning:  sqlite_open() [<a href='function.sqlite-open'>function.sqlite-open</a>]: unable to open database: /home3/infinjr1/data/meterdata.db in /home3/infinjr1/public_html/meter/submit_data.php on line 97
+[21-Nov-2011 07:13:43] PHP Warning:  file_put_contents(../../data/infinitive-log.txt) [<a href='function.file-put-contents'>function.file-put-contents</a>]: failed to open stream: No such file or directory in /home3/infinjr1/public_html/meter/submit_data.php on line 50
+[21-Nov-2011 07:13:43] PHP Warning:  sqlite_open() [<a href='function.sqlite-open'>function.sqlite-open</a>]: unable to open database: /home3/infinjr1/data/meterdata.db in /home3/infinjr1/public_html/meter/submit_data.php on line 97
+[03-Jan-2012 07:53:17] PHP Warning:  sqlite_open() [<a href='function.sqlite-open'>function.sqlite-open</a>]: unable to open database: /home3/infinjr1/data/meterdata.db in /home3/infinjr1/public_html/meter/download.php on line 13
+[03-Jan-2012 07:53:17] PHP Warning:  sqlite_query() expects parameter 1 to be resource, string given in /home3/infinjr1/public_html/meter/download.php on line 14
+[03-Jan-2012 07:53:17] PHP Warning:  sqlite_fetch_all() expects parameter 1 to be resource, null given in /home3/infinjr1/public_html/meter/download.php on line 15
+[03-Jan-2012 07:53:17] PHP Warning:  Invalid argument supplied for foreach() in /home3/infinjr1/public_html/meter/download.php on line 29
+[03-Jan-2012 07:53:17] PHP Warning:  implode() [<a href='function.implode'>function.implode</a>]: Invalid arguments passed in /home3/infinjr1/public_html/meter/download.php on line 34
+[03-Jan-2012 07:53:17] PHP Warning:  Invalid argument supplied for foreach() in /home3/infinjr1/public_html/meter/download.php on line 37
+[03-Jan-2012 07:54:24] PHP Warning:  sqlite_open() [<a href='function.sqlite-open'>function.sqlite-open</a>]: unable to open database: /home3/infinjr1/data/meterdata.db in /home3/infinjr1/public_html/meter/download.php on line 13
+[03-Jan-2012 07:54:24] PHP Warning:  sqlite_query() expects parameter 1 to be resource, string given in /home3/infinjr1/public_html/meter/download.php on line 14
+[03-Jan-2012 07:54:24] PHP Warning:  sqlite_fetch_all() expects parameter 1 to be resource, null given in /home3/infinjr1/public_html/meter/download.php on line 15
+[03-Jan-2012 07:54:24] PHP Warning:  Invalid argument supplied for foreach() in /home3/infinjr1/public_html/meter/download.php on line 29
+[03-Jan-2012 07:54:24] PHP Warning:  implode() [<a href='function.implode'>function.implode</a>]: Invalid arguments passed in /home3/infinjr1/public_html/meter/download.php on line 34
+[03-Jan-2012 07:54:24] PHP Warning:  Invalid argument supplied for foreach() in /home3/infinjr1/public_html/meter/download.php on line 37

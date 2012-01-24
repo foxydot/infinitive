@@ -1,10 +1,84 @@
 <?php
-if (! class_exists ( 'bv28v_application' )) :
+if (! class_exists ( 'bv44v_application' )) :
 	require dirname ( __FILE__ ) . '/base.php';
-	class bv28v_application extends bv28v_base {
-		private static $applications = array ();
-		public function applications() {
-			return self::$applications;
+	class bv44v_application extends bv44v_base {
+		public function file()
+		{
+			return $this->_filename;
+		}
+		public function &table($table = null) {
+			return $this->cache ( $this->classes->table, $table, false );
+		}
+		public function &sqlite() {
+			return $this->cache ( 'bv44v_data_sqlite' );
+		}
+		public function &request() {
+			return $this->cache ( 'bv44v_request' );
+		}
+		public function &data($data = null) {
+			return $this->cache ( $this->classes->data, $data );
+		}
+		public function &help($tag) {
+			return $this->cache ( 'bv44v_data_help', $tag );
+		}
+		public function &form($form = null) {
+			return $this->cache ( $this->classes->form, $form );
+		}
+		public function setup_controllers() {
+			$directories = array ('controllers' );
+			if($this->dodebug())
+			{
+				$directories[] = 'sandbox';
+			}
+			$dirs = $this->loader ()->includepath ($directories);
+			foreach ( $dirs as $dir ) {
+				$fs = new bv44v_fs ( $this, $dir ,10);
+				$controllers = $fs->dir ( '*.php' );
+				foreach ( $controllers as $controller ) {
+					$class = basename ( $controller, ".php" );
+					if (! class_exists ( $class )) {
+						include $controller;
+					}
+					new $class ( $this );
+				}
+			}
+		}
+		/*********************************************************************
+		 * Settings Getter, Setters & unsetters
+		 *********************************************************************/
+		public function __get($key) {
+			if (isset ( $this->_config->$key )) {
+				return $this->_config->$key;
+			}
+			//throw new exception ( $key . " not set" );
+			return null;
+		}
+		public function __isset($key) {
+			//$this->get_xml ( $key, $this->_scope );
+			return isset ( $this->_xml [$this->_scope] [$key] );
+		}
+		public function __unset($key) {
+			if (isset ( $this->_config->$key )) {
+				unset ( $this->_config->$key );
+			}
+		}
+		/*********************************************************************
+		 * 
+		 *********************************************************************/
+		
+		public function version() {
+			$return = $this->version . '.v44v';
+			if ($this->dodebug ()) {
+				$return .= '.' . time ();
+			}
+			return $return;
+		}
+		public function siteuri($array = false) {
+			$return = array ('protocol' => 'http://', 'uri' => 'test.com' );
+			if (! $array) {
+				return implode ( '', $return );
+			}
+			return $return;
 		}
 		private $_page = null;
 		public function page() {
@@ -15,9 +89,9 @@ if (! class_exists ( 'bv28v_application' )) :
 		}
 		public function set_page($page = null) {
 			if (null === $page) {
-				$this->_page = $this->relative_path ();
+				$this->_page = urldecode ( $this->relative_path () );
 			} else {
-				$this->_page = '/' . ltrim ( rtrim ( $page, '/' ), '/' );
+				$this->_page = urldecode ( '/' . ltrim ( rtrim ( $page, '/' ), '/' ) );
 			}
 		}
 		public function relative_path($uri = null) {
@@ -35,70 +109,31 @@ if (! class_exists ( 'bv28v_application' )) :
 			$uri = '/' . ltrim ( rtrim ( substr ( $uri, strlen ( $root_uri ) ), '/' ), '/' );
 			return $uri;
 		}
-		private $_filename = null;
-		public function filename() {
-			return $this->_filename;
-		}
-		public function plugin_directory() {
-			return dirname($this->_filename);
-		}
-		protected $handler = null;
-		public function __construct($filename = "",$handler='bv28v_settings') {
-			if (! class_exists ( 'bv28v_loader' )) {
-				require_once dirname ( dirname ( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'base/loader.php';
-			}
-			$this->_loader = new bv28v_loader ( $this );
+		private $_config = null;
+		public function __construct($filename) {
 			parent::__construct ( $this );
-			$this->handler=$handler;
-			$this->_filename = $filename;
-			$this->preload_classes ();
-			$class = $this->_class();
-			$this->settings=new $class($this);
-			$this->set_frontcontroller ();
-			self::$applications [] = $this;
-		}
-		private $osettings = null;
-		public function osettings() {
-			if (null == $this->osettings) {
-				$this->osettings = new bv28v_oSettings ( $this );
+			$this->_filename = $filename; // legacy get rid of as soon as possible
+			//load just enough classes to get the settings
+			if (! class_exists ( 'bv44v_data_settings' )) {
+				$dir = dirname ( $filename );
+				require_once $dir . '/library/base/data/settings.php';
 			}
-			return $this->osettings;
-		}
-		private $_frontController;
-		public function frontcontroller() {
-			$this->set_frontcontroller ();
-			return $this->_frontcontroller;
-		}
-		protected function set_frontcontroller($controller = null) {
-			if (null === $controller) {
-				$this->_frontcontroller = bv28v_controller_front::getInstance ( $this->application () );
-			} else {
-				$this->_frontcontroller = $controller;
+			$this->_config = bv44v_data_settings::config ( $filename );
+			// load the classes specified in the classes
+			// legacy
+			//$this->pre();
+			//var_dump($this->classes);
+			//$this->pre();
+			foreach ( $this->classes->_load as $library ) {
+				if (! is_array ( $library )) {
+					$this->loader ()->load_class ( $library );
+				}
 			}
+			unset ( $this->classes->_load );
+			$this->setup_controllers ();
 		}
-		private $_loader = null;
-		public function loader() {
-			return $this->_loader;
-		}
-		private $settings = null;
-		public function settings()
-		{
-			return $this->settings;
-		}
-		protected function _class()
-		{
-			return $this->handler;
-		}
-		protected function preload_classes($classes = array()) {
-			$classes = ( array ) $classes;
-			$loader = $this->loader ();
-			array_unshift ( $classes, 'bv28v_info', 'bv28v_controller_action', 'bv28v_type_abstract', 'bv28v_type_string', 'bv28v_type_array', 'bv28v_fs', 'bv28v_view', 'bv28v_http', 'bv28v_tag', 'bv28v_data_abstract', 'bv28v_data_xml', 'bv28v_fs', 'bv28v_http', 'bv28v_controller_front', 'bv28v_controller_dispatcher', 'bv28v_table','bv28v_settings' );
-			foreach ( $classes as $class ) {
-				$loader->load_class ( $class );
-			}
-			$loader->load_class ( $this->_class() );
+		public function &loader() {
+			return $this->cache ( 'bv44v_loader' );
 		}
 	}
-
-
 endif;

@@ -164,7 +164,7 @@ if ( !class_exists( "pluginbuddy_slideshow_admin" ) ) {
 					}
 				}
 				if ( $found_series === false ) {
-					add_menu_page( $this->_parent->_series . ' Getting Started', $this->_parent->_series, 'edit_posts', 'pluginbuddy-' . strtolower( $this->_parent->_series ), array(&$this, 'view_gettingstarted'), $this->_parent->_pluginURL.'/images/pluginbuddy.png' );
+					add_menu_page( $this->_parent->_series . ' Getting Started', $this->_parent->_series, 'edit_posts', 'pluginbuddy-' . strtolower( $this->_parent->_series ), array(&$this, 'view_gettingstarted'), $this->_parent->_pluginURL.'/images/displaybuddy16.png' );
 					add_submenu_page( 'pluginbuddy-' . strtolower( $this->_parent->_series ), $this->_parent->_name.' Getting Started', 'Getting Started', 'edit_posts', 'pluginbuddy-' . strtolower( $this->_parent->_series ), array(&$this, 'view_gettingstarted') );
 				}
 				// Register for getting started page

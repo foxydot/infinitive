@@ -3,7 +3,7 @@ Contributors: pjgalbraith
 Donate link: http://www.pjgalbraith.com/2011/08/recent-posts-plus/
 Tags: posts, recent, recent posts, widget, post-plugins
 Requires at least: 2.9.0
-Tested up to: 3.2.1
+Tested up to: 3.3
 Stable tag: trunk
 
 An advanced version of the WordPress Recent Posts widget, allows display of thumbnails, post excerpt, author, comment count, and more.
@@ -29,13 +29,31 @@ Features Include:
 
 == Frequently Asked Questions ==
 
-See documentation at http://www.pjgalbraith.com/2011/08/recent-posts-plus/
+See documentation at http://www.pjgalbraith.com/2011/08/recent-posts-plus/ and existing questions and answers at http://www.pjgalbraith.com/2011/08/recent-posts-plus/#comments
 
 == Screenshots ==
 
 1. Widget options screen
 
 == Changelog ==
+
+= 1.0.10 =
+* Fixed excerpt ellipsis being added to the title incorrectly
+
+= 1.0.9 =
+* Added option to customize the ellipsis within the Widget Output Template using `{ELLIPSIS}...{/ELLIPSIS}` tag
+* The output of more template tags is now available when using PHP within the Widget Output Template
+* Other minor tweaks
+
+= 1.0.8 =
+* Fixed tags being broken by truncation
+* Note: links are being stripped again but formatting should be same as v 1.0.4
+* Widget admin javascript is only being added when needed
+* Added code to prevent direct script access
+
+= 1.0.7 =
+* Added option to display post author's avatar. Using `{AUTHOR_AVATAR}` tag
+* Added ability to add raw PHP code to the widget output template option
 
 = 1.0.6 =
 * Link and paragraph tags no longer stripped from excerpt. Now matches output of v 1.0.4
@@ -69,6 +87,18 @@ See documentation at http://www.pjgalbraith.com/2011/08/recent-posts-plus/
 
 == Upgrade Notice ==
 
+= 1.0.10 =
+Fixed excerpt ellipsis being added to the title incorrectly
+
+= 1.0.9 =
+Added option to customize the ellipsis within the Widget Output Template
+
+= 1.0.8 =
+Fixed tags being broken by truncation, plus other small fixes.
+
+= 1.0.7 =
+Added ability to display author avatar and use raw php in output template.
+
 = 1.0.6 =
 Link and paragraph tags no longer stripped from excerpt. Now matches output of v 1.0.4
 
@@ -79,16 +109,16 @@ Added custom field tag, ability to truncate by words, and other fixes. See docum
 Added new inline date formatting. See documentation for more info.
 
 = 1.0.3 =
-Fixed issue with limiting excerpt chars
+Fixed issue with limiting excerpt chars.
 
 = 1.0.2 =
-Fixes issues with widget options panel
+Fixes issues with widget options panel.
 
 = 1.0.1 =
 Fixes rendering issue.
 
 = 1.0.0 =
-Initial release
+Initial release.
 
 == Documentation ==
 

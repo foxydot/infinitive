@@ -1,5 +1,5 @@
 <?php
-class bv28v_mail extends bv28v_base  {
+class bv44v_mail extends bv44v_base  {
 	//--- ishtml
 	private $_ishtml = false;
 	protected function ishtml()

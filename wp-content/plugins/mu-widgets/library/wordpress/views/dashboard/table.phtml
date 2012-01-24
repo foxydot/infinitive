@@ -1,0 +1,45 @@
+<table class="widefat <?php echo $this->table_type;?>">
+<?php if (null!==$this->title): ?>
+	<caption><?php echo $this->title;?></caption>
+<?php endif?>
+	<colgroup>
+		<?php for($cnt=1;$cnt<=$this->column_count;$cnt++):?>
+			<col class='col<?php echo $cnt;?>'/>
+		<?php endfor;?>
+	</colgroup>
+	<?php if($this->columns!==false):?>
+	<thead>
+		<tr>
+		<?php if ($this->columns!=''):?>
+			<?php echo $this->columns;?>
+		<?php else: ?>
+			<th colspan=<?php echo $this->column_count;?>>&nbsp</th>
+		<?php endif;?>
+		</tr>
+	</thead>
+	<?php endif;?>
+	<?php if($this->footer!==false):?>
+	<tfoot>
+		<tr>
+		<?php if ($this->footer!=''):?>
+			<?php echo $this->footer;?>
+		<?php else: ?>
+			<th colspan=<?php echo $this->column_count;?>>&nbsp</th>
+		<?php endif;?>
+		</tr>
+	</tfoot>
+	<?php endif;?>
+	<tbody>
+	<?php $cnt=1;foreach($this->rows as $row):?>
+		<tr class="<?php echo $this->alternate()?> row<?php echo $cnt++;?>">
+		<?php echo $row;?>
+		</tr>
+	<?php endforeach;?>
+	</tbody>
+</table>
+<?php if (''!=$this->apply): ?>
+<input type='submit' id='submit' class='button-primary' value='<?php echo $this->apply;?>' />
+<?php endif ?>
+<?php if (null!==$this->return_url): ?>
+&nbsp;<a href="<?php echo $this->url?>">Return</a>
+<?php endif ?>

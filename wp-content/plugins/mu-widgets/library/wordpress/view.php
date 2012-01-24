@@ -1,5 +1,5 @@
 <?php
-class wv28v_view extends bv28v_view {
+class wv44v_view extends bv44v_view {
 	public function _e($text) {
 		_e ( $text, $this->domain );
 	}

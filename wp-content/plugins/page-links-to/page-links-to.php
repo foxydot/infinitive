@@ -3,12 +3,12 @@
 Plugin Name: Page Links To
 Plugin URI: http://txfx.net/wordpress-plugins/page-links-to/
 Description: Allows you to point WordPress pages or posts to a URL of your choosing.  Good for setting up navigational links to non-WP sections of your site or to off-site resources.
-Version: 2.5
+Version: 2.6
 Author: Mark Jaquith
 Author URI: http://coveredwebservices.com/
 */
 
-/*  Copyright 2005-2011  Mark Jaquith
+/*  Copyright 2005-2012  Mark Jaquith
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,32 +25,13 @@ Author URI: http://coveredwebservices.com/
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-// Compat functions for WP < 2.8
-if ( !function_exists( 'esc_attr' ) ) {
-	function esc_attr( $attr ) {
-		return attribute_escape( $attr );
-	}
-
-	function esc_url( $url ) {
-		return clean_url( $url );
-	}
-}
-
 class CWS_PageLinksTo {
+	static $instance;
 	var $targets;
 	var $links;
 
-	/**
-	 * PHP 4 constructor
-	 */
-	function CWS_PageLinksTo() {
-		return $this->__construct();
-	}
-
-	/**
-	 * PHP 5 constructor
-	 */
 	function __construct() {
+		self::$instance = $this;
 		add_action( 'init', array( $this, 'init' ) );
 	}
 
@@ -63,9 +44,11 @@ class CWS_PageLinksTo {
 		add_action( 'template_redirect',   array( $this, 'template_redirect'   )        );
 		add_filter( 'page_link',           array( $this, 'link'                ), 20, 2 );
 		add_filter( 'post_link',           array( $this, 'link'                ), 20, 2 );
+		add_filter( 'post_type_link',      array( $this, 'link',               ), 20, 2 );
 		add_action( 'do_meta_boxes',       array( $this, 'do_meta_boxes'       ), 20, 2 );
 		add_action( 'save_post',           array( $this, 'save_post'           )        );
 		add_filter( 'wp_nav_menu_objects', array( $this, 'wp_nav_menu_objects' ), 10, 2 );
+		add_action( 'load-post.php',       array( $this, 'load_post'           )        );
 	}
 
  /**
@@ -81,6 +64,7 @@ class CWS_PageLinksTo {
 			update_option( 'txfx_plt_schema_version', 3 );
 		}
 	}
+
 	/**
 	 * Returns post ids and meta values that have a given key
 	 * @param string $key post meta key
@@ -161,7 +145,6 @@ class CWS_PageLinksTo {
 	?>
 		<p>Point to this URL: <input name="txfx_links_to" type="text" style="width:75%" id="txfx_links_to" value="<?php echo esc_attr( $url ); ?>" /></p>
 		<p><label for="txfx_links_to_new_window"><input type="checkbox" name="txfx_links_to_new_window" id="txfx_links_to_new_window" value="_blank" <?php checked( '_blank', get_post_meta( $post->ID, '_links_to_target', true ) ); ?>> Open this link in a new window</label></p>
-		<p><label for="txfx_links_to_302"><input type="checkbox" name="txfx_links_to_302" id="txfx_links_to_302" value="302" <?php checked( '302', get_post_meta( $post->ID, '_links_to_type', true ) ); ?>> Use a temporary <code>302</code> redirect (default is a permanent <code>301</code> redirect)</label></p>
 	<?php
 	}
 
@@ -181,10 +164,6 @@ class CWS_PageLinksTo {
 					update_post_meta( $post_ID, '_links_to_target', '_blank' );
 				else
 					delete_post_meta( $post_ID, '_links_to_target' );
-				if ( isset( $_POST['txfx_links_to_302'] ) )
-					update_post_meta( $post_ID, '_links_to_type', '302' );
-				else
-					delete_post_meta( $post_ID, '_links_to_type' );
 			} else {
 				delete_post_meta( $post_ID, '_links_to' );
 				delete_post_meta( $post_ID, '_links_to_target' );
@@ -226,9 +205,7 @@ class CWS_PageLinksTo {
 		if ( !$link )
 			return;
 
-		$redirect_type = get_post_meta( $wp_query->post->ID, '_links_to_type', true );
-		$redirect_type = ( '302' == $redirect_type ) ? '302' : '301';
-		wp_redirect( $link, $redirect_type );
+		wp_redirect( $link, 301 );
 		exit;
 	}
 
@@ -245,7 +222,7 @@ class CWS_PageLinksTo {
 		if ( !$links && !$page_links_to_target_cache )
 			return $pages;
 
-		$this_url = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$this_url = ( is_ssl() ? 'https' : 'http' ) . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$targets = array();
 
 		foreach ( (array) $links as $id => $page ) {
@@ -262,7 +239,7 @@ class CWS_PageLinksTo {
 			foreach ( $targets as  $p => $t ) {
 				$p = esc_url( $p );
 				$t = esc_attr( $t );
-				$pages = str_replace( '<a href="' . $p . '" ', '<a href="' . $p . '" target="' . $t . '" ', $pages );
+				$pages = str_replace( '<a href="' . $p . '"', '<a href="' . $p . '" target="' . $t . '"', $pages );
 			}
 		}
 
@@ -270,7 +247,6 @@ class CWS_PageLinksTo {
 			$pages = preg_replace( '| class="([^"]+)current_page_item"|', ' class="$1"', $pages ); // Kill default highlighting
 			$pages = preg_replace( '|<li class="([^"]+)"><a href="' . preg_quote( $current_page ) . '"|', '<li class="$1 current_page_item"><a href="' . $current_page . '"', $pages );
 		}
-
 		return $pages;
 	}
 
@@ -283,6 +259,18 @@ class CWS_PageLinksTo {
 			$new_items[] = $item;
 		}
 		return $new_items;
+	}
+
+	function load_post() {
+		if ( isset( $_GET['post'] ) ) {
+			if ( $url = get_post_meta( absint( $_GET['post'] ), '_links_to', true ) ) {
+				add_action( 'admin_notices', array( $this, 'notify_of_external_link' ) );
+			}
+		}
+	}
+
+	function notify_of_external_link() {
+		?><div class="updated"><p><?php _e( '<strong>Note</strong>: This content is pointing to an alternate URL. Use the &#8220;Page Links To&#8221; box to change this behavior.', 'page-links-to' ); ?></p></div><?php
 	}
 
 }

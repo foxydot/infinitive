@@ -1,0 +1,71 @@
+/***********************************************************************************
+* Icons Base Styles
+***********************************************************************************/
+.v44v_icon20x20
+{
+	margin:0;
+	padding:10px 0 10px 20px!important;
+	background-position:left center;
+	background-repeat: no-repeat;
+}
+.v44v_icon16x16
+{
+	margin:0;
+	padding:8px 0 8px 16px!important;
+	background-position:left center;
+	background-repeat: no-repeat;
+}
+/***********************************************************************************
+* Icons Graphics 20x20
+***********************************************************************************/
+.v44v_icon20x20_download
+{
+	background-image: url('../images/icon20x20_download.png');
+}
+.v44v_icon20x20_new
+{
+	background-image: url('../images/icon20x20_new.png');
+}
+.v44v_icon20x20_delete
+{
+	background-image: url('../images/icon20x20_delete.png');
+}
+.v44v_icon20x20_copy
+{
+	background-image: url('../images/icon20x20_copy.png');
+}
+.v44v_icon20x20_mandatory
+{
+	background-image: url('../images/icon20x20_mandatory.png');
+}
+/***********************************************************************************
+* Icons Graphics 16x16
+***********************************************************************************/
+.v44v_icon16x16_debug {
+	background-image: url('../images/icon16x16_debug.png');
+}
+.v44v_icon16x16_donate {
+	background-image: url('../images/icon16x16_paypal.png');
+}
+.v44v_icon16x16_form {
+	background-image: url('../images/icon16x16_forms.png');
+}
+.v44v_icon16x16_plate {
+	background-image: url('../images/icon16x16_form.png');
+}
+.v44v_icon16x16_multisite {
+	background-image: url('../images/icon16x16_multisite.png');
+}
+.v44v_icon16x16_forum {
+	background-image: url('../images/icon16x16_forum.png');
+}
+.v44v_icon16x16_info
+{
+	background-image: url('../images/icon16x16_info.png');
+}
+.v44v_icon16x16_home {
+	background-image: url('../images/icon16x16_home.png');
+}
+.v44v_icon16x16_settings {
+	background-image: url('../images/icon16x16_settings.png');
+}

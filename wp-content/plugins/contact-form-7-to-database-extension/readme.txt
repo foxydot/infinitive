@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NEVDJ
 Tags: contact form,database
 Requires at least: 3.2.1
 Tested up to: 3.2.1
-Stable tag: 2.0.1
+Stable tag: 2.2.3
 
 Extension to the Contact Form 7 plugin that saves submitted form data to the database.
 
@@ -67,6 +67,31 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 1. Admin Panel view of submitted form data
 
 == Changelog ==
+
+= 2.2.4 =
+* Improvement: cfdb-html now supports nested short codes
+* Bug Fix: short code builder for cfdb-html not showing template HTML tags
+* Improvement: if "form" missing from a short code, PHP error no longer happens
+
+= 2.2.3 =
+* Can do exports via the Short Code Builder Page with the main short code options applied (show, hide, search, filter, limit, orderby)
+
+= 2.2.2 =
+* Bug fix: for some users the fix in 2.2.1 for setting character encoding when retrieving was throwing exception because
+no $wpdb->set_charset() method exists. Made code handle this case
+
+= 2.2.1 =
+* Bug fix: relating to character encoding: umlaut characters not displaying correctly
+* Bug fix: "class" attribution on table tag was not being emitted for [cfdb-datatables]
+* Fixed some strings that were not being internationalized.
+* More links to documentation on Database Short Code page
+
+= 2.2 =
+* Short code "filter" values using submit_time can now use 'strtotime' values. E.g. "submit_time>last week"
+* Dropped index `form_name_field_name_idx` but this fails on some MySQL versions and needs to be done manually (<a href="http://bugs.mysql.com/bug.php?id=37910">MySQL Bug 37910</a>).
+
+= 2.1.1 =
+* Upgrade of DataTables to version 1.8.2 from 1.7.6
 
 = 2.1 =
 * New short code: [cfdb-save-form-post]

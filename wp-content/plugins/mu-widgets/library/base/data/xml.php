@@ -1,45 +1,46 @@
 <?php
-class bv28v_data_xml extends bv28v_data_abstract {
-	public function load() {
-		$this->array = $this->staticLoad ( $this->filename );
-		return $this->array;
-	}
-	public function staticLoad($file) {
-		$data =file_get_contents ( $this->findfile ( $file ) );
-		$xml_parser = xml_parser_create ();
-		xml_parser_set_option( $xml_parser, XML_OPTION_CASE_FOLDING, 0 );
-		xml_parser_set_option( $xml_parser, XML_OPTION_SKIP_WHITE, 0 );
-		xml_parse_into_struct ( $xml_parser, $data, $vals, $index );
-		xml_parser_free ( $xml_parser );
-		//if($this->test)
-		{
-			$return=$this->decode ( $vals );
-			$valid=false;
-			foreach($return as $return)
-			{
-				$valid=true;
-				break;
+class bv44v_data_xml implements Iterator, ArrayAccess, Countable {
+	public static function reduce(&$array) {
+		if (! isset ( $array ['count'] )) {
+			$new = array ();
+			foreach ( $array as $key => $value ) {
+				if ($value) {
+					$new [$key] = $key;
+				}
 			}
-			if($valid)
-			{
-				$return=$this->make_array($return);
-			}
-			else
-			{
-				throw new exception("$file is not valid XML");
+			$array = $new;
+		} else {
+			$cnt = 0;
+			foreach ( $array as $key => $value ) {
+				if (is_numeric ( $key )) {
+					$cnt ++;
+					if ($cnt > $array ['count']) {
+						unset ( $array [$key] );
+					}
+				}
 			}
 		}
-//		else
-//		{
-//			$return=$this->old ( $vals );
-//		}
-		return $return;
+		unset ( $array ['count'] );
 	}
-	public $test=false;
-	private function decode($xml) {
-		$array = array ();
+	
+	public static function load($file) {
+		if (! file_exists ( $file )) {
+			return false;
+		}
+		$data = file_get_contents ( $file );
+		$xml_parser = xml_parser_create ();
+		xml_parser_set_option ( $xml_parser, XML_OPTION_CASE_FOLDING, 0 );
+		xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 0 );
+		xml_parse_into_struct ( $xml_parser, $data, $vals, $index );
+		xml_parser_free ( $xml_parser );
+		foreach ( self::decode ( $vals ) as $return ) {
+			return $return->regular ();
+		}
+	}
+	private static function decode($xml) {
+		$array = new self ();
 		$sub = array ();
-		$complete = array ();
+		$complete = new self ();
 		$tag = null;
 		$level = null;
 		$id = null;
@@ -50,30 +51,27 @@ class bv28v_data_xml extends bv28v_data_abstract {
 				$id = $index;
 			} elseif ($xml_elem ['type'] == 'close' && $xml_elem ['level'] == $level && $xml_elem ['tag'] = $tag) {
 				$data = self::decode ( $sub );
+				$complete->true_keys = true;
 				foreach ( $complete as $key => $value ) {
-					$data [$key] = $this->value($value);
+					$data [$key] = $value;
 				}
-				$array [$tag . ':' . $id] = $data;
+				$complete->true_keys = false;
+				$array [array ($tag, $id )] = $data;
 				$tag = null;
 				$level = null;
 				$sub = array ();
-				$complete = array ();
+				$complete = new self ();
 			} elseif ($xml_elem ['type'] == 'complete' && $xml_elem ['level'] == $level + 1) {
-				if(isset($xml_elem['attributes']['xml_key_id']))
-				{
-					$xml_elem['tag']=$xml_elem['attributes']['xml_key_id'];
-					unset($xml_elem['attributes']['xml_key_id']);
+				if (isset ( $xml_elem ['attributes'] ['xml_key_id'] )) {
+					$xml_elem ['tag'] = $xml_elem ['attributes'] ['xml_key_id'];
+					unset ( $xml_elem ['attributes'] ['xml_key_id'] );
 				}
 				if (array_key_exists ( 'value', $xml_elem )) {
-					$complete [$xml_elem ['tag'] . ':' . $index] = $xml_elem ['value'];
-				}else
-				{
-					$complete [$xml_elem ['tag'] . ':' . $index] = '';
+					$complete [array ($xml_elem ['tag'], $index )] = $xml_elem ['value'];
+				} else {
+					$complete [array ($xml_elem ['tag'], $index )] = '';
 				}
 				if (array_key_exists ( 'attributes', $xml_elem )) {
-					foreach ( $xml_elem ['attributes'] as $key => $value ) {
-						$complete [$xml_elem ['tag'] . ':' . $index] [$key . ':' . $index] = $this->value($value);
-					}
 				}
 			} else {
 				$sub [$index] = $xml_elem;
@@ -81,47 +79,117 @@ class bv28v_data_xml extends bv28v_data_abstract {
 		}
 		return $array;
 	}
-	public function make_array($array)
-	{
-		$return=array();
-		foreach($array as $key=>$value)
-		{
-			if(is_array($value))
-			{
-				$value=$this->make_array($value);
+	private $values = array ();
+	private $keys = array ();
+	public $true_keys = false;
+	public static function is($value) {
+		return (is_object ( $value ) && get_class ( $value ) == __CLASS__);
+	}
+	public function __construct($array = null) {
+		if (null !== $array) {
+			foreach ( $array as $key => $value ) {
+				$this [$key] = $value;
 			}
-			$true_key=substr($key,0,strpos($key,':'));
-			if(isset($return[$true_key]))
-			{
-				if(!is_array($return[$true_key]))
-				{
-					$old=$return[$true_key];
-					$return[$true_key]=array();
-					$return[$true_key][]=$old;
+		}
+	}
+	private function offset($offset) {
+		if (null !== $offset) {
+			if (is_array ( $offset )) {
+				return serialize ( $offset );
+			}
+			return $offset;
+		}
+		return null;
+	}
+	public function rewind() {
+		reset ( $this->keys );
+		return reset ( $this->values );
+	}
+	public function current() {
+		return current ( $this->values );
+	}
+	public function key() {
+		if ($this->true_keys) {
+			return key ( $this->keys );
+		} else {
+			return current ( $this->keys );
+		}
+	}
+	public function next() {
+		next ( $this->keys );
+		return next ( $this->values );
+	}
+	public function valid() {
+		return key ( $this->values ) !== null;
+	}
+	private function true_key($key) {
+		if (is_string ( $key )) {
+			$new_key = unserialize ( $key );
+			if (false !== $new_key) {
+				return $new_key;
+			}
+		}
+		return $key;
+	}
+	public function offsetSet($offset, $value) {
+		$offset = $this->true_key ( $offset );
+		$key = $offset;
+		$offset = $this->offset ( $offset );
+		if (is_array ( $value ) && ! $attribute) {
+			$value = new self ( $value );
+		}
+		if (null === $offset) {
+			$this->values [] = $value;
+			$ak = array_keys ( $this->values );
+			$offset = $ak [count ( $ak ) - 1];
+			$key = $offset;
+		} else {
+			$this->values [$offset] = $value;
+		}
+		if (is_array ( $key )) {
+			$key = $key [0];
+		}
+		$this->keys [$offset] = $key;
+	}
+	public function offsetExists($offset) {
+		$offset = $this->offset ( $offset );
+		return $this->values->offsetExists ( $offset );
+	}
+	public function offsetUnset($offset) {
+		$offset = $this->offset ( $offset );
+		$this->values->offsetUnset ( $offest );
+	}
+	public function offsetGet($offset) {
+		$return = null;
+		if (is_array ( $offset )) {
+			$offset = $this->offset ( $offset );
+			$return = $this->values->offsetGet ( $offset );
+		} else {
+			$keys = array_keys ( $this->keys, $offset, true );
+			if (count ( $keys ) == 1) {
+				$return = $this->values [$keys [0]];
+			} else {
+				$return = new self ();
+				foreach ( $keys as $key ) {
+					$return [] = $this->values [$key];
 				}
-				$return[$true_key][]=$value;
-			}
-			else
-			{
-				$return[$true_key]=$value;	
 			}
 		}
 		return $return;
 	}
-	function value($value)
-	{
-/*		switch($value)
-		{
-			case 'null':
-				$value=null;
-				break;
-			case 'true':
-				$value=true;
-				break;
-			case 'false':
-				$value=false;
-				break;
+	public function count() {
+		return count ( $this->values );
+	}
+	public function regular() {
+		$keys = array_unique ( $this->keys );
+		$return = array ();
+		foreach ( $keys as $key ) {
+			$value = $this [$key];
+			if (self::is ( $value )) {
+				$value = $value->regular ();
+			}
+			$return [$key] = $value;
 		}
-*/		return $value;
+		return $return;
 	}
 }

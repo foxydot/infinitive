@@ -1,5 +1,5 @@
 <?php
-class wv28v_mail extends bv28v_mail {
+class wv44v_mail extends bv44v_mail {
 	protected function headercharset() {
 		return "charset=\"" . get_option ( 'blog_charset' ) . "\"\n";
 	}

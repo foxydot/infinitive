@@ -1,0 +1,33 @@
+{
+	"name":"Multisite Widgets",
+	"version":"1.2",
+	"slug":"muwidgets",
+	"status":"release",
+	"classes":{
+		"_load":["muwidgets"]
+	},
+	"wordpress":
+	{
+		"uri":"http://muwidgets.dcoda.co.uk/",
+		"wpslug":"mu-widgets",
+		"stable_tag":"1.2.44",
+		"donate_link":"http://muwidgets.dcoda.co.uk/donate/",
+		"short_desc":"Extends the standard WordPress widgets to be able to run on another blog on the site.",
+		"tags":
+		[
+			"mu",
+			"multisite",
+			"widget",
+			"blogs",
+			"sites"
+		]
+	},
+	"help_meta":
+	{
+		"gettingstarted":
+		{
+			"url":"http://muwidgets.dcoda.co.uk/help/"
+		}
+	}
+
+}

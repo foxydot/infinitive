@@ -1,5 +1,5 @@
 <?php
-class wv28v_info extends bv28v_info {
+class wv44v_info extends bv44v_base {
 	public function wp_user($field = null) {
 		global $current_user;
 		wp_get_current_user ();

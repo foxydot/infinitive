@@ -1,0 +1,11 @@
+<tbody>
+<?php	foreach($this->data as $datum) : ?>
+	<tr class='<?php echo $this->alternate();?>'>	
+	<?php foreach($this->columns as $column=>$title) :?>
+		<td>
+			<?php echo $datum[$column]; ?>
+		</td>
+	<?php endforeach ?>
+	</tr>
+<?php endforeach ?>
+</tbody>

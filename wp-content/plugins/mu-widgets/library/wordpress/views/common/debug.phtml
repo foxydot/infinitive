@@ -1,0 +1,44 @@
+<table class="debug" cellspacing="0">
+	<col></col>
+	<col></col>
+	<tfoot>
+		<tr>
+			<td colspan=3><input class=button type='submit'
+				value='Update Settings' /></td>
+		</tr>
+	</tfoot>
+	<tbody>
+		<tr class='<?php echo $this->alternate (); ?>'>
+			<th>Remember debug mode across versions</th>
+			<td>
+				<input type=hidden name='debug_settings[remember]' value='' />
+				<input type=checkbox name='debug_settings[remember]' <?php echo $this->debug_settings ['remember'];?> value='checked' />
+			</td>
+			<td>the flag in setttings.json will be reset after an update, this stores a flag in the database</td>
+		</tr>
+		<tr class='<?php echo $this->alternate (); ?>'>
+			<th>Show 'DCoda Settings' in admin menu</th>
+			<td>
+				<input type=hidden name='debug_settings[settings]' value='' />
+				<input type=checkbox name='debug_settings[settings]' <?php echo $this->debug_settings ['settings'];?> value='checked' />
+			</td>
+			<td>Gives you access to the settings you can edit them or delete them as you would any other post/postmeta. Be careful</td>
+		</tr>
+		<tr class='<?php echo $this->alternate (); ?>'>
+			<th>Wipe Blog</th>
+			<td>
+				<input type=hidden name='debug_settings[wipe]' value='' />
+				<input type=checkbox name='debug_settings[wipe]' value='wipe' />
+			</td>
+			<td>This will clear everything accept the users and options, but we're working on cleaning them to the minimum too.</td>
+		</tr>
+		<tr class='<?php echo $this->alternate (); ?>'>
+			<th>Setup Test Data</th>
+			<td>
+				<input type=hidden name='debug_settings[test]' value='' />
+				<input type=checkbox name='debug_settings[test]' value='test' />
+			</td>
+			<td>Setups up post/links users etc t quickly test as many options of the plugin as possible.</td>
+		</tr>
+	</tbody>
+</table>

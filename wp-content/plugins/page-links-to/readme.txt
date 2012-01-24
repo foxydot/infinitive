@@ -3,14 +3,14 @@ Contributors: markjaquith
 Donate link: http://txfx.net/wordpress-plugins/donate
 Tags: page, redirect, link, external link, repoint
 Requires at least: 3.0
-Tested up to: 3.3
-Stable tag: 2.5
+Tested up to: 3.3.1
+Stable tag: 2.6
 
 Lets you make a WordPress page (or other content type) link to an external URL of your choosing, instead of its WordPress URL.
 
 == Description ==
 
-This plugin allows you to make a WordPress page or post link to a URL of your choosing, instead of its WordPress page or post URL. It also will redirect people who go to the old (or "normal") URL to the new one you've chosen (`301 Moved Permanently` redirects are standard, but you can choose a `302 Moved Temporarily` redirect if you wish).
+This plugin allows you to make a WordPress page or post link to a URL of your choosing, instead of its WordPress page or post URL. It also will redirect people who go to the old (or "normal") URL to the new one you've chosen.
 
 This functionality is useful for setting up navigational links to non-WordPress sections of your site or to off-site resources.
 
@@ -44,7 +44,7 @@ Just use "#" at the link. That won't go anywhere.
 
 = Can this be used to repoint categories to an arbitrary URL? =
 
-Not at this time. I'm considering it as a future feature.
+No.
 
 = My links are sending me to http://myblog.com/www.site-i-wanted-to-link-to.com ... why? =
 
@@ -55,6 +55,13 @@ If you want to link to a full URL, you *must* include the `http://` portion.
 Yes. Linking to `/my-photos.php` is a good idea, as it'll still work if you move your site to a different domain.
 
 == Changelog ==
+
+= 2.6 =
+* Proper linking for custom post types (insead of just a 301).
+* Fixed a bug that prevented links from opening in a new window.
+* Notifies people when they are editing content that uses this plugin.
+* Removed the option to set redirection type. Always 301, now.
+* Removed some PHP4 and WP 2.8 back compat stuff.
 
 = 2.5 =
 * Allow all show_ui post types to use the meta box.
