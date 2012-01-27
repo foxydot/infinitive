@@ -18,7 +18,9 @@ get_header(); ?>
 <?php get_sidebar('logo'); ?>
 <div id="page-content-wrapper" class="page-content-wrapper">
 <?php get_sidebar('nav'); ?>
-<?php infinite_analytics_logo(); ?>
+<?php 
+	global $subdomain;
+	print blog_logo($subdomain); ?>
 <?php
 /* Run the loop to output the page.
  * If you want to overload this in a child theme then include a file

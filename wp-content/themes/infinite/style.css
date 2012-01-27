@@ -847,6 +847,9 @@ div.menu>ul li{
 	color: #10374C;
 	}
 /* Inner Pages */
+.blog-hdr {
+	text-align: center;
+}
 .blog-logo {
 	height: 50px;
 	width: 180px;
