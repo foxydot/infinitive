@@ -21,6 +21,11 @@ get_header();
 	<?php include('includes/home-main.php'); ?>
 	<?php get_footer('home'); ?>
 <?php else: //this is a subsite homepage?>
-	<?php include('includes/home-landing.php'); ?>
+	<?php if(is_home()): //is the homepage dynamic? ?>
+		<?php include('includes/home-blog.php') ?>
+	<?php else: ?>
+		<?php include('includes/home-landing.php'); ?>
+		<?php get_footer(); ?>
+	<?php endif; ?>
 	<?php get_footer(); ?>
 <?php endif; ?>
