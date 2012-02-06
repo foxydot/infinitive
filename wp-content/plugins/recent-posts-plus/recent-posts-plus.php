@@ -126,7 +126,10 @@ class RecentPostsPlus extends WP_Widget {
                 if($include_post_thumbnail == "false") {
                     $POST_THUMBNAIL = '';
                 } else {
-                    $POST_THUMBNAIL = get_the_post_thumbnail($ID, array($post_thumbnail_width, $post_thumbnail_height));
+                	$blog_name = sanitize_title(get_blog_option( $blog_id, 'blogname' ));
+					$blog_bug = '<img src="'.get_stylesheet_directory_uri().'/images/bugs/'.$blog_name.'-sm.png" title="'.$blog_name.'" alt="'.$blog_name.'" class="attachment-50x36 wp-post-image" width="36" height="36" />';
+                    $featured_img = get_the_post_thumbnail($ID, array($post_thumbnail_width, $post_thumbnail_height));
+					$POST_THUMBNAIL = $featured_img?$featured_img:$blog_bug;
                 }
                 
                 $POST_TITLE_RAW = strip_tags(get_the_title($ID));
