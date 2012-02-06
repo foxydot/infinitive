@@ -2,7 +2,7 @@
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-class wv45v_gcharts extends bv45v_base {
+class wv46v_gcharts extends bv46v_base {
 	private $settings = array();
 	public function bar_width($type='a',$value=null)
 	{

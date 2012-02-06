@@ -1,5 +1,5 @@
 <?php
-class muwidgets_widgets extends bv45v_Base {
+class muwidgets_widgets extends bv46v_Base {
 	private $widget = null;
 	public function __construct(&$widget, $name) {
 		$this->widget = $widget;
@@ -11,7 +11,7 @@ class muwidgets_widgets extends bv45v_Base {
 	}
 	public function form($instance) {
 		global $current_blog;
-		$blogs = new wv45v_data_table ( 'blogs' );
+		$blogs = new wv46v_data_table ( 'blogs' );
 		$sql = "SELECT * FROM %s ORDER BY domain, path";
 		$sql = sprintf ( $sql, $blogs->name () );
 		$blogs = $blogs->execute ( $sql );

@@ -1,8 +1,13 @@
 <?php
-class bv45v_data_settings extends bv45v_base {
+class bv46v_data_settings extends bv46v_base {
 	protected $_option;
-	public function __construct(&$application, $option = null) {
+	public function __construct(&$application, $array = null) {
 		parent::__construct ( $application );
+		$option=null;
+		if(is_array($array))
+		{
+			$option=$array['data'];
+		}
 		$this->_option = $option;
 	}
 	public function __get($key) {
@@ -33,11 +38,14 @@ class bv45v_data_settings extends bv45v_base {
 			}
 		}
 		foreach ( $options as $key => $option ) {
-			if (strpos ( $option, '_' ) === 0 || (!$this->dodebug() && strpos ( $option, '$' ) === 0)) {
+			if (strpos ( $option, '_' ) === 0 || (!$this->dodebug() && strpos ( $option, '$_' ) === 0)) {
 				unset ( $options [$key] );
 			}
 		}
 		natsort ( $options );
+		$default=$options['default'];
+		unset($options['default']);
+		array_unshift($options,$default);
 		return $options;
 	}
 	private static function legacy_application($home) {
@@ -65,22 +73,22 @@ class bv45v_data_settings extends bv45v_base {
 			}
 		}
 		uasort ( $data, array ('self', 'legacy_sort_xml_data' ) );
-		$data = bv45v_data_array::merge ( $data );
+		$data = bv46v_data_array::merge ( $data );
 		unset ( $data ['priority'] );
 		return $data;
 	}
 	public static function config($filename) {
 		$home = dirname ( $filename );
-		if (! class_exists ( 'bv45v_data_array' )) {
+		if (! class_exists ( 'bv46v_data_array' )) {
 			require_once $home . '/library/base/data/array.php';
 		}
-		if (! class_exists ( 'bv45v_data_xml' )) {
+		if (! class_exists ( 'bv46v_data_xml' )) {
 			require_once $home . '/library/base/data/xml.php';
 		}
-		if (! class_exists ( 'bv45v_loader' )) {
+		if (! class_exists ( 'bv46v_loader' )) {
 			require_once $home . '/library/base/loader.php';
 		}
-		if (! class_exists ( 'bv45v_data_json' )) {
+		if (! class_exists ( 'bv46v_data_json' )) {
 			require_once $home . '/library/base/data/json.php';
 		}
 		$files = scandir ( $home . '/library' );
@@ -107,10 +115,10 @@ class bv45v_data_settings extends bv45v_base {
 			}
 		}
 		uasort ( $data, array ('self', 'priority_sort' ) );
-		$data = bv45v_data_array::merge ( $data );
+		$data = bv46v_data_array::merge ( $data );
 		if(isset($data->settings))
 		{
-			bv45v_data_array::objects_to_array($data->settings);
+			bv46v_data_array::objects_to_array($data->settings);
 		}
 		unset ( $data->priority );
 		$data->folders->_1 = 'application';
@@ -130,10 +138,10 @@ class bv45v_data_settings extends bv45v_base {
 		if (file_exists ( $file )) {
 			switch (pathinfo ( $file, PATHINFO_EXTENSION )) {
 				case 'xml' :
-					$return = bv45v_data_xml::load ( $file );
+					$return = bv46v_data_xml::load ( $file );
 					break;
 				case 'json' :
-					$return = bv45v_data_json::decode ( file_get_contents ( $file ), $legacy );
+					$return = bv46v_data_json::decode ( file_get_contents ( $file ), $legacy );
 					break;
 			}
 		}
@@ -154,7 +162,7 @@ class bv45v_data_settings extends bv45v_base {
 				$data [$file] = $datum;
 			}
 		}
-		$data = bv45v_data_array::merge ( $data );
+		$data = bv46v_data_array::merge ( $data );
 		$data ['application'] = self::legacy_application ( $application->directory );
 		return $data;
 	}
@@ -182,7 +190,7 @@ class bv45v_data_settings extends bv45v_base {
 		$options = array ();
 		$load = '/settings';
 		if (null !== $this->_option) {
-			$base = new bv45v_data_settings ( $this->application () );
+			$base = new bv46v_data_settings ( $this->application () );
 			$settings [] = $base->data ();
 			$load = '/settings/' . $this->_option;
 		}
@@ -196,7 +204,7 @@ class bv45v_data_settings extends bv45v_base {
 				}
 			}
 		}
-		$this->_data = bv45v_data_array::merge ( $settings );
+		$this->_data = bv46v_data_array::merge ( $settings );
 		return $this->_data;
 	}
 

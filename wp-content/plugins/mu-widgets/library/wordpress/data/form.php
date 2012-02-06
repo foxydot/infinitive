@@ -2,7 +2,7 @@
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-class wv45v_data_form extends wv45v_action {
+class wv46v_data_form extends wv46v_action {
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
@@ -16,13 +16,22 @@ class wv45v_data_form extends wv45v_action {
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-	public function __construct($application, $name = null) {
-		if (null === $name) {
-			$name = 'default';
+	public function __construct($application, $array = null) {
+		$name = 'default';
+		$this->slug = $application->slug;
+		if(is_array($array))
+		{
+			if (null !== $array['data']) {
+				$name = $array['data'];
+			}
+			if (null !== $array['slug']) {
+				$this->slug = $array['slug'];
+			}
 		}
 		$this->_form = $name;
 		parent::__construct ( $application );
 	}
+	public $slug=null;
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
@@ -33,8 +42,8 @@ class wv45v_data_form extends wv45v_action {
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-	public function &data() {
-		return parent::data ( $this->form () );
+	public function &data($slug=null) {
+		return parent::data ( $this->form () ,$slug);
 	}
 /*****************************************************************************************
 * ??document??
@@ -65,7 +74,7 @@ class wv45v_data_form extends wv45v_action {
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-	public function forms($show_hidden = false) {
+	public function forms($show_hidden = false,$saved_only=false) {
 		if ($this->request ()->is_post ()) {
 			$src = '';
 			$dst = '';
@@ -94,8 +103,8 @@ class wv45v_data_form extends wv45v_action {
 				$this->table ($d)->drop (  );
 			}
 		}
-		$options = $this->data ()->options ( $show_hidden );
-		$tables = $this->table ()->show_tables ( "{$this->application()->slug}_%" );
+		$options = $this->data ($this->slug)->options ( $show_hidden,$saved_only );
+		$tables = $this->table ()->show_tables ( "{$this->slug}_%" );
 		$forms = array ();
 		$new = array ('name' => null, 'table' => null, 'count' => '' );
 		foreach ( $options as $option ) {
@@ -116,7 +125,7 @@ class wv45v_data_form extends wv45v_action {
 * ??document??
 *****************************************************************************************/
 	public function table_name_to_option($table) {
-		$return = explode ( "{$this->application()->slug}_", $table );
+		$return = explode ( "{$this->slug}_", $table );
 		return $return [1];
 	}
 }

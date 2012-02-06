@@ -28,7 +28,6 @@ body {
 	}
 a {
 	color: #455560;
-	text-decoration: none;
 }
 .about a,
 .client-experience a,
@@ -216,6 +215,13 @@ body {
 	}
 	
 /* Social Media */
+.salesforce-form input {
+	color: #999;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px; 
+	width: 100%
+}
 .social-media {
 	position: relative;
 	float: left;
@@ -226,27 +232,39 @@ body {
 	float: left;
 	display: block;
 	background: url(images/socialmedia.png) no-repeat;
-	width: 34px;
-	height: 34px;
-	margin: 2px 5px;
+	width: 24px;
+	height: 24px;
+	margin: 2px;
+	position: relative;
+	text-indent: 9999px;
+	text-decoration: none;
 	}
 .social-media a.fb {
 	background-position: 0px 0px;
 }
 .social-media a.tw {
-	background-position: 0px -35px;
+	background-position: -144px 0px;
 }
 .social-media a.fl {
-	background-position: 0px -71px;
+	background-position: -24px 0;
+}
+.social-media a.li {
+	background-position: -72px 0;
 }
 .social-media a.yt {
-	background-position: 0px -108px;
-}
-.social-media a.wp {
-	background-position: 0 -145px;
+	background-position: -192px 0;
 }
 .social-media a.gl {
-	background-position: 0 -145px;
+	background-position: -48px 0;
+}
+.social-media a.rss {
+	background-position: -96px 0;
+}
+.social-media a.st {
+	background-position: -120px 0;
+}
+.social-media a.wp {
+	background-position: -168px 0;
 }
 /* Menus */
 ul.menu,

@@ -2,7 +2,7 @@
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-class bv45v_loader extends bv45v_base {
+class bv46v_loader extends bv46v_base {
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
@@ -46,7 +46,7 @@ class bv45v_loader extends bv45v_base {
 		$found = false;
 		foreach ( $this->application()->folders as $key => $value ) {
 			if (strpos($key,'_')!==0) {
-				$start = "{$key}v45v";
+				$start = "{$key}v46v";
 				if (strpos ( $file, $start ) === 0) {
 					$file = str_replace ( $start, $value, $file );
 					$found = true;

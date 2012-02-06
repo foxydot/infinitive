@@ -1,53 +1,53 @@
 /***********************************************************************************
 * Icons Base Styles
 ***********************************************************************************/
-.v45v_48x48_warning,
-.v45v_48x48,
-.v45v_48x48_critical,
-.v45v_48x48_help,
-.v45v_48x48_info
+.v46v_48x48_warning,
+.v46v_48x48,
+.v46v_48x48_critical,
+.v46v_48x48_help,
+.v46v_48x48_info
 {
 	margin:0;
 	padding:10px 0 10px 48px!important;
 	background-position:left center;
 	background-repeat: no-repeat;
 }
-.v45v_10x10_edit,
-.v45v_10x10
+.v46v_10x10_edit,
+.v46v_10x10
 {
 	margin:0;
 	padding:5px 0 5px 10px!important;
 	background-position:left center;
 	background-repeat: no-repeat;
 }
-.v45v_20x20_download,
-.v45v_20x20_new,
-.v45v_20x20_delete,
-.v45v_20x20_copy,
-.v45v_20x20_mandatory,
-.v45v_20x20
+.v46v_20x20_download,
+.v46v_20x20_new,
+.v46v_20x20_delete,
+.v46v_20x20_copy,
+.v46v_20x20_mandatory,
+.v46v_20x20
 {
 	margin:0;
 	padding:10px 0 10px 20px!important;
 	background-position:left center;
 	background-repeat: no-repeat;
 }
-.v45v_16x16_debug,
-.v45v_16x16_edit,
-.v45v_16x16_donate,
-.v45v_16x16_form,
-.v45v_16x16_plate,
-.v45v_16x16_multisite,
-.v45v_16x16_forum,
-.v45v_16x16_info,
-.v45v_16x16_home,
-.v45v_16x16_settings,
-.v45v_16x16_correct,
-.v45v_16x16_incorrect,
-.v45v_16x16_download,
+.v46v_16x16_debug,
+.v46v_16x16_edit,
+.v46v_16x16_donate,
+.v46v_16x16_form,
+.v46v_16x16_plate,
+.v46v_16x16_multisite,
+.v46v_16x16_forum,
+.v46v_16x16_info,
+.v46v_16x16_home,
+.v46v_16x16_settings,
+.v46v_16x16_correct,
+.v46v_16x16_incorrect,
+.v46v_16x16_download,
 .wrong,
 .correct,
-.v45v_16x16
+.v46v_16x16
 {
 	margin:0;
 	padding:8px 0 8px 16px!important;
@@ -57,107 +57,107 @@
 /***********************************************************************************
 * Icons Graphics 48x48
 ***********************************************************************************/
-.v45v_48x48_critical
+.v46v_48x48_critical
 {
 	background-image: url('../images/48x48_critical.png');
 }
-.v45v_48x48_help
+.v46v_48x48_help
 {
 	background-image: url('../images/48x48_help.png');
 }
-.v45v_48x48_info
+.v46v_48x48_info
 {
 	background-image: url('../images/48x48_info.png');
 }
-.v45v_48x48_warning
+.v46v_48x48_warning
 {
 	background-image: url('../images/48x48_warning.png');
 }
 /***********************************************************************************
 * Icons Graphics 20x20
 ***********************************************************************************/
-.v45v_20x20_download
+.v46v_20x20_download
 {
 	background-image: url('../images/20x20_download.png');
 }
-.v45v_20x20_new
+.v46v_20x20_new
 {
 	background-image: url('../images/20x20_new.png');
 }
-.v45v_20x20_delete
+.v46v_20x20_delete
 {
 	background-image: url('../images/20x20_delete.png');
 }
-.v45v_20x20_copy
+.v46v_20x20_copy
 {
 	background-image: url('../images/20x20_copy.png');
 }
-.v45v_20x20_mandatory
+.v46v_20x20_mandatory
 {
 	background-image: url('../images/20x20_mandatory.png');
 }
 /***********************************************************************************
 * Icons Graphics 48x16
 ***********************************************************************************/
-.v45v_48x16_censor
+.v46v_48x16_censor
 {
 	background-image: url('../images/48x16_censor.png');
 }
-.v45v_48x16_spoiler
+.v46v_48x16_spoiler
 {
 	background-image: url('../images/48x16_spoiler.png');
 }
 /***********************************************************************************
 * Icons Graphics 10x10
 ***********************************************************************************/
-.v45v_10x10_edit {
+.v46v_10x10_edit {
 	background-image: url('../images/10x10_edit.png');
 }
 /***********************************************************************************
 * Icons Graphics 16x16
 ***********************************************************************************/
-.v45v_16x16_download {
+.v46v_16x16_download {
 	background-image: url('../images/16x16_download.png');
 }
-.v45v_16x16_debug {
+.v46v_16x16_debug {
 	background-image: url('../images/16x16_debug.png');
 }
-.v45v_16x16_donate {
+.v46v_16x16_donate {
 	background-image: url('../images/16x16_paypal.png');
 }
-.v45v_16x16_form {
+.v46v_16x16_form {
 	background-image: url('../images/16x16_forms.png');
 }
-.v45v_16x16_plate {
+.v46v_16x16_plate {
 	background-image: url('../images/16x16_form.png');
 }
-.v45v_16x16_multisite {
+.v46v_16x16_multisite {
 	background-image: url('../images/16x16_multisite.png');
 }
-.v45v_16x16_forum {
+.v46v_16x16_forum {
 	background-image: url('../images/16x16_forum.png');
 }
-.v45v_16x16_info
+.v46v_16x16_info
 {
 	background-image: url('../images/16x16_info.png');
 }
-.v45v_16x16_home {
+.v46v_16x16_home {
 	background-image: url('../images/16x16_home.png');
 }
-.v45v_16x16_settings {
+.v46v_16x16_settings {
 	background-image: url('../images/16x16_settings.png');
 }
-.v45v_16x16_correct,
+.v46v_16x16_correct,
 .correct
 {
 	background-image: url('../images/16x16_correct.png');
 }
-.v45v_16x16_incorrect,
+.v46v_16x16_incorrect,
 .wrong
 {
 	background-image: url('../images/16x16_incorrect.png');
 }
-.v45v_16x16_edit
+.v46v_16x16_edit
 {
 	background-image: url('../images/16x16_edit.png');
 }

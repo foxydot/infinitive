@@ -4,11 +4,11 @@
 <td>
 	<select name='multisite[blog_id]'>
 		<option value="">None</option>
-		<?php foreach($this->blogs as $blog): ?>
+		<?php foreach($this->blogs as $blog): if($this->current_blog!=$blog->userblog_id&&$blog->active===true):?>
 		<option 
 			<?php echo $this->selected($blog->userblog_id,$this->multisite['blog_id']);?>
 			value="<?php echo $blog->userblog_id;?>"
 			><?php echo $blog->siteurl;?></option>
-		<?php endforeach?>
+		<?php endif;endforeach?>
 	</select>
 </td>

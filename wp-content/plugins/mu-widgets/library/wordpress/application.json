@@ -1,30 +1,33 @@
 {
 	"classes" :
 	{
-		"application":"wv45v_application",
-		"form":"wv45v_data_form",
-		"table":"wv45v_data_table",
-		"data":"wv45v_data_settings",
-		"legacy":"wv45v_data_legacy",
+		"application":"wv46v_application",
+		"form":"wv46v_data_form",
+		"table":"wv46v_data_table",
+		"data":"wv46v_data_settings",
+		"legacy":"wv46v_data_legacy",
 		"_load":
 		[
-			"wv45v_info",
-			"wv45v_data_table",
-			"wv45v_view",
-			"wv45v_action",
-			"wv45v_widget",
-			"wv45v_data_settings",
-			"wv45v_data_form",
-			"bv45v_http",
-			"wv45v_mu",
-			"wv45v_posts",
-			"wv45v_blogs",
-			"wv45v_data_legacy",
-			"wv45v_comments",
-			"wv45v_user"
+			"wv46v_info",
+			"wv46v_data_table",
+			"wv46v_view",
+			"wv46v_action",
+			"wv46v_widget",
+			"wv46v_data_settings",
+			"wv46v_data_form",
+			"bv46v_http",
+			"wv46v_mu",
+			"wv46v_posts",
+			"wv46v_blogs",
+			"wv46v_data_legacy",
+			"wv46v_comments",
+			"wv46v_user"
 		]
 	},
+	"write_only":null,
+	"force_to_db":false,
 	"folders" : {"w":"library/wordpress"},
+	"new_settings":false,
 	"wordpress" : 
 	{
 		"author" : "",

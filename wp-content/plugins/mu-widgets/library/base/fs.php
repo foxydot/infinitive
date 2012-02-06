@@ -2,7 +2,7 @@
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-class bv45v_fs extends bv45v_base {
+class bv46v_fs extends bv46v_base {
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
@@ -117,7 +117,7 @@ class bv45v_fs extends bv45v_base {
 	public function relativeDir($pattern = '*.*', $type = null, $recursionDepth = 0) {
 		$dir = $this->dir ( $pattern, $type, $recursionDepth );
 		$start = strlen ( $this->path () ) + 1;
-		$return = new bv45v_Array ( );
+		$return = new bv46v_Array ( );
 		foreach ( ( array ) $dir as $item ) {
 			$return [] = substr ( $item, $start );
 		}

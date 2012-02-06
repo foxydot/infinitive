@@ -1,10 +1,10 @@
 <?php
-if (! class_exists ( 'bv45v_base' ))
+if (! class_exists ( 'bv46v_base' ))
 {
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-	abstract class bv45v_base {
+	abstract class bv46v_base {
 		public static function dc_class()
 		{
 			return __FILE__;
@@ -119,8 +119,8 @@ if (! class_exists ( 'bv45v_base' ))
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-		public function &data($data = null) {
-			return $this->application ()->data ( $data );
+		public function &data($data = null,$slug=null) {
+			return $this->application ()->data ( $data,$slug );
 		}
 /*****************************************************************************************
 * ??document??
@@ -131,8 +131,8 @@ if (! class_exists ( 'bv45v_base' ))
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-		public function &form($form = null) {
-			return $this->application ()->form ( $form );
+		public function &form($form = null,$slug=null) {
+			return $this->application ()->form ( $form,$slug );
 		}
 /*****************************************************************************************
 * ??document??
@@ -160,7 +160,7 @@ if (! class_exists ( 'bv45v_base' ))
 			if (defined ( "WP_PLUGIN_DIR" )) {
 				$dir = dirname ( dirname ( dirname ( substr ( __FILE__, strlen ( WP_PLUGIN_DIR ) + 1 ) ) ) );
 			}
-			return ((getenv ( 'debug' ) == 'yes') || (getenv ( 'debug' ) == $dir));
+			return (WP_DEBUG===true && (getenv ( 'debug' ) == 'yes') || (getenv ( 'debug' ) == $dir));
 		}
 /*****************************************************************************************
 * ??document??
@@ -208,7 +208,7 @@ if (! class_exists ( 'bv45v_base' ))
 					$trace = print_r ( $this->trace (), true );
 				}
 				$class = get_class ( $this );
-				$return .= "<div title='{$title}' class=v45v_16x16_debug>\n\n{$line}class: {$class}\nfile: {$file}\n{$line}{$got}\n{$line}\n<p>{$trace}</p></div>";
+				$return .= "<div title='{$title}' class=v46v_16x16_debug>\n\n{$line}class: {$class}\nfile: {$file}\n{$line}{$got}\n{$line}\n<p>{$trace}</p></div>";
 			}
 			$return = str_replace ( "\n", "<br/>\n", $return );
 			echo $return;

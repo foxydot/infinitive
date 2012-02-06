@@ -1,10 +1,10 @@
 <?php
-if (! class_exists ( 'bv45v_application' )) :
+if (! class_exists ( 'bv46v_application' )) :
 	require dirname ( __FILE__ ) . '/base.php';
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-	class bv45v_application extends bv45v_base {
+	class bv46v_application extends bv46v_base {
 /*****************************************************************************************
 * ??document??used??
 *****************************************************************************************/
@@ -22,31 +22,31 @@ if (! class_exists ( 'bv45v_application' )) :
 * ??document??
 *****************************************************************************************/
 		public function &sqlite() {
-			return $this->cache ( 'bv45v_data_sqlite' );
+			return $this->cache ( 'bv46v_data_sqlite' );
 		}
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
 		public function &request() {
-			return $this->cache ( 'bv45v_request' );
+			return $this->cache ( 'bv46v_request' );
 		}
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-		public function &data($data = null) {
-			return $this->cache ( $this->classes->data, $data );
+		public function &data($data = null,$slug=null) {
+			return $this->cache ( $this->classes->data, array('data'=>$data,'slug'=>$slug) );
 		}
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
 		public function &help($tag) {
-			return $this->cache ( 'bv45v_data_help', $tag );
+			return $this->cache ( 'bv46v_data_help', $tag );
 		}
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-		public function &form($form = null) {
-			return $this->cache ( $this->classes->form, $form );
+		public function &form($form = null,$slug=null) {
+			return $this->cache ( $this->classes->form, array('data'=>$form,'slug'=>$slug)  );
 		}
 /*****************************************************************************************
 * ??document??
@@ -55,7 +55,7 @@ if (! class_exists ( 'bv45v_application' )) :
 			$directories = array ('models' );
 			$dirs = $this->loader ()->includepath ($directories);
 			foreach ( $dirs as $dir ) {
-				$fs = new bv45v_fs ( $this, $dir ,10);
+				$fs = new bv46v_fs ( $this, $dir ,10);
 				$controllers = $fs->dir ( '*.php' );
 				foreach ( $controllers as $controller ) {
 					$class = basename ( $controller, ".php" );
@@ -70,7 +70,7 @@ if (! class_exists ( 'bv45v_application' )) :
 							{
 								if(strpos($dir, $value)!==false)
 								{
-									$prefix = $key.'v45v_';
+									$prefix = $key.'v46v_';
 									break;
 								}
 							}
@@ -94,7 +94,7 @@ if (! class_exists ( 'bv45v_application' )) :
 			$directories = array ('controllers' );
 			$dirs = $this->loader ()->includepath ($directories);
 			foreach ( $dirs as $dir ) {
-				$fs = new bv45v_fs ( $this, $dir ,10);
+				$fs = new bv46v_fs ( $this, $dir ,10);
 				$controllers = $fs->dir ( '*.php' );
 				foreach ( $controllers as $controller ) {
 					$class = basename ( $controller, ".php" );
@@ -106,7 +106,7 @@ if (! class_exists ( 'bv45v_application' )) :
 						{
 							if(strpos($dir, $value)!==false)
 							{
-								$prefix = $key.'v45v_';
+								$prefix = $key.'v46v_';
 								break;
 							}
 						}
@@ -155,7 +155,7 @@ if (! class_exists ( 'bv45v_application' )) :
 * ??document??
 *****************************************************************************************/
 		public function version() {
-			$return = $this->version . '.v45v';
+			$return = $this->version . '.v46v';
 			if ($this->dodebug ()) {
 				$return .= '.' . time ();
 			}
@@ -220,11 +220,11 @@ if (! class_exists ( 'bv45v_application' )) :
 			parent::__construct ( $this );
 			$this->_filename = $filename; // legacy get rid of as soon as possible
 			//load just enough classes to get the settings
-			if (! class_exists ( 'bv45v_data_settings' )) {
+			if (! class_exists ( 'bv46v_data_settings' )) {
 				$dir = dirname ( $filename );
 				require_once $dir . '/library/base/data/settings.php';
 			}
-			$this->_config = bv45v_data_settings::config ( $filename );
+			$this->_config = bv46v_data_settings::config ( $filename );
 			// load the classes specified in the classes
 			// legacy
 			foreach ( $this->classes->_load as $library ) {
@@ -240,7 +240,7 @@ if (! class_exists ( 'bv45v_application' )) :
 * ??document??
 *****************************************************************************************/
 		public function &loader() {
-			return $this->cache ( 'bv45v_loader' );
+			return $this->cache ( 'bv46v_loader' );
 		}
 	}
 endif;

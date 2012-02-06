@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><?php echo $this->title;?></title>
+<script language="javascript" type="text/javascript" src="<?php echo site_url ();?>/wp-includes/js/tinymce/tiny_mce_popup.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo site_url ();?>/wp-includes/js/tinymce/utils/mctabs.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo site_url ();?>/wp-includes/js/tinymce/utils/form_utils.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo site_url ();?>/wp-includes/js/jquery/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $this->application ()->pluginuri () . '/library/base/public/js/tinymce_actions.js?ver='.$this->application()->version();?>"></script>
+<base target="_self" />
+</head>
+<body>
+<form	id='v46v_form'
+		action=''
+		method='post'
+		class='admin-menu v46v_settings'
+	>
+	<select name='form' style="width:100%;margin-top:10px;">
+		<option disabled>select...</option>
+		<?php foreach($this->options as $key=>$value): ?>
+		<option value='<?php echo $key;?>'><?php echo $value;?></option>
+		<?php endforeach;?>
+	</select>
+</form>
+</body>
+</html>

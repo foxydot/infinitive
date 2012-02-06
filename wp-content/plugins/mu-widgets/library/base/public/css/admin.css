@@ -1,13 +1,13 @@
 /***********************************************************************************
 * Menu Tweaks
 ***********************************************************************************/
-.v45v ul.subsubsub li
+.v46v ul.subsubsub li
 {
 	padding-left: 1px;
 	padding-right: 0;
 	border-left: 1px solid #aaaaaa;
 }
-.v45v ul.subsubsub li:first-child
+.v46v ul.subsubsub li:first-child
 {
 	padding-left: 0;
 	border-left: none;
@@ -15,145 +15,153 @@
 /***********************************************************************************
 * Table
 ***********************************************************************************/
-.v45v caption
+.v46v caption
 {
 	padding-top:1em;
 	font-weight: bold;
 	text-align:left;
 }
-.v45v table input[type="text"]
+.v46v table input[type="text"]
 {
 	width:100%;
 	max-width:200px;
 	margin:0;
 }
-.v45v table select
+.v46v table select
 {
 	width:100%;
 	max-width:170px;
 	margin:0;
 }
-.v45v table textarea
+.v46v table textarea
 {
 	width:100%;
 	margin:0;
 	height:2em;
 }
-.v45v table textarea.expand:focus
+.v46v table textarea.expand:focus
 {
 	height:20em;
 }
-.v45v table input[type="text"].number
+.v46v table input[type="text"].number
 {
 	width:3em;
 }
-.v45v table select.number
+.v46v table select.number
 {
 	width:4em;
 }
-.v45v table input[type="text"].color_number,
-.v45v table textarea.color_number
+.v46v table input[type="text"].color_number,
+.v46v table textarea.color_number
 {
 	width:6em;
 }
-.v45v col
+.v46v col
 {
 	width:200px;
 }
-.v45v col:last-child
+.v46v col:last-child
 {
 	width:auto;
 }
-.v45v table.survey_list .col5
+.v46v table.survey_list .col5
 {
-	width:300px;
+	width:200px;
 }
-.v45v table.exportreaders_list .col1,
-.v45v table.redactor_list .col1,
-.v45v table.delete_list .col1,
-.v45v table.survey_list .col1,
-.v45v table.survey_list .col2,
-.v45v table.survey_list .col4
+.v46v table.survey_list .col6
+{
+	width:200px;
+}
+label[disabled]
+{
+	color:#999999;
+}
+.v46v table.exportreaders_list .col1,
+.v46v table.redactor_list .col1,
+.v46v table.delete_list .col1,
+.v46v table.survey_list .col1,
+.v46v table.survey_list .col2,
+.v46v table.survey_list .col4
 {
 	width:22px;
 }
-.v45v tbody th
+.v46v tbody th
 {
 	text-align: right;
 	vertical-align: top;
 }
-table.v45v_dummy
+table.v46v_dummy
 {
 	border:none;
 	padding:0;
 	margin:0;
 }
-ul.v45v_field_definitions,
-ul.v45v_field_definitions li,
-ul.v45v_field_definitions table
+ul.v46v_field_definitions,
+ul.v46v_field_definitions li,
+ul.v46v_field_definitions table
 {
 	margin:0;
 	padding:0;
 }
-.v45v_show_hide .subsubsub
+.v46v_show_hide .subsubsub
 {
 	margin:0;
 	padding:0;
 	font-size:.8em;
 }
-.v45v_body
+.v46v_body
 {
 	padding-right:29em;
 }
-.v45v_body .v45v_inner
+.v46v_body .v46v_inner
 {
 	padding:0;
 }
-.v45v_sidebar
+.v46v_sidebar
 {
 	position: absolute;
 	top:71px;
 	right:20px;
 	width:28em;
 }
-v45v_field_definitions td ul.subsubsub,
-v45v_field_definitions td li
+v46v_field_definitions td ul.subsubsub,
+v46v_field_definitions td li
 {
 	margin:0!important;
 	padding:0!important;
 }
-.v45v label.disabled
+.v46v label.disabled
 {
 	color:gray;
 }
-.v45v_sidebar table.v45v_general .col1
+.v46v_sidebar table.v46v_general .col1
 {
 	width:100px;
 }
 
-.v45v th ul.subsubsub
+.v46v th ul.subsubsub
 {
 	margin:0;
 }
-.v45v input.shortcode
+.v46v input.shortcode
 {
 	border:none;
 	background-color:transparent;
 }
-.v45v table .type
+.v46v table .type
 {
 	background-color:#dddddd;
 }
-.v45v table.middle
+.v46v table.middle
 {
 	border-bottom:none;
 	margin-bottom:1em;
 }
-.v45v table.top
+.v46v table.top
 {
 	border:none;
 }
-.v45v_show_hide .subsubsub
+.v46v_show_hide .subsubsub
 {
 	display:none;
 }

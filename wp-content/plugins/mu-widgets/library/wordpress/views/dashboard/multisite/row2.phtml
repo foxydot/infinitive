@@ -1,0 +1,28 @@
+<th>
+	Central For:
+</th>
+<td>
+	<ul>
+		<?php foreach($this->blogs as $blog):  if($this->current_blog!=$blog->userblog_id):?>
+		<li>
+		<input
+			type='hidden'
+			name="multisite[central][<?php echo $blog->userblog_id;?>]"
+			value='<?php echo $blog->central_id;?>'/>
+			<input
+				type='checkbox'
+				id="multisite_<?php echo $blog->userblog_id;?>"
+				<?php checked($this->current_blog,$blog->central_id);?>
+				<?php disabled($blog->active,'');?>
+				name="multisite[central][<?php echo $blog->userblog_id;?>]"
+				value='<?php echo $this->current_blog;?>'/>
+			<label
+				for="multisite_<?php echo $blog->userblog_id;?>"
+				<?php disabled($blog->active,'');?>
+				>
+				<?php echo $blog->siteurl;?>
+			</label>
+		</li>
+		<?php endif;endforeach?>
+	</ul>
+</td>

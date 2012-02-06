@@ -2,10 +2,31 @@
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-class wv45v_action extends bv45v_action {
+class wv46v_action extends bv46v_action {
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
+	protected function options($options,$slug = '',$level=0)
+	{
+		$return = array();
+		$sep = '';
+		if($slug!='')
+		{
+			$sep='/';
+		}
+		$spaces = str_repeat('&nbsp;',$level*3);
+		foreach($options as $key=>$value)
+		{
+			$newslug="{$slug}{$sep}{$key}";
+			$return[$newslug]="{$spaces}{$key}";
+			if(is_array($value))
+			{
+				$returned = $this->options($value,$newslug,$level+1);
+				$return+=$returned;
+			}
+		}
+		return $return;
+	}
 /***************************************************************************************
 * default sub menu items
 ***************************************************************************************/
@@ -44,7 +65,7 @@ class wv45v_action extends bv45v_action {
 			$return ['title'] = 'Help';
 			$return ['link_name'] = 'Getting Started';
 			$return ['url'] = $this->help('gettingstarted')->url();
-			$return ['classes'] [] = 'v45v_16x16_info';
+			$return ['classes'] [] = 'v46v_16x16_info';
 			$return ['priority'] = 2;
 		}
 		return $return;
@@ -56,7 +77,7 @@ class wv45v_action extends bv45v_action {
 		if(is_multisite() && $this->application()->multisite)
 		{
 			$return ['link_name'] = $return ['title'];
-			$return ['classes'] [] = 'v45v_16x16_multisite';
+			$return ['classes'] [] = 'v46v_16x16_multisite';
 			$return ['priority'] = 1;
 		}
 		else
@@ -70,16 +91,22 @@ class wv45v_action extends bv45v_action {
 *****************************************************************************************/
 	public function multisiteAction()
 	{
+		if($this->request()->is_post())
+		{
+			$this->mu()->set_central_blogs($_POST['multisite']['central']);
+		}
 		if(!isset($this->view->rows))
 		{
 			$this->view->rows = array();
 		}
 		$this->view->title = $this->help('multisite')->render('Multisite Settings');
-		$current_user = wp_get_current_user();
-		$this->view->blogs = get_blogs_of_user($current_user->ID);
+		$this->view->blogs = $this->mu()->central_blogs();
 		$this->view->column_count=2;
 		$this->view->multisite = $this->data()->post('multisite');
-		$row = $this->render_script('dashboard/multisite.phtml',false);
+		$this->view->current_blog = get_current_blog_id();
+		$row = $this->render_script('dashboard/multisite/row2.phtml',false);
+		array_unshift($this->view->rows,$row);
+		$row = $this->render_script('dashboard/multisite/row1.phtml',false);
 		array_unshift($this->view->rows,$row);
 		$page = $this->render_table();
 		return $page;
@@ -87,6 +114,120 @@ class wv45v_action extends bv45v_action {
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
+	public function find_shortcodes($code,$prime)
+	{
+		$sql = 
+"
+	SELECT `ID`
+	FROM `%s`
+	WHERE 
+		`post_status` IN ('publish','draft','pending','future') AND
+		`post_content` LIKE '%s'
+";
+		$sql = sprintf($sql,$this->table('posts')->name(),"%[{$code}%");
+		$data = $this->table()->execute($sql);
+		$tagc = bv46v_tag::instance ();
+		$return = array();
+		foreach($data as $datum)
+		{
+			$post = get_post($datum['ID'],ARRAY_A);
+			$matches = $tagc->get ( $code, $post['post_content'], true );
+			foreach($matches as $match)
+			{
+				$key=$this->find_shortcode_prime($prime,$match['attributes']);
+				$permalink = get_permalink($datum['ID']);
+				$return[$key][$permalink]=$match;
+				$return[$key][$permalink]['title']=get_the_title($datum['ID']);
+				$return[$key][$permalink]['ID']=$datum['ID'];
+			}
+		}
+		return $return;
+	}
+	private $shortcodes = null;
+	private $code = '';
+	private $prime = '';
+	public function used_in($form,$code,$prime)
+	{
+		if(is_numeric($form))
+		{
+			$form = get_page_uri($form);
+		}
+		$this->code = $code;
+		$this->prime = $prime;
+		// add it all the stuff for none multisite
+		// fix problem with prime
+		if($this->shortcodes===null)
+		{
+			$this->shortcodes = array();
+			$checksites=false;
+			if($this->application()->multisite && is_multisite())
+			{
+				$checksites = $this->mu()->central_blogs(array(array($this,'_used_in')));
+				foreach($checksites as $checksite)
+				{
+					if(isset($checksite->shortcodes))
+					{
+						foreach($checksite->shortcodes as $fform=>$matches)
+						{
+							foreach($matches as $permalink=>$match)
+							{
+								$this->shortcodes[$fform][$permalink]=$match;			
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				$this->shortcodes=$this->find_shortcodes($this->code,$this->prime);			
+			}
+		}
+		$return = array();
+		$cnt=1;
+		if(isset($this->shortcodes[$form]))
+		{
+			foreach($this->shortcodes[$form] as $key=>$value)
+			{
+				$return[] = "<a href='{$key}' title='{$value['title']}' />{$cnt}</a>"; 
+				$cnt++;
+			}
+		}
+		$return = implode(', ',$return);
+		return $return;
+	}
+	public function _used_in(&$blog)
+	{
+		if($blog->active==1)
+		{
+			$blog->shortcodes = $this->find_shortcodes($this->code,$this->prime);;
+		}
+	}
+	public function find_shortcode_prime($prime,&$attributes)
+	{
+		$return = '';
+		if(isset($attributes[$prime]))
+		{
+			$return = $attributes[$prime];
+			unset($attributes[$prime]);
+		}
+		else
+		{
+			foreach($attributes as $key=>$value)
+			{
+				if(is_numeric($key))
+				{
+					$return = $value;
+					unset($attributes[$key]);
+					break;
+				}
+			}
+		}
+		if($return === '')
+		{
+			$return = 'default';
+		}
+		return $return;
+	}
 	protected function render_table()
 	{
 		if(!isset($this->view->title))
@@ -134,7 +275,7 @@ class wv45v_action extends bv45v_action {
 			$return ['probono'] = true;
 			$return ['title'] = 'Plugin Site';
 			$return ['url'] = $this->application ()->wordpress->uri;
-			$return ['classes'] [] = 'v45v_16x16_home';
+			$return ['classes'] [] = 'v46v_16x16_home';
 			$return ['priority'] = 10;
 		}
 		return $return;
@@ -149,7 +290,7 @@ class wv45v_action extends bv45v_action {
 			$return ['link_name'] = $return ['title'];
 			$return ['probono'] = true;
 			$return ['url'] = $this->application ()->wordpress->donate_link;
-			$return ['classes'] [] = 'v45v_16x16_donate';
+			$return ['classes'] [] = 'v46v_16x16_donate';
 			$return ['priority'] = 10;
 		}
 		return $return;
@@ -204,7 +345,7 @@ class wv45v_action extends bv45v_action {
 					$this->view->items [$key] ['url'] = $baseUrl .'&page2=' . $value ['slug'];
 				}
 				if ((! isset ( $_GET ['page2'] ) && ! $current) || substr ( $_SERVER ['REQUEST_URI'], - strlen ( $this->view->items [$key] ['url'] ) ) == $this->view->items [$key] ['url']) {
-					$this->view->items [$key] ['classes'] [] = 'v45v_current';
+					$this->view->items [$key] ['classes'] [] = 'v46v_current';
 					$current = true;
 				}
 				$this->view->items [$key] ['classes'] = implode ( ' ', array_unique($this->view->items [$key] ['classes'] ));
@@ -237,12 +378,12 @@ class wv45v_action extends bv45v_action {
 *****************************************************************************************/
 	public function wrapper($page, $classes = array(), $attr = null, $tag = 'div') {
 		$classes [] = 'wrap';
-		$classes [] = 'v45v';
+		$classes [] = 'v46v';
 		if($this->dodebug())
 		{
-			$classes [] = 'v45v_debug';
+			$classes [] = 'v46v_debug';
 		}
-		$classes [] = 'v45v_'.$this->application ()->slug;
+		$classes [] = 'v46v_'.$this->application ()->slug;
 		$this->view->page = $page;
 		$this->view->tag = $tag;
 		$this->view->classes = implode ( ' ', $classes );
@@ -317,7 +458,7 @@ class wv45v_action extends bv45v_action {
 * ??document??used??
 *****************************************************************************************/
 	protected function set_view() {
-		$this->view = new wv45v_view ( $this->application () );
+		$this->view = new wv46v_view ( $this->application () );
 	}
 /*****************************************************************************************
 * ??document??
@@ -622,7 +763,7 @@ class wv45v_action extends bv45v_action {
 			$this->view->updated = $this->updated ();
 			if(!isset($this->view->form_name))
 			{
-				$this->view->form_name = 'v45v_form';
+				$this->view->form_name = 'v46v_form';
 			}
 			$this->view->output = $output;
 			

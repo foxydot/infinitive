@@ -2,7 +2,7 @@
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-class bv45v_action extends bv45v_base {
+class bv46v_action extends bv46v_base {
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
@@ -59,13 +59,13 @@ class bv45v_action extends bv45v_base {
 	public $view = null;
 	protected function set_view() {
 		if (null === $this->view) {
-			$this->view = new bv45v_view ( $this->application () );
+			$this->view = new bv46v_view ( $this->application () );
 		}
 	}
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-	private $_update_message=array('class'=>'normal','message'=>'Settings Saved');
+	private $_update_message=array('class'=>'updated','message'=>'Settings Saved');
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
@@ -97,7 +97,7 @@ class bv45v_action extends bv45v_base {
 * ??document??
 *****************************************************************************************/
 	protected function marker($tag, $content) {
-		$tagc = bv45v_tag::instance ();
+		$tagc = bv46v_tag::instance ();
 		$matches = $tagc->get ( $tag, $content, true );
 		foreach ( ( array ) $matches as $match ) {
 			$new = call_user_func ( array ($this, $tag . '_Marker' ), $match );
@@ -312,7 +312,7 @@ class bv45v_action extends bv45v_base {
 		$meta ['schedule'] = null;
 		$meta ['schedule_start'] = null;
 		$meta ['capability'] = 'administrator';
-		$meta ['alert'] = 'normal';
+		$meta ['alert'] = 'updated';
 		$meta ['menu'] = 'Settings';
 		$meta ['name'] = null;
 		$meta ['level'] = 'administrator';
@@ -328,7 +328,7 @@ class bv45v_action extends bv45v_base {
 		$meta ['raw_action_title'] = null;
 		// probono, true indicate somethinge to be included all fee plugins and removed for custom
 		$meta ['probono'] = false;
-		$meta = bv45v_data_array::merge ( $meta, $default_meta );
+		$meta = bv46v_data_array::merge ( $meta, $default_meta );
 		$meta ['tag'] = $tag;
 		$meta ['type'] = $action_type;
 		$meta ['legacy'] = array ();

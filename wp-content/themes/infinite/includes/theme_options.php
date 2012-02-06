@@ -8,7 +8,7 @@ function infinite_theme_page ()
 {
 	if ( count($_POST) > 0 && isset($_POST['infinite_settings']) )
 	{
-		$options = array ('biz_name','street','street2','city','state','zip','phone','fax','linkedin_link','twitter_user','latest_tweet','facebook_link','flickr_link','youtube_link','landing_link');
+		$options = array ('biz_name','street','street2','city','state','zip','phone','fax','linkedin_link','twitter_user','latest_tweet','google_link','facebook_link','flickr_link','youtube_link','landing_link','sharethis_link','salesforce_oid','salesforce_returnurl');
 		
 		foreach ( $options as $opt )
 		{
@@ -17,7 +17,7 @@ function infinite_theme_page ()
 		}			
 		 
 	}
-	add_submenu_page('options-general.php',__('Settings'), __('Theme Options'), 'administrator', 'infinite-options', 'infinite_settings');
+	add_submenu_page('options-general.php',__('Settings'), __('Theme Social Settings'), 'administrator', 'infinite-options', 'infinite_settings');
 }
 function infinite_settings()
 {
@@ -133,6 +133,22 @@ $states = array('ALABAMA'=>"AL",
 			<th scope="row"><label for="fax">Fax:</label></th>
 			<td>
 				<input name="fax" type="text" id="fax" value="<?php echo get_option('infinite_fax'); ?>" class="regular-text" />
+			</td>
+		</tr>
+        </table>
+        </fieldset><fieldset style="border:1px solid #ddd; padding-bottom:20px; margin-top:20px;">
+	<legend style="margin-left:5px; padding:0 5px; color:#2481C6;text-transform:uppercase;"><strong>Salesforce Mailer</strong></legend>
+		<table class="form-table">
+
+        <tr valign="top">
+			<th scope="row"><label for="google_link">Salesforce OID</label></th>
+			<td>
+				<input name="salesforce_oid" type="text" id="salesforce_oid" value="<?php echo get_option('infinite_salesforce_oid'); ?>" class="regular-text" />
+			</td>
+		</tr>			
+		<th scope="row"><label for="google_link">Return URL (Thank You Page)</label></th>
+			<td>
+				<input name="salesforce_returnurl" type="text" id="salesforce_returnurl" value="<?php echo get_option('infinite_salesforce_returnurl'); ?>" class="regular-text" />
 			</td>
 		</tr>
         </table>

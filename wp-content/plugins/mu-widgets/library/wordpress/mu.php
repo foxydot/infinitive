@@ -2,7 +2,42 @@
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-class wv45v_mu extends bv45v_base {
+class wv46v_mu extends bv46v_base {
+	public function central_blogs($callbacks=array())
+	{
+		if(!is_multisite())
+			return false;
+		$current_user = wp_get_current_user();
+		$blogs = $this->view->blogs = get_blogs_of_user($current_user->ID);
+		$basename = plugin_basename($this->application()->filename);
+		foreach($blogs as &$blog)
+		{
+			$this->blogs()->swap($blog->userblog_id);
+			$this->data()->refresh();			
+			$blog->central_id = $this->data()->multisite['blog_id'];
+			$blog->active = is_plugin_active($basename);
+			foreach($callbacks as $callback)
+			{
+				call_user_func($callback,$blog);
+			}
+			$this->blogs()->swap();
+		}
+		$this->data()->refresh();
+		unset($blog);
+		return $blogs;
+	}
+	// fix
+	public function set_central_blogs($blogs)
+	{
+		foreach($blogs as $blog_id=>$central_id)
+		{
+			$this->blogs()->swap($blog_id);
+			$this->data()->refresh();
+			$this->data()->write(array('multisite'=>array('blog_id'=>$central_id)),'multisite');
+			$this->blogs()->swap();
+		}
+		$this->data()->refresh();
+	}
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/

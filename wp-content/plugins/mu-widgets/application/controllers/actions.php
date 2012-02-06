@@ -1,5 +1,5 @@
 <?php
-class muwidgets_actions extends wv45v_action {
+class muwidgets_actions extends wv46v_action {
 	public function widgets_initWPaction() {
 		if(is_multisite())
 		{

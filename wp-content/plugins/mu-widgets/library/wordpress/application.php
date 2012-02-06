@@ -1,11 +1,11 @@
 <?php
-if (! class_exists ( 'wv45v_application' ))
+if (! class_exists ( 'wv46v_application' ))
 {
 	require_once dirname ( dirname ( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'base/application.php';
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-	class wv45v_application extends bv45v_application {
+	class wv46v_application extends bv46v_application {
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
@@ -16,7 +16,7 @@ if (! class_exists ( 'wv45v_application' ))
 * ??document??
 *****************************************************************************************/
 		public function &user($user_id = null) {
-			return $this->cache ( 'wv45v_user', $user_id );
+			return $this->cache ( 'wv46v_user', $user_id );
 		}
 /*****************************************************************************************
 * ??document??
@@ -50,7 +50,7 @@ if (! class_exists ( 'wv45v_application' ))
 			parent::__construct ( $filename );
 			register_activation_hook($filename,array($this,'activate'));
 			register_deactivation_hook($filename,array($this,'deactivate'));
-			$this->legacy ()->move();
+			$this->legacy ()->update();
 			add_action('init',array($this,'init'));
 		}
 /*****************************************************************************************
@@ -93,25 +93,25 @@ if (! class_exists ( 'wv45v_application' ))
 * ??document??
 *****************************************************************************************/
 		public function &info() {
-			return $this->cache ( 'wv45v_info' );
+			return $this->cache ( 'wv46v_info' );
 		}
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
 		public function &mu() {
-			return $this->cache ( 'wv45v_mu' );
+			return $this->cache ( 'wv46v_mu' );
 		}		
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
 		public function &posts() {
-			return $this->cache ( 'wv45v_posts' );
+			return $this->cache ( 'wv46v_posts' );
 		}
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
 		public function &blogs() {
-			return $this->cache ( 'wv45v_blogs' );
+			return $this->cache ( 'wv46v_blogs' );
 		}
 /*****************************************************************************************
 * ??document??
@@ -123,7 +123,7 @@ if (! class_exists ( 'wv45v_application' ))
 * ??document??
 *****************************************************************************************/
 		public function &comments() {
-			return $this->cache ( 'wv45v_comments' );
+			return $this->cache ( 'wv46v_comments' );
 		}	
 	}
 }

@@ -2,7 +2,7 @@
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-class wv45v_recaptcha extends bv45v_action {
+class wv46v_recaptcha extends bv46v_action {
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
@@ -13,7 +13,7 @@ class wv45v_recaptcha extends bv45v_action {
 * ??document??
 *****************************************************************************************/
 	public function signup_url() {
-		$http = new bv45v_http();
+		$http = new bv46v_http();
 		return "https://www.google.com/recaptcha/admin/create?" . $http->data ( array ('domains' => get_option ( 'home' ), 'app' => $this->application ()->name ) );
 	}
 /*****************************************************************************************
@@ -37,12 +37,12 @@ class wv45v_recaptcha extends bv45v_action {
 	private $is_valid = null;
 	public function is_valid($challenge, $response)
 	{
-		if(!isset(wv45v_recaptcha::$is_valid_cache[$challenge]))
+		if(!isset(wv46v_recaptcha::$is_valid_cache[$challenge]))
 		{
 			$returned = $this->check_answer ( $_POST ['recaptcha_challenge_field'], $_POST ['recaptcha_response_field'] );
-			wv45v_recaptcha::$is_valid_cache[$challenge] = $returned->is_valid;
+			wv46v_recaptcha::$is_valid_cache[$challenge] = $returned->is_valid;
 		}
-		return wv45v_recaptcha::$is_valid_cache[$challenge];
+		return wv46v_recaptcha::$is_valid_cache[$challenge];
 	}
 /*****************************************************************************************
 * ??document??

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NEVDJ
 Tags: contact form,database
 Requires at least: 3.2.1
 Tested up to: 3.3.1
-Stable tag: 2.2.4
+Stable tag: 2.2.5
 
 Plugin that saves submitted form data to the database and provides short codes to display it.
 Captures data from Contact Form 7 and Fast Secure Contact Form
@@ -68,6 +68,9 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 1. Admin Panel view of submitted form data
 
 == Changelog ==
+
+= 2.2.6 =
+* Bug Fix: seeing error "undefined function is_plugin_active()"
 
 = 2.2.5 =
 * Bug Fix: Admin page data table was not showing top search banner when datatable using i18n

@@ -2,32 +2,32 @@
 	"author" : "dcoda",
 	"author_url" : "http:\/\/dcoda.co.uk",
 	"license" : "GPL3",
-	"library":"v45v",
+	"library":"v46v",
     "version":"",
     "multisite":false,
 	"css_class":"",
 	"include" : [],
 	"classes" :
 	{
-		"application":"bv45v_application",
-		"table":"bv45v_data_table",
-		"data":"bv45v_data_settings",
-		"form":"bv45v_data_form",
+		"application":"bv46v_application",
+		"table":"bv46v_data_table",
+		"data":"bv46v_data_settings",
+		"form":"bv46v_data_form",
 		"_load":
 		[
-			"bv45v_action",
-			"bv45v_fs",
-			"bv45v_view",
-			"bv45v_http",
-			"bv45v_tag",
-			"bv45v_data_xml",
-			"bv45v_data_csv",
-			"bv45v_data_table",
-			"bv45v_data_htmltable",
-			"bv45v_data_form",
-			"bv45v_request",
-			"bv45v_data_sqlite",
-			"bv45v_data_help"
+			"bv46v_action",
+			"bv46v_fs",
+			"bv46v_view",
+			"bv46v_http",
+			"bv46v_tag",
+			"bv46v_data_xml",
+			"bv46v_data_csv",
+			"bv46v_data_table",
+			"bv46v_data_htmltable",
+			"bv46v_data_form",
+			"bv46v_request",
+			"bv46v_data_sqlite",
+			"bv46v_data_help"
 		]
 	},
 	"help_meta":{
@@ -35,7 +35,7 @@
 					"title":"Click for help",
 					"url":"#",
 					"text":"",
-					"css":"v45v_16x16_info",
+					"css":"v46v_16x16_info",
 					"meta":{}
 		}
 	},
