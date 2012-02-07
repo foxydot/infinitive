@@ -45,10 +45,9 @@ function msd_inline_blog($atts){
 	);
 	switch_to_blog($blog_id);
 	$posts_array = get_posts( $args );
-	switch_to_blog($orig_blog_id);
 	$ret = $title?'<h3>'.$title.'</h3>':'';
 	if(function_exists('blog_logo')){
-		$ret .= blog_logo(get_blog_option($blog_id,'blogname'));
+		$ret .= '<p>'.blog_logo(get_blog_option($blog_id,'blogname')).'</p>';
 	}
 	foreach($posts_array AS $post){
 			$ret .= '
@@ -56,13 +55,15 @@ function msd_inline_blog($atts){
 			<h2 class="entry-title"><a href="'.get_permalink($post->ID).'" title="'.sprintf( esc_attr__( 'Permalink to %s', 'foodbank' ), the_title_attribute( 'echo=0' ) ).'" rel="bookmark">'.get_the_title($post->ID).'</a></h2>
 
 			<div class="entry-summary">
-				'.$post->post_content.'
+				'.apply_filters('the_content',$post->post_content).'
 			</div><!-- .entry-summary -->
 
 			<div class="clear"></div>
 		</div><!-- #post-## -->
 		<div class="clear"><br /><br /></div>';
 	}
+	
+	switch_to_blog($orig_blog_id);
 	return $ret;
 }
 
