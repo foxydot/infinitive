@@ -25,12 +25,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 function msd_inline_blog($atts){
-	if(!is_user_logged_in()){
-		return;
-	}
+	$orig_blog_id = get_current_blog_id();
 	extract( shortcode_atts( array(
-		'title' => 'Blog',
+		'title' => '',
 		'category' => FALSE,
+		'blog_id' => $orig_blog_id,
 		'numberposts' => 0,
 		'order' => 'DESC'
 	), $atts ) );
@@ -44,8 +43,13 @@ function msd_inline_blog($atts){
     'post_status'     => 'publish',
 	'suppress_filters' => false
 	);
+	switch_to_blog($blog_id);
 	$posts_array = get_posts( $args );
-	$ret = '<h3>'.$title.'</h3>';
+	switch_to_blog($orig_blog_id);
+	$ret = $title?'<h3>'.$title.'</h3>':'';
+	if(function_exists('blog_logo')){
+		$ret .= blog_logo(get_blog_option($blog_id,'blogname'));
+	}
 	foreach($posts_array AS $post){
 			$ret .= '
 		<div id="post-'.$post->ID.'" '.get_post_class('',$post->ID).'>
