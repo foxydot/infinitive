@@ -47,7 +47,7 @@ function msd_inline_blog($atts){
 	$posts_array = get_posts( $args );
 	$ret = $title?'<h3>'.$title.'</h3>':'';
 	if(function_exists('blog_logo')){
-		$ret .= '<p>'.blog_logo(get_blog_option($blog_id,'blogname')).'</p>';
+		$ret .= '<p>'.blog_logo(strtolower(get_blog_option($blog_id,'blogname'))).'</p>';
 	}
 	foreach($posts_array AS $post){
 			$ret .= '
