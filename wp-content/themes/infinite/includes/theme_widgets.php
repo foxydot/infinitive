@@ -17,6 +17,7 @@ class Connected extends WP_Widget {
 		if ( !empty( $title ) ) { print $before_title.$title.$after_title; } 
 		?>
 		<?php if(get_option('infinite_salesforce_oid')!=""){ ?>
+		<h4>Latest e-News</h4>
 		<div class="salesforce-form">
 			<form action="https://www.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8" method="POST">
 				<input type=hidden name="oid" value="<?php print get_option('infinite_salesforce_oid'); ?>">
@@ -28,6 +29,7 @@ class Connected extends WP_Widget {
 			</form>
 		</div>
 		<?php } ?>
+		<h4>Social Connections</h4>
 		<div id="social-media" class="social-media">
 		<?php if(get_option('infinite_google_link')!=""){ ?>
 		<a href="<?php echo get_option('infinite_google_link'); ?>" class="gl" title="Google+" target="_blank">Google +</a>
