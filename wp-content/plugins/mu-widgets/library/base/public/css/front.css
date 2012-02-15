@@ -1,58 +1,58 @@
-.v46v_survey_front label.concise_prompt,
-.v46v_survey_front label.expanded_prompt,
+.v47v_survey_front label.concise_prompt,
+.v47v_survey_front label.expanded_prompt,
 .survey_front label.question,
-.v46v_survey_front label.question
+.v47v_survey_front label.question
 {
 	display: block;
 }
-.v46v_survey_front label.concise_prompt.inline,
-.v46v_survey_front label.expanded_prompt.inline,
+.v47v_survey_front label.concise_prompt.inline,
+.v47v_survey_front label.expanded_prompt.inline,
 .survey_front label.question.inline,
-.v46v_survey_front label.question.inline
+.v47v_survey_front label.question.inline
 {
 	display: inline;
 	padding-right: 1px;
 }
-.v46v_survey_front label.option
+.v47v_survey_front label.option
 {
 	padding-left: 1px;
 }
-.v46v_survey_front fieldset,
-.v46v_survey_front form
+.v47v_survey_front fieldset,
+.v47v_survey_front form
 {
 	padding:0;
 	margin:0;
 	border: none;
 }
-.v46v_survey_front ul.options
+.v47v_survey_front ul.options
 {
 	padding:0;
 	margin:0;
 	list-style-type:none;
 }
-.v46v_survey_front input[type="text"].number
+.v47v_survey_front input[type="text"].number
 {
 	width:3em;
 }
-.v46v_survey_front label.concise_prompt,
-.v46v_survey_front label.cookie,
+.v47v_survey_front label.concise_prompt,
+.v47v_survey_front label.cookie,
 .survey_front label.question,
-.v46v_survey_front label.question
+.v47v_survey_front label.question
 {
 	font-weight: bold;
 }
-.v46v_survey_front [mandatory="checked"] label.concise_prompt:after
+.v47v_survey_front [mandatory="checked"] label.concise_prompt:after
 {
 	content:"*";
 	color:#ff0000;
 }
 
-.v46v_survey_front input[type="text"]
+.v47v_survey_front input[type="text"]
 {
 	width: 49%;
 }
 
-form.v46v_survey_front
+form.v47v_survey_front
 {
 	width: 100%;
 	border: none;
@@ -60,7 +60,7 @@ form.v46v_survey_front
 	padding: 1px;
 }
 
-.v46v_survey_front fieldset
+.v47v_survey_front fieldset
 {
 	border: none;
 	margin: 0;
@@ -68,8 +68,8 @@ form.v46v_survey_front
 	margin-bottom: 2px;
 }
 
-.v46v_survey_front fieldset[error="1"] label.concise_prompt,
-.v46v_survey_front fieldset[error="1"] label.cookie
+.v47v_survey_front fieldset[error="1"] label.concise_prompt,
+.v47v_survey_front fieldset[error="1"] label.cookie
 {
 	color: #ff0000;
 }

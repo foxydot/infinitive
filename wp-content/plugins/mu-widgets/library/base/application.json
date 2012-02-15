@@ -2,32 +2,31 @@
 	"author" : "dcoda",
 	"author_url" : "http:\/\/dcoda.co.uk",
 	"license" : "GPL3",
-	"library":"v46v",
+	"library":"v47v",
     "version":"",
     "multisite":false,
 	"css_class":"",
 	"include" : [],
 	"classes" :
 	{
-		"application":"bv46v_application",
-		"table":"bv46v_data_table",
-		"data":"bv46v_data_settings",
-		"form":"bv46v_data_form",
+		"application":"bv47v_application",
+		"table":"bv47v_data_table",
+		"data":"bv47v_data_settings",
+		"form":null,
 		"_load":
 		[
-			"bv46v_action",
-			"bv46v_fs",
-			"bv46v_view",
-			"bv46v_http",
-			"bv46v_tag",
-			"bv46v_data_xml",
-			"bv46v_data_csv",
-			"bv46v_data_table",
-			"bv46v_data_htmltable",
-			"bv46v_data_form",
-			"bv46v_request",
-			"bv46v_data_sqlite",
-			"bv46v_data_help"
+			"bv47v_action",
+			"bv47v_fs",
+			"bv47v_view",
+			"bv47v_http",
+			"bv47v_tag",
+			"bv47v_data_xml",
+			"bv47v_data_csv",
+			"bv47v_data_table",
+			"bv47v_data_htmltable",
+			"bv47v_request",
+			"bv47v_data_sqlite",
+			"bv47v_data_help"
 		]
 	},
 	"help_meta":{
@@ -35,7 +34,7 @@
 					"title":"Click for help",
 					"url":"#",
 					"text":"",
-					"css":"v46v_16x16_info",
+					"css":"v47v_16x16_info",
 					"meta":{}
 		}
 	},

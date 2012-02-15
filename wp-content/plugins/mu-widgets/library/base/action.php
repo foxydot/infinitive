@@ -2,7 +2,7 @@
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-class bv46v_action extends bv46v_base {
+class bv47v_action extends bv47v_base {
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
@@ -31,21 +31,7 @@ class bv46v_action extends bv46v_base {
 	public function render_script($script, $html = true) {
 		$return = null;
 		$this->view->action ( $this );
-		$pi = pathinfo ( strtolower ( $script ) );
-		$string = false;
-		if (! isset ( $pi ['extension'] )) {
-			throw new exception ( $script . ' need extension' );
-		}
-		if ($string === false) {
-			$orig = $script;
-			$exists = file_exists ( $script );
-			$path = null;
-			if ($script !== false) {
-				$return = $this->view->render ( $script );
-			}
-		} else {
-			$return = $this->view->render_string ( $string );
-		}
+		$return = $this->view->render ( $script );
 		if ($html && null !== $return) {
 			$return = str_replace ( "\n", '', $return );
 			$return = str_replace ( "\r", '', $return );
@@ -59,7 +45,7 @@ class bv46v_action extends bv46v_base {
 	public $view = null;
 	protected function set_view() {
 		if (null === $this->view) {
-			$this->view = new bv46v_view ( $this->application () );
+			$this->view = new bv47v_view ( $this->application () );
 		}
 	}
 /*****************************************************************************************
@@ -97,7 +83,7 @@ class bv46v_action extends bv46v_base {
 * ??document??
 *****************************************************************************************/
 	protected function marker($tag, $content) {
-		$tagc = bv46v_tag::instance ();
+		$tagc = bv47v_tag::instance ();
 		$matches = $tagc->get ( $tag, $content, true );
 		foreach ( ( array ) $matches as $match ) {
 			$new = call_user_func ( array ($this, $tag . '_Marker' ), $match );
@@ -146,12 +132,10 @@ class bv46v_action extends bv46v_base {
 		parent::__construct ( $application );
 		$this->set_view ();
 		$this->setup_action();
-		//$this->add_action_type ( 'filter', 'Filter' );
-		//$this->add_action_type ( 'controller', 'Controller' );
 	}
 	protected function setup_action()
 	{
-		$this->add_action_type ( 'action', 'Action' );
+		$this->add_action_type ( 'Action' );
 	}
 /*****************************************************************************************
 * ??document??
@@ -161,7 +145,7 @@ class bv46v_action extends bv46v_base {
 	 *******************************************************************/
 	protected function callback_filter($callback) {
 		if (null === $callback [0]) {
-			$callback [0] = $this;
+			$callback [0] = &$this;
 		}
 		return $callback;
 	}
@@ -205,7 +189,7 @@ class bv46v_action extends bv46v_base {
 * ??document??
 *****************************************************************************************/
 	private $_cache_actions = null;
-	protected function get_actions($get_type = 'action', $get_action = null) {
+	protected function get_actions($get_type) {
 		if (null === $this->_cache_actions) {
 			$return = array ();
 			$methods = get_class_methods ( $this );
@@ -228,26 +212,16 @@ class bv46v_action extends bv46v_base {
 					$return [$method] = $meta;
 				}
 			}
+			uasort ( $return, array ($this, 'sortcmp_action' ) );
 			$this->_cache_actions = $return;
-			uasort ( $this->_cache_actions, array ($this, 'sortcmp_action' ) );
 		}
-		if (null === $get_type) {
-			return $this->_cache_actions;
-		} else {
-			$return = $this->_cache_actions;
-			foreach ( $return as $method => $meta ) {
-				if (($meta ['type'] != $get_type) || (null !== $get_action && $meta ['raw_action_title'] != $get_action)) {
-					unset ( $return [$method] );
-				}
+		$return = $this->_cache_actions;
+		foreach ( $return as $method => $meta ) {
+			if (($meta ['type'] != $get_type)) {
+				unset ( $return [$method] );
 			}
-			if (null !== $get_action) {
-				foreach ( $return as $return ) {
-					break;
-				}
-			}
-			return $return;
 		}
-		return false;
+		return $return;
 	}
 /*****************************************************************************************
 * ??document??
@@ -303,60 +277,34 @@ class bv46v_action extends bv46v_base {
 * ??document??
 *****************************************************************************************/
 	private $_action_types = array ();
-	protected function add_action_type($action_type, $tag = null, $default_meta = array()) {
-		if (null === $tag) {
-			$tag = $action_type;
-		}
-		$meta = array ();
-		$meta ['slug'] = null;
-		$meta ['schedule'] = null;
-		$meta ['schedule_start'] = null;
-		$meta ['capability'] = 'administrator';
-		$meta ['alert'] = 'updated';
-		$meta ['menu'] = 'Settings';
-		$meta ['name'] = null;
-		$meta ['level'] = 'administrator';
-		$meta ['title'] = null;
-		$meta ['classes'] = array ();
-		$meta ['hide'] = false;
-		$meta ['priority'] = 0;
-		$meta ['meta'] = 'Meta';
-		$meta ['selected'] = false;
-		//ft swap null/$this
-		$meta ['action_callback'] = null;
-		$meta ['action_title'] = null;
-		$meta ['raw_action_title'] = null;
-		// probono, true indicate somethinge to be included all fee plugins and removed for custom
-		$meta ['probono'] = false;
-		$meta = bv46v_data_array::merge ( $meta, $default_meta );
-		$meta ['tag'] = $tag;
-		$meta ['type'] = $action_type;
-		$meta ['legacy'] = array ();
-		$meta ['action'] = null;
-		$meta ['legacy'] [] = 'action';
-		$meta ['raw_title'] = '';
-		$meta ['legacy'] [] = 'raw_title';
-		$meta ['legacy'] [] = 'name?';
-		$this->_action_types [$action_type] = $meta;
+	protected function add_action_type($tag) {
+		$action_type = strtolower($tag);
+		$this->_action_types [$action_type] = array (
+			'slug' => null,
+			'schedule' => null,
+			'schedule_start' => null,
+			'capability' => 'administrator',
+			'alert' => 'updated',
+			'menu' => 'Settings',
+			'name' => null,
+			'level' => 'administrator',
+			'title' => null,
+			'classes' => array (),
+			'hide' => false,
+			'priority' => 0,
+			'meta' => 'Meta',
+			'selected' => false,
+			'action_callback' => null,
+			'action_title' => null,
+			'raw_action_title' => null,
+			'probono' => false,
+			'tag' => $tag,
+			'type' => $action_type,
+			'action' => null,
+			'raw_title' => ''
+		);
 		$this->_cache_actions = null;
 		return true;
-	}
-/*****************************************************************************************
-* ??document??
-*****************************************************************************************/
-	protected function update_action_type($action_type, $default_meta = array()) {
-		return $this->add_action_type ( $action_type, $default_meta );
-	}
-/*****************************************************************************************
-* ??document??
-*****************************************************************************************/
-	protected function remove_action_type($action_type) {
-		$return = false;
-		if (isset ( $this->_action_types [$action_type] )) {
-			unset ( $this->_action_types [$action_type] );
-			$return = true;
-		}
-		return $return;
 	}
 /*****************************************************************************************
 * ??document??

@@ -1,5 +1,5 @@
-.v46v_48x16_censor,
-.v46v_48x16_spoiler {
+.v47v_48x16_censor,
+.v47v_48x16_spoiler {
 	border: 1px dotted silver;
 	padding: 0;
 	margin: 0;
@@ -7,21 +7,21 @@
 	background-position: center left;
 	background-repeat: repeat-x;
 }
-.v46v_48x16_censor:hover,
-.v46v_48x16_spoiler:hover {
+.v47v_48x16_censor:hover,
+.v47v_48x16_spoiler:hover {
 	background-image: none;
 }
 
-.v46v_48x16_censor span:hover,
-.v46v_48x16_spoiler span:hover
+.v47v_48x16_censor span:hover,
+.v47v_48x16_spoiler span:hover
 {
 	filter: alpha(opacity = 100);
 	-moz-opacity: 1;
 	-khtml-opacity: 1;
 	opacity: 1;	
 }
-.v46v_48x16_censor span,
-.v46v_48x16_spoiler span {
+.v47v_48x16_censor span,
+.v47v_48x16_spoiler span {
 	padding: 0;
 	margin: 0;
 	filter: alpha(opacity = 0);
@@ -30,7 +30,7 @@
 	opacity: 0;
 }
 
-.v46v_48x16_blackout
+.v47v_48x16_blackout
 {
 	margin: 0 1px 0 1px;
 	padding: 0;

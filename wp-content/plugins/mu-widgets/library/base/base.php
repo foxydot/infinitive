@@ -1,10 +1,10 @@
 <?php
-if (! class_exists ( 'bv46v_base' ))
+if (! class_exists ( 'bv47v_base' ))
 {
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-	abstract class bv46v_base {
+	abstract class bv47v_base {
 		public static function dc_class()
 		{
 			return __FILE__;
@@ -175,43 +175,6 @@ if (! class_exists ( 'bv46v_base' ))
 			}
 			print_r($ret);
 			return $ret;
-		}
-/*****************************************************************************************
-* ??document??
-*****************************************************************************************/
-		public function debug() {
-			if (! $this->dodebug ()) {
-				return;
-			}
-			$values = func_get_args ();
-			$return = '';
-			$ret = debug_backtrace ();
-			$file = substr ( $ret [0] ['file'], strlen ( $this->application ()->directory ) + 1 );
-			$file .= "\nline: {$ret[0]['line']}]";
-			foreach ( $values as $value ) {
-				$title = 'Inspect Element...';
-				ob_start ();
-				var_dump ( $value );
-				$got = ob_get_contents ();
-				$got = str_replace ( "=>\n", '=>', $got );
-				$got = trim ( $got, "\n" );
-				while ( strpos ( $got, "=> " ) !== false ) {
-					$got = str_replace ( "=> ", "=>", $got );
-				}
-				if (strpos ( $got, "\n" ) === false && strlen ( $got ) < 45) {
-					$title = "... [line:{$ret[0]['line']}]: " . $got;
-				}
-				ob_end_clean ();
-				$line = "-------------------------------------\n";
-				$trace = '';
-				if ($this->trace) {
-					$trace = print_r ( $this->trace (), true );
-				}
-				$class = get_class ( $this );
-				$return .= "<div title='{$title}' class=v46v_16x16_debug>\n\n{$line}class: {$class}\nfile: {$file}\n{$line}{$got}\n{$line}\n<p>{$trace}</p></div>";
-			}
-			$return = str_replace ( "\n", "<br/>\n", $return );
-			echo $return;
 		}
 /*****************************************************************************************
 * ??document??

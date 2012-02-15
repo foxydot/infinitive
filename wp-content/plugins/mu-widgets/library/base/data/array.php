@@ -2,7 +2,7 @@
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-class bv46v_data_array {
+class bv47v_data_array {
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
@@ -15,7 +15,7 @@ class bv46v_data_array {
 		}
 		// pull off the first item
 		$object1 = array_shift ( $params );
-		// go through the other arrays an merge them in
+		// go through the other arrays and merge them in
 		$is_array = is_array ( $object1 );
 		foreach ( $params as $object2 ) {
 			// if either object it not an object or array them you must overwrite not merge
@@ -76,7 +76,7 @@ class bv46v_data_array {
 		{
 			if(is_object($object))
 			{
-				bv46v_data_array::objects_to_array($object);
+				bv47v_data_array::objects_to_array($object);
 			}
 		}
 		unset($object);

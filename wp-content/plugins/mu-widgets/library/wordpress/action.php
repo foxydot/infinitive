@@ -2,7 +2,7 @@
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-class wv46v_action extends bv46v_action {
+class wv47v_action extends bv47v_action {
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
@@ -65,7 +65,7 @@ class wv46v_action extends bv46v_action {
 			$return ['title'] = 'Help';
 			$return ['link_name'] = 'Getting Started';
 			$return ['url'] = $this->help('gettingstarted')->url();
-			$return ['classes'] [] = 'v46v_16x16_info';
+			$return ['classes'] [] = 'v47v_16x16_info';
 			$return ['priority'] = 2;
 		}
 		return $return;
@@ -77,7 +77,7 @@ class wv46v_action extends bv46v_action {
 		if(is_multisite() && $this->application()->multisite)
 		{
 			$return ['link_name'] = $return ['title'];
-			$return ['classes'] [] = 'v46v_16x16_multisite';
+			$return ['classes'] [] = 'v47v_16x16_multisite';
 			$return ['priority'] = 1;
 		}
 		else
@@ -116,17 +116,15 @@ class wv46v_action extends bv46v_action {
 *****************************************************************************************/
 	public function find_shortcodes($code,$prime)
 	{
-		$sql = 
-"
-	SELECT `ID`
-	FROM `%s`
-	WHERE 
-		`post_status` IN ('publish','draft','pending','future') AND
-		`post_content` LIKE '%s'
+		$sql = "
+SELECT	`ID`
+FROM	`%s`
+WHERE	`post_status` IN ('publish','draft','pending','future') AND
+		`post_content` LIKE '%s';
 ";
 		$sql = sprintf($sql,$this->table('posts')->name(),"%[{$code}%");
 		$data = $this->table()->execute($sql);
-		$tagc = bv46v_tag::instance ();
+		$tagc = bv47v_tag::instance ();
 		$return = array();
 		foreach($data as $datum)
 		{
@@ -275,7 +273,7 @@ class wv46v_action extends bv46v_action {
 			$return ['probono'] = true;
 			$return ['title'] = 'Plugin Site';
 			$return ['url'] = $this->application ()->wordpress->uri;
-			$return ['classes'] [] = 'v46v_16x16_home';
+			$return ['classes'] [] = 'v47v_16x16_home';
 			$return ['priority'] = 10;
 		}
 		return $return;
@@ -290,7 +288,7 @@ class wv46v_action extends bv46v_action {
 			$return ['link_name'] = $return ['title'];
 			$return ['probono'] = true;
 			$return ['url'] = $this->application ()->wordpress->donate_link;
-			$return ['classes'] [] = 'v46v_16x16_donate';
+			$return ['classes'] [] = 'v47v_16x16_donate';
 			$return ['priority'] = 10;
 		}
 		return $return;
@@ -345,7 +343,7 @@ class wv46v_action extends bv46v_action {
 					$this->view->items [$key] ['url'] = $baseUrl .'&page2=' . $value ['slug'];
 				}
 				if ((! isset ( $_GET ['page2'] ) && ! $current) || substr ( $_SERVER ['REQUEST_URI'], - strlen ( $this->view->items [$key] ['url'] ) ) == $this->view->items [$key] ['url']) {
-					$this->view->items [$key] ['classes'] [] = 'v46v_current';
+					$this->view->items [$key] ['classes'] [] = 'v47v_current';
 					$current = true;
 				}
 				$this->view->items [$key] ['classes'] = implode ( ' ', array_unique($this->view->items [$key] ['classes'] ));
@@ -378,12 +376,12 @@ class wv46v_action extends bv46v_action {
 *****************************************************************************************/
 	public function wrapper($page, $classes = array(), $attr = null, $tag = 'div') {
 		$classes [] = 'wrap';
-		$classes [] = 'v46v';
+		$classes [] = 'v47v';
 		if($this->dodebug())
 		{
-			$classes [] = 'v46v_debug';
+			$classes [] = 'v47v_debug';
 		}
-		$classes [] = 'v46v_'.$this->application ()->slug;
+		$classes [] = 'v47v_'.$this->application ()->slug;
 		$this->view->page = $page;
 		$this->view->tag = $tag;
 		$this->view->classes = implode ( ' ', $classes );
@@ -458,7 +456,7 @@ class wv46v_action extends bv46v_action {
 * ??document??used??
 *****************************************************************************************/
 	protected function set_view() {
-		$this->view = new wv46v_view ( $this->application () );
+		$this->view = new wv47v_view ( $this->application () );
 	}
 /*****************************************************************************************
 * ??document??
@@ -508,7 +506,7 @@ class wv46v_action extends bv46v_action {
 * ??document??
 *****************************************************************************************/
 	public function setup_wpactions() {
-		$this->add_action_type ( 'wpaction', 'WPaction' );
+		$this->add_action_type ( 'WPaction' );
 		foreach ( ( array ) $this->get_actions ( 'wpaction' ) as $action ) {
 			add_action ( $action ['raw_action_title'], $this->callback_filter ( $action ['action_callback'] ), $action ['priority'] );
 			// check if the action is scheduled or that is is already scheduled
@@ -548,7 +546,7 @@ class wv46v_action extends bv46v_action {
 * ??document??
 *****************************************************************************************/
 	private function setup_wpfilters() {
-		$this->add_action_type ( 'wpfilter', 'WPfilter' );
+		$this->add_action_type ( 'WPfilter' );
 		foreach ( ( array ) $this->get_actions ( 'wpfilter' ) as $action ) {
 			$numargs = 5;
 			add_filter ( $action ['raw_action_title'], $this->callback_filter ( $action ['action_callback'] ), $action ['priority'], $numargs );
@@ -558,7 +556,7 @@ class wv46v_action extends bv46v_action {
 * ??document??
 *****************************************************************************************/
 	private function setup_wpshortcodes() {
-		$this->add_action_type ( 'wpshortcode', 'WPshortcode' );
+		$this->add_action_type ('WPshortcode' );
 		foreach ( ( array ) $this->get_actions ( 'wpshortcode' ) as $action ) {
 			add_shortcode ( $action ['raw_action_title'], $this->callback_filter ( $action ['action_callback'] ) );
 		}
@@ -571,7 +569,7 @@ class wv46v_action extends bv46v_action {
 		if (is_admin ()) {
 			return;
 		}
-		$this->add_action_type ( 'wppage', 'WPpage' );
+		$this->add_action_type ( 'WPpage' );
 		if (get_option ( 'permalink_structure' ) != '') {
 			global $wp_rewrite;
 			$flush = false;
@@ -593,7 +591,7 @@ class wv46v_action extends bv46v_action {
 		if (! is_admin ()) {
 			return;
 		}
-		$this->add_action_type ( 'wpnotice', 'WPnotice' );
+		$this->add_action_type ( 'WPnotice' );
 		$output = '';
 		foreach ( ( array ) $this->get_actions ( 'wpnotice' ) as $action ) {
 			$this->view->class = $action ['alert'];
@@ -742,7 +740,7 @@ class wv46v_action extends bv46v_action {
 			}
 		}
 		if ($menu) {
-			$pages = $this->get_actions ();
+			$pages = $this->get_actions ('action');
 			$page = array('action'=>null,'classes'=>array());
 			foreach ( $pages as $chk_page ) {
 				if (! isset ( $_GET ['page2'] ) || $chk_page ['slug'] == strtolower($_GET ['page2'])) {
@@ -763,7 +761,7 @@ class wv46v_action extends bv46v_action {
 			$this->view->updated = $this->updated ();
 			if(!isset($this->view->form_name))
 			{
-				$this->view->form_name = 'v46v_form';
+				$this->view->form_name = 'v47v_form';
 			}
 			$this->view->output = $output;
 			
@@ -802,7 +800,7 @@ class wv46v_action extends bv46v_action {
 		if (! is_admin ()) {
 			return;
 		}
-		$this->add_action_type ( 'wpmenu', 'WPmenu' );
+		$this->add_action_type ( 'WPmenu' );
 		foreach ( ( array ) $this->get_actions ( 'wpmenu' ) as $action ) {
 			$this->setup ( $action );
 		}

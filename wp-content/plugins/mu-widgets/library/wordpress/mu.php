@@ -2,7 +2,7 @@
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-class wv46v_mu extends bv46v_base {
+class wv47v_mu extends bv47v_base {
 	public function central_blogs($callbacks=array())
 	{
 		if(!is_multisite())
@@ -13,7 +13,7 @@ class wv46v_mu extends bv46v_base {
 		foreach($blogs as &$blog)
 		{
 			$this->blogs()->swap($blog->userblog_id);
-			$this->data()->refresh();			
+			$this->data()->data(true);			
 			$blog->central_id = $this->data()->multisite['blog_id'];
 			$blog->active = is_plugin_active($basename);
 			foreach($callbacks as $callback)
@@ -22,7 +22,7 @@ class wv46v_mu extends bv46v_base {
 			}
 			$this->blogs()->swap();
 		}
-		$this->data()->refresh();
+		$this->data()->data(true);
 		unset($blog);
 		return $blogs;
 	}
@@ -32,11 +32,11 @@ class wv46v_mu extends bv46v_base {
 		foreach($blogs as $blog_id=>$central_id)
 		{
 			$this->blogs()->swap($blog_id);
-			$this->data()->refresh();
-			$this->data()->write(array('multisite'=>array('blog_id'=>$central_id)),'multisite');
+			$this->data()->data(true);
+			$this->data()->writePost(array('multisite'=>array('blog_id'=>$central_id)),'multisite');
 			$this->blogs()->swap();
 		}
-		$this->data()->refresh();
+		$this->data()->data(true);
 	}
 /*****************************************************************************************
 * ??document??

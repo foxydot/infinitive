@@ -1,27 +1,24 @@
 {
 	"classes" :
 	{
-		"application":"wv46v_application",
-		"form":"wv46v_data_form",
-		"table":"wv46v_data_table",
-		"data":"wv46v_data_settings",
-		"legacy":"wv46v_data_legacy",
+		"application":"wv47v_application",
+		"table":"wv47v_data_table",
+		"data":"wv47v_data_settings",
+		"legacy":"wv47v_data_legacy",
 		"_load":
 		[
-			"wv46v_info",
-			"wv46v_data_table",
-			"wv46v_view",
-			"wv46v_action",
-			"wv46v_widget",
-			"wv46v_data_settings",
-			"wv46v_data_form",
-			"bv46v_http",
-			"wv46v_mu",
-			"wv46v_posts",
-			"wv46v_blogs",
-			"wv46v_data_legacy",
-			"wv46v_comments",
-			"wv46v_user"
+			"wv47v_data_table",
+			"wv47v_view",
+			"wv47v_action",
+			"wv47v_widget",
+			"wv47v_data_settings",
+			"bv47v_http",
+			"wv47v_mu",
+			"wv47v_posts",
+			"wv47v_blogs",
+			"wv47v_data_legacy",
+			"wv47v_comments",
+			"wv47v_user"
 		]
 	},
 	"write_only":null,

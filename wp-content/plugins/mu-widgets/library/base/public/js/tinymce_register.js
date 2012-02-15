@@ -1,1 +1,1 @@
-(function() {v46v.tinymce();})();
+(function() {v47v.tinymce();})();

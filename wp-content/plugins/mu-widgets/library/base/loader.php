@@ -2,7 +2,7 @@
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-class bv46v_loader extends bv46v_base {
+class bv47v_loader extends bv47v_base {
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
@@ -46,7 +46,7 @@ class bv46v_loader extends bv46v_base {
 		$found = false;
 		foreach ( $this->application()->folders as $key => $value ) {
 			if (strpos($key,'_')!==0) {
-				$start = "{$key}v46v";
+				$start = "{$key}v47v";
 				if (strpos ( $file, $start ) === 0) {
 					$file = str_replace ( $start, $value, $file );
 					$found = true;
@@ -63,8 +63,12 @@ class bv46v_loader extends bv46v_base {
 			//echo "{$file}<br/>";
 			@include_once $file;
 		}
+		else
+		{
+			throw new Exception ( "File \"{$file}\" does not exist." );
+		}
 		if (! class_exists ( $class, false )) {
-			throw new Exception ( "File \"{$file}\" does not exist or class \"{$class}\" was not found in the file" );
+			throw new Exception ( "Class \"{$class}\" was not found in the file \"{$file}\"" );
 		}
 	}
 /*****************************************************************************************

@@ -2,11 +2,13 @@
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-class wv46v_data_legacy extends bv46v_base {
+class wv47v_data_legacy extends bv47v_base {
 	private function update_done()
 	{
 		$sql = "
-SELECT count(*) AS 'count' FROM `%s` WHERE `post_type` = 'dc_%s';
+SELECT	count(*)	AS 'count'
+FROM	`%s`
+WHERE	`post_type` = 'dc_%s';
 ";
 		$sql = sprintf($sql,$this->table('posts')->name(),$this->application()->slug);
 		$data = $this->table()->execute($sql);
@@ -24,7 +26,10 @@ SELECT count(*) AS 'count' FROM `%s` WHERE `post_type` = 'dc_%s';
 	public function get_post_id()
 	{
 		$sql = "
-SELECT `ID` FROM `%s` WHERE `post_type` = 'dcoda_settings' AND `post_title` = '%s';
+SELECT	`ID`
+FROM	`%s`
+WHERE	`post_type` = 'dcoda_settings' AND
+		`post_title` = '%s';
 ";
 		$sql = sprintf($sql,$this->table('posts')->name(),$this->application()->slug);
 		$data = $this->table()->execute($sql);
@@ -40,7 +45,11 @@ SELECT `ID` FROM `%s` WHERE `post_type` = 'dcoda_settings' AND `post_title` = '%
 	public function get_metas($post_id)
 	{
 		$sql = "
-SELECT `meta_key` FROM `%s` WHERE `post_id` = %s AND `meta_key` != '_edit_lock' AND `meta_key` != '_edit_last';
+SELECT	`meta_key`
+FROM	`%s`
+WHERE	`post_id` = %s AND
+		`meta_key` != '_edit_lock' AND
+		`meta_key` != '_edit_last';
 ";
 		$sql = sprintf($sql,$this->table('postmeta')->name(),$post_id);
 		$data = $this->table()->execute($sql);
@@ -96,7 +105,12 @@ SELECT `meta_key` FROM `%s` WHERE `post_id` = %s AND `meta_key` != '_edit_lock' 
 		$data = array ();
 		if(get_option('updated_'.$this->application()->slug)!='done')
 		{
-			$sql = "SELECT `option_name`,`option_value` from `%s` WHERE option_name LIKE  '%s_%%';";
+			$sql = "
+SELECT	`option_name`,
+		`option_value`
+FROM	`%s`
+WHERE	`option_name` LIKE  '%s_%%';
+";
 			$sql = sprintf ( $sql, $this->table ( 'options' )->name (), $this->application ()->slug );
 			$results = $this->table ()->execute ( $sql );
 			$len = strlen ( $this->application ()->slug ) + 1;

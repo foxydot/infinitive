@@ -1,14 +1,14 @@
-function v46v (data){
-	this.data = jQuery.extend(v46v_data,data);
+function v47v (data){
+	this.data = jQuery.extend(v47v_data,data);
 };
 
 jQuery(document).ready(function() {
-	v46v = new v46v({});
+	v47v = new v47v({});
 });
 
-v46v.prototype.tinymce =  function() {
-	tinymce.create('tinymce.plugins.v46v_tinymce', {init : function(ed, url) {
-			jQuery.each(v46v.data.tinymce.cmds,function(idx,elm){
+v47v.prototype.tinymce =  function() {
+	tinymce.create('tinymce.plugins.v47v_tinymce', {init : function(ed, url) {
+			jQuery.each(v47v.data.tinymce.cmds,function(idx,elm){
 				ed.addCommand(idx, function() {
 					if(typeof(elm.file) == 'undefined')
 					{
@@ -36,18 +36,18 @@ v46v.prototype.tinymce =  function() {
 					}
 				});
 			});
-			jQuery.each(v46v.data.tinymce.buttons,function(idx,elm){ed.addButton(idx, elm);});
+			jQuery.each(v47v.data.tinymce.buttons,function(idx,elm){ed.addButton(idx, elm);});
 		}
 	});
-	tinymce.PluginManager.add('v46v_tinymce', tinymce.plugins.v46v_tinymce);
+	tinymce.PluginManager.add('v47v_tinymce', tinymce.plugins.v47v_tinymce);
 }
-v46v.prototype.log = function(value) {
+v47v.prototype.log = function(value) {
 	if(this.data.dodebug==1)
 	{
 		console.log(value);
 	}
 }
-v46v.prototype.json = function(url,data,success) {
+v47v.prototype.json = function(url,data,success) {
 	jQuery.ajax({
 			type:'POST',
 			url:url,
@@ -56,7 +56,7 @@ v46v.prototype.json = function(url,data,success) {
 			dataType:'json'
 	});
 }
-v46v.prototype.void = function(value,def_value) {
+v47v.prototype.void = function(value,def_value) {
 	var retval =  '';
 	if(typeof(def_value) == 'undefined')
 	{
@@ -75,6 +75,6 @@ v46v.prototype.void = function(value,def_value) {
 	}
 	return retval;
 }
-v46v.prototype.entitydecode = function(encodedStr) {
+v47v.prototype.entitydecode = function(encodedStr) {
 	return jQuery("<div/>").html(encodedStr).text();
 }

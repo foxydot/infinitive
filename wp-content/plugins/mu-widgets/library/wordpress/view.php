@@ -2,7 +2,7 @@
 /*****************************************************************************************
 * ??document??
 *****************************************************************************************/
-class wv46v_view extends bv46v_view {
+class wv47v_view extends bv47v_view {
 	public function _e($text) {
 		_e ( $text, $this->domain );
 	}
@@ -13,8 +13,5 @@ class wv46v_view extends bv46v_view {
 	public function __construct(&$application) {
 		$this->domain = get_class ( $application );
 		parent::__construct ( $application );
-	}
-	public function info() {
-		return $this->application ()->info ();
 	}
 }
