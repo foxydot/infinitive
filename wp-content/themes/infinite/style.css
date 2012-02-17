@@ -350,6 +350,12 @@ div.menu>ul li{
 .mainNav ul ul ul li:hover a {
 	color: #fff;
 	}
+.mainNav ul ul ul li:hover li a {
+	color: #B8B7B9;
+	}
+.mainNav ul ul ul ul li:hover a {
+	color: #fff;
+	}
 	
 /* Solutions Navigation */
 /*
@@ -430,9 +436,10 @@ div.menu>ul li{
 	background: none;
 	width: 120px;
 	display: block;
+	line-height: 1.2em;
 }
 .mainNav>ul>li.first>ul>li.biz>ul>li>ul>li {
-	padding: 0;
+	padding: 3px 0;
 }
 .mainNav>ul>li.first>ul>li.industry>ul {
     left: 140px;
@@ -483,7 +490,7 @@ div.menu>ul li{
 .mainNav>ul>li.solutions>ul {
 	height: 120px;
 	width: 960px;
-	left: -394px;
+	left: -788px;
 	}
 .mainNav>ul>li.solutions>ul>li {
 	width: 180px;
